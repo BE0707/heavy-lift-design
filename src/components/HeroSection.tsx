@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Shield, Clock, Truck } from "lucide-react";
 import heroImage from "@/assets/hero-truck.jpg";
-import truckSide from "@/assets/truck-side.png";
 
 const HeroSection = () => {
   const scrollToContact = () => {
