@@ -20,40 +20,41 @@ const HeroSection = () => {
 
 
       {/* Content */}
-      <div className="relative z-10 container mx-auto px-4 pt-20 pb-32">
+      <div className="relative z-10 container mx-auto px-4 pt-24 pb-16 sm:pt-28 sm:pb-20 md:pt-32 md:pb-24 lg:pt-20 lg:pb-32">
         <div className="max-w-4xl mx-auto text-center">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/20 backdrop-blur-sm rounded-full mb-8 animate-fade-in-up">
-            <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-            <span className="text-off-white text-sm font-medium">Diyarbakır Merkezli Profesyonel Nakliyat</span>
+          <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-primary/20 backdrop-blur-sm rounded-full mb-4 sm:mb-6 md:mb-8 animate-fade-in-up">
+            <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-primary rounded-full animate-pulse" />
+            <span className="text-off-white text-xs sm:text-sm font-medium">Diyarbakır Merkezli Profesyonel Nakliyat</span>
           </div>
 
           {/* Main Headline */}
-          <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-off-white mb-6 animate-fade-in-up animation-delay-100">
+          <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-off-white mb-4 sm:mb-5 md:mb-6 leading-tight px-2 animate-fade-in-up animation-delay-100">
             Ağır Yüklerde{" "}
-            <span className="text-gradient-yellow">Güvenin Adı</span>
+            <span className="text-gradient-yellow block sm:inline">Güvenin Adı</span>
           </h1>
 
           {/* Subtext */}
-          <p className="text-lg md:text-xl text-off-white/80 max-w-2xl mx-auto mb-10 animate-fade-in-up animation-delay-200">
+          <p className="text-base sm:text-lg md:text-xl text-off-white/80 max-w-2xl mx-auto mb-6 sm:mb-8 md:mb-10 px-2 leading-relaxed animate-fade-in-up animation-delay-200">
             Diyarbakır merkezli Bumerang Ağır Nakliyat ile ağır yüklerinizi güvenle taşıyoruz.
             Profesyonel ekip, modern filomuz ve yılların tecrübesiyle hizmetinizdeyiz.
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in-up animation-delay-300">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-2 animate-fade-in-up animation-delay-300">
             <Button
               variant="hero"
-              size="xl"
+              size="default"
+              className="group w-full sm:w-auto sm:px-8 sm:py-3 text-sm sm:text-base"
               onClick={scrollToContact}
-              className="group"
             >
               Hemen İletişime Geç
-              <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+              <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:translate-x-1" />
             </Button>
             <Button
               variant="heroOutline"
-              size="xl"
+              size="default"
+              className="w-full sm:w-auto sm:px-8 sm:py-3 text-sm sm:text-base"
               onClick={() => {
                 const element = document.getElementById("hizmetler");
                 element?.scrollIntoView({ behavior: "smooth" });
@@ -64,7 +65,7 @@ const HeroSection = () => {
           </div>
 
           {/* Trust Indicators */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 animate-fade-in-up animation-delay-400">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 md:gap-6 mt-8 sm:mt-12 md:mt-16 px-2 animate-fade-in-up animation-delay-400">
             {[
               { icon: Shield, label: "Güvenilir Hizmet", desc: "Sigortalı Taşımacılık" },
               { icon: Clock, label: "Zamanında Teslimat", desc: "7/24 Destek" },
@@ -72,14 +73,14 @@ const HeroSection = () => {
             ].map((item) => (
               <div
                 key={item.label}
-                className="flex items-center gap-4 p-4 bg-charcoal/30 backdrop-blur-sm rounded-lg border border-off-white/10"
+                className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-charcoal/30 backdrop-blur-sm rounded-lg border border-off-white/10"
               >
-                <div className="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center">
-                  <item.icon className="w-6 h-6 text-primary" />
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <item.icon className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
                 </div>
-                <div className="text-left">
-                  <p className="text-off-white font-semibold">{item.label}</p>
-                  <p className="text-off-white/60 text-sm">{item.desc}</p>
+                <div className="text-left min-w-0">
+                  <p className="text-off-white font-semibold text-sm sm:text-base">{item.label}</p>
+                  <p className="text-off-white/60 text-xs sm:text-sm truncate">{item.desc}</p>
                 </div>
               </div>
             ))}
