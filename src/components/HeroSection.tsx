@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Shield, Clock, Truck } from "lucide-react";
 import heroImage from "@/assets/hero-truck.jpg";
-import truckSide from "@/assets/truck-side.png";
 
 const HeroSection = () => {
   const scrollToContact = () => {
@@ -19,14 +18,6 @@ const HeroSection = () => {
         <div className="absolute inset-0 bg-overlay-gradient" />
       </div>
 
-      {/* Animated Truck */}
-      <div className="absolute bottom-20 left-0 w-48 md:w-64 animate-truck-move pointer-events-none">
-        <img
-          src={truckSide}
-          alt="Lowbed Truck"
-          className="w-full h-auto animate-truck-bounce"
-        />
-      </div>
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 pt-20 pb-32">
