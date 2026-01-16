@@ -49,9 +49,6 @@ const Navbar = () => {
       <div className="container mx-auto px-4 flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-3 group">
-          <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center transition-transform group-hover:scale-105">
-            <span className="font-display font-bold text-primary-foreground text-lg">B</span>
-          </div>
           <div className="flex flex-col">
             <span className={`font-display font-bold text-lg leading-tight transition-colors ${isScrolled ? "text-foreground" : "text-off-white"}`}>
               Bumerang

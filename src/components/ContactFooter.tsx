@@ -88,9 +88,6 @@ const ContactFooter = () => {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             {/* Logo */}
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-                <span className="font-display font-bold text-primary-foreground text-lg">B</span>
-              </div>
               <div className="flex flex-col">
                 <span className="font-display font-bold text-lg leading-tight">Bumerang</span>
                 <span className="text-xs tracking-wider uppercase text-off-white/50">
