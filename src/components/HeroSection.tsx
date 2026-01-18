@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Shield, Clock, Truck } from "lucide-react";
-import heroImage from "@/assets/hero-truck.jpg";
+import heroImage from "@/assets/Hero2.png";
 
 const HeroSection = () => {
   const scrollToContact = () => {
@@ -14,6 +14,8 @@ const HeroSection = () => {
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: `url(${heroImage})` }}
+        role="img"
+        aria-label="Bumerang Ağır Nakliyat - Lowbed kamyonu ile ağır yük taşımacılığı"
       >
         <div className="absolute inset-0 bg-overlay-gradient" />
       </div>

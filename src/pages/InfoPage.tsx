@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import ContactFooter from "@/components/ContactFooter";
+import SEO from "@/components/SEO";
 import { Truck, CheckCircle, Building2, Target, Users, Award } from "lucide-react";
 
 const InfoPage = () => {
@@ -19,8 +20,14 @@ const InfoPage = () => {
   }, [location]);
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
+    <>
+      <SEO
+        title="Lowbed Taşımacılık Nedir? | Bumerang Ağır Nakliyat - Hakkımızda"
+        description="Lowbed taşımacılık nedir? Bumerang Ağır Nakliyat hakkında bilgi. İş makineleri, ağır tonajlı ve gabari dışı yük taşımacılığı hizmetleri. Diyarbakır merkezli profesyonel nakliyat firması."
+        keywords="lowbed nedir, lowbed taşımacılık nedir, ağır nakliyat firması, diyarbakır nakliyat şirketi, iş makinesi taşıma hizmeti, gabari dışı yük taşıma, ağır tonajlı nakliyat"
+      />
+      <div className="min-h-screen bg-background">
+        <Navbar />
 
       {/* Hero Banner */}
       <section className="pt-32 pb-16 bg-hero-gradient">
@@ -180,7 +187,8 @@ const InfoPage = () => {
       </section>
 
       <ContactFooter />
-    </div>
+      </div>
+    </>
   );
 };
 

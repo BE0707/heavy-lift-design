@@ -1,46 +1,81 @@
-import nakliyat1 from "@/assets/nakliyat-1.jpg";
-import nakliyat2 from "@/assets/nakliyat-2.jpg";
-import nakliyat3 from "@/assets/nakliyat-3.jpg";
-import nakliyat4 from "@/assets/nakliyat-4.jpg";
-import nakliyat5 from "@/assets/nakliyat-5.jpg";
-import nakliyat6 from "@/assets/nakliyat-6.jpg";
+import foto3 from "@/assets/Fotoğraflar/3.jpeg";
+import foto4 from "@/assets/Fotoğraflar/4.jpeg";
+import foto5 from "@/assets/Fotoğraflar/5.jpeg";
+import foto6 from "@/assets/Fotoğraflar/6.jpeg";
+import foto8 from "@/assets/Fotoğraflar/8.jpeg";
+import foto9 from "@/assets/Fotoğraflar/9.jpeg";
+import foto10 from "@/assets/Fotoğraflar/10.jpeg";
+import foto11 from "@/assets/Fotoğraflar/11.jpeg";
+import foto12 from "@/assets/Fotoğraflar/12.jpeg";
+import axor1 from "@/assets/Fotoğraflar/axor1.jpeg";
+import axor2 from "@/assets/Fotoğraflar/axor2.jpeg";
 
 const images = [
   {
-    src: nakliyat1,
-    alt: "Volvo ekskavatör ve Hidromek iş makinesi lowbed taşımacılığı - Bumerang Ağır Nakliyat Diyarbakır",
+    src: foto3,
+    alt: "Lowbed ile iş makinesi taşımacılığı - Bumerang Ağır Nakliyat Diyarbakır",
+    title: "Profesyonel Lowbed Taşımacılık",
+    description: "İş makineleri güvenli taşıma",
+  },
+  {
+    src: foto4,
+    alt: "Ağır yük lowbed taşımacılığı - Bumerang Ağır Nakliyat profesyonel hizmet",
+    title: "Ağır Yük Nakliyesi",
+    description: "Özel lowbed dorse ile taşıma",
+  },
+  {
+    src: foto5,
+    alt: "İş makinesi şehirlerarası lowbed taşımacılığı - Diyarbakır nakliyat",
+    title: "Şehirlerarası Nakliyat",
+    description: "Güvenli ve zamanında teslimat",
+  },
+  {
+    src: foto6,
+    alt: "Ekskavatör lowbed taşıma - Bumerang Ağır Nakliyat modern filo",
     title: "Ekskavatör Taşımacılığı",
-    description: "Volvo ve Hidromek iş makineleri",
+    description: "Profesyonel ekipman ile taşıma",
   },
   {
-    src: nakliyat2,
-    alt: "Asfalt plenti lowbed ile taşıma - Bumerang Ağır Nakliyat profesyonel hizmet",
-    title: "Ağır Ekipman Nakliyesi",
-    description: "Asfalt plenti taşımacılığı",
+    src: foto8,
+    alt: "Ağır tonajlı yük lowbed taşımacılığı - Ağır yük nakliyat",
+    title: "Ağır Tonajlı Yük Taşıma",
+    description: "Özel izinli taşımacılık",
   },
   {
-    src: nakliyat3,
-    alt: "İş makinesi şehir içi lowbed taşımacılığı - Diyarbakır nakliyat hizmeti",
-    title: "Şehir İçi Nakliyat",
-    description: "Güvenli iş makinesi transferi",
+    src: foto9,
+    alt: "Lowbed kamyonu ile iş makinesi taşımacılığı - Bumerang Ağır Nakliyat",
+    title: "Lowbed Kamyonu ile Taşıma",
+    description: "Modern araç filosu",
   },
   {
-    src: nakliyat4,
-    alt: "Doosan ekskavatör lowbed taşıma - Bumerang Ağır Nakliyat modern filo",
-    title: "Doosan Ekskavatör Taşıma",
-    description: "Profesyonel lowbed hizmeti",
+    src: foto10,
+    alt: "İş makinesi lowbed taşımacılığı - Diyarbakır ağır nakliyat",
+    title: "İş Makinesi Taşımacılığı",
+    description: "Güvenilir ve profesyonel hizmet",
   },
   {
-    src: nakliyat5,
-    alt: "Silindir ve ekskavatör çoklu iş makinesi taşımacılığı - Ağır yük nakliyat",
-    title: "Çoklu Makine Taşıma",
-    description: "Silindir ve ekskavatör birlikte",
+    src: foto11,
+    alt: "Ağır ekipman lowbed taşımacılığı - Bumerang Ağır Nakliyat",
+    title: "Ağır Ekipman Taşıma",
+    description: "Uzman ekip ile taşımacılık",
   },
   {
-    src: nakliyat6,
-    alt: "Feribot ile iş makinesi taşımacılığı - Bumerang Ağır Nakliyat deniz geçişi",
-    title: "Feribot ile Taşımacılık",
-    description: "Deniz geçişli ağır nakliyat",
+    src: foto12,
+    alt: "Lowbed dorse ile yük taşımacılığı - Profesyonel nakliyat hizmeti",
+    title: "Lowbed Dorseli Taşıma",
+    description: "Özel dorse ile güvenli taşıma",
+  },
+  {
+    src: axor1,
+    alt: "Mercedes Axor lowbed kamyonu - Bumerang Ağır Nakliyat modern filo",
+    title: "Mercedes Axor Lowbed",
+    description: "Modern ve güvenilir araç",
+  },
+  {
+    src: axor2,
+    alt: "Axor lowbed kamyonu ile taşımacılık - Profesyonel nakliyat",
+    title: "Axor Lowbed Filosu",
+    description: "Son teknoloji araçlar",
   },
 ];
 
@@ -74,7 +109,7 @@ const Gallery = () => {
                 src={image.src}
                 alt={image.alt}
                 title={image.title}
-                loading={index > 2 ? "lazy" : "eager"}
+                loading={index < 3 ? "eager" : "lazy"}
                 className="w-full h-48 sm:h-56 md:h-64 lg:h-72 object-cover transition-transform duration-700 group-hover:scale-110"
                 itemProp="contentUrl"
               />
