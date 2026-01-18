@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Shield, Clock, Truck } from "lucide-react";
 import heroImage from "@/assets/Hero2.png";
+import heroMobileImage from "@/assets/Heromobil.png";
 
 const HeroSection = () => {
   const scrollToContact = () => {
@@ -10,10 +11,19 @@ const HeroSection = () => {
 
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Image */}
+      {/* Background Image - Desktop */}
       <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        className="hidden md:block absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: `url(${heroImage})` }}
+        role="img"
+        aria-label="Bumerang Ağır Nakliyat - Lowbed kamyonu ile ağır yük taşımacılığı"
+      >
+        <div className="absolute inset-0 bg-overlay-gradient" />
+      </div>
+      {/* Background Image - Mobile */}
+      <div
+        className="md:hidden absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: `url(${heroMobileImage})` }}
         role="img"
         aria-label="Bumerang Ağır Nakliyat - Lowbed kamyonu ile ağır yük taşımacılığı"
       >
