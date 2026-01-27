@@ -50,7 +50,7 @@ const WhyChooseUs = () => {
                 <p className="text-muted-foreground text-xs sm:text-sm mt-1">Yıllık Tecrübe</p>
               </div>
               <div className="text-center p-3 sm:p-4 bg-secondary rounded-lg sm:rounded-xl">
-                <p className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-primary">500+</p>
+                <p className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-primary">8500+</p>
                 <p className="text-muted-foreground text-xs sm:text-sm mt-1">Başarılı Teslimat</p>
               </div>
               <div className="text-center p-3 sm:p-4 bg-secondary rounded-lg sm:rounded-xl">

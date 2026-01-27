@@ -32,7 +32,7 @@ const HeroSection = () => {
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-3 sm:px-4 pt-20 pb-12 sm:pt-24 sm:pb-16 md:pt-28 md:pb-20 lg:pt-20 lg:pb-32">
-        <div className="max-w-4xl mx-auto text-center">
+        <div className="max-w-4xl mx-auto text-center hero-text-shadow">
           {/* Badge */}
           <div className="inline-flex items-center gap-1.5 px-2.5 py-1 sm:px-3 sm:py-1.5 md:px-4 md:py-2 bg-primary/20 backdrop-blur-sm rounded-full mb-3 sm:mb-4 md:mb-6 animate-fade-in-up">
             <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-primary rounded-full animate-pulse" />
