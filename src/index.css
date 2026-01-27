@@ -123,6 +123,10 @@
     background: var(--gradient-overlay);
   }
 
+  .bg-overlay-gradient-mobile {
+    background: linear-gradient(to bottom, hsla(220, 10%, 10%, 0.4) 0%, hsla(220, 10%, 10%, 0.18) 100%);
+  }
+
   .shadow-card {
     box-shadow: var(--shadow-card);
   }

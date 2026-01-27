@@ -27,7 +27,7 @@ const HeroSection = () => {
         role="img"
         aria-label="Bumerang Ağır Nakliyat - Lowbed kamyonu ile ağır yük taşımacılığı"
       >
-        <div className="absolute inset-0 bg-overlay-gradient" />
+        <div className="absolute inset-0 bg-overlay-gradient-mobile" />
       </div>
 
       {/* Content */}
