@@ -54,7 +54,7 @@ const HeroSection = () => {
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-2.5 sm:gap-3 md:gap-4 justify-center items-stretch sm:items-center px-2 animate-fade-in-up animation-delay-300">
             <Button
-              variant="hero"
+              variant="heroOutline"
               size="default"
               className="group w-full sm:w-auto text-xs sm:text-sm md:text-base px-4 py-2.5 sm:px-6 sm:py-3 md:px-8 md:py-3.5"
               onClick={scrollToContact}
@@ -63,7 +63,7 @@ const HeroSection = () => {
               <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 transition-transform group-hover:translate-x-1" />
             </Button>
             <Button
-              variant="heroOutline"
+              variant="hero"
               size="default"
               className="w-full sm:w-auto text-xs sm:text-sm md:text-base px-4 py-2.5 sm:px-6 sm:py-3 md:px-8 md:py-3.5"
               onClick={() => {
