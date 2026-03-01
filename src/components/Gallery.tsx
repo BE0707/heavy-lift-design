@@ -9,6 +9,11 @@ import foto11 from "@/assets/Fotoğraflar/11.jpeg";
 import foto12 from "@/assets/Fotoğraflar/12.jpeg";
 import axor1 from "@/assets/Fotoğraflar/axor1.jpeg";
 import axor2 from "@/assets/Fotoğraflar/axor2.jpeg";
+import agir2 from "@/assets/Fotoğraflar/agir2.jpeg";
+import agir3 from "@/assets/Fotoğraflar/agir3.jpeg";
+import agir4 from "@/assets/Fotoğraflar/agir4.jpeg";
+import agir5 from "@/assets/Fotoğraflar/agir5.jpeg";
+import Agir7 from "@/assets/Fotoğraflar/Agir7.jpeg";
 
 const images = [
   {
@@ -76,6 +81,36 @@ const images = [
     alt: "Axor lowbed kamyonu ile taşımacılık - Profesyonel nakliyat",
     title: "Axor Lowbed Filosu",
     description: "Son teknoloji araçlar",
+  },
+  {
+    src: agir2,
+    alt: "Ağır yük nakliyat",
+    title: "Ağır Yük Taşıma",
+    description: "Güvenli Özel Taşıma",
+  },
+  {
+    src: agir3,
+    alt: "İş Makinesi Taşımacılığı",
+    title: "İş Makinesi Taşımacılığı",
+    description: "Zorlu Şartlarda Nakliyat",
+  },
+  {
+    src: agir4,
+    alt: "Lowbed ile Yük Taşımacılığı",
+    title: "Lowbed Operasyonları",
+    description: "Profesyonel Ekip ile Taşıma",
+  },
+  {
+    src: agir5,
+    alt: "Ağır Tonajlı Ekipman Taşımacılığı",
+    title: "Ağır Tonajlı Taşıma",
+    description: "Büyük Ekipman Transferi",
+  },
+  {
+    src: Agir7,
+    alt: "Bumerang Ağır Nakliyat Filosu",
+    title: "Geniş Araç Filosu",
+    description: "Modern Nakliye Çözümleri",
   },
 ];
 
