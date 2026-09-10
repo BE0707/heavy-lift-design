@@ -1,108 +1,145 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Shield, Clock, Truck } from "lucide-react";
+import { ArrowRight, Phone, ShieldCheck, MapPin, Gauge, Truck } from "lucide-react";
 import heroImage from "@/assets/Hero2.png";
 import heroMobileImage from "@/assets/Heromobil.png";
 
 const HeroSection = () => {
-  const scrollToContact = () => {
-    const element = document.getElementById("iletisim");
+  const scrollToId = (id: string) => {
+    const element = document.getElementById(id);
     element?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section
+      id="hero"
+      className="relative min-h-[92vh] lg:min-h-screen flex items-center justify-center overflow-hidden bg-asphalt-950 border-b border-steel-border pt-24 md:pt-28 pb-14"
+    >
       {/* Background Image - Desktop */}
       <div
-        className="hidden md:block absolute inset-0 bg-cover bg-center bg-no-repeat"
+        className="hidden md:block absolute inset-0 bg-cover bg-center bg-no-repeat opacity-40 mix-blend-luminosity scale-105 transition-transform duration-1000"
         style={{ backgroundImage: `url(${heroImage})` }}
         role="img"
-        aria-label="Bumerang Ağır Nakliyat - Lowbed kamyonu ile ağır yük taşımacılığı"
-      >
-        <div className="absolute inset-0 bg-overlay-gradient" />
-      </div>
+        aria-label="Bumerang Ağır Nakliyat - Lowbed ve Gabari Dışı Taşıma"
+      />
       {/* Background Image - Mobile */}
       <div
-        className="md:hidden absolute inset-0 bg-cover bg-center bg-no-repeat"
+        className="md:hidden absolute inset-0 bg-cover bg-center bg-no-repeat opacity-35 mix-blend-luminosity"
         style={{ backgroundImage: `url(${heroMobileImage})` }}
         role="img"
-        aria-label="Bumerang Ağır Nakliyat - Lowbed kamyonu ile ağır yük taşımacılığı"
-      >
-        <div className="absolute inset-0 bg-overlay-gradient-mobile" />
-      </div>
+        aria-label="Bumerang Ağır Nakliyat - Lowbed ve Gabari Dışı Taşıma"
+      />
 
-      {/* Content */}
-      <div className="relative z-10 container mx-auto px-3 sm:px-4 pt-20 pb-12 sm:pt-24 sm:pb-16 md:pt-28 md:pb-20 lg:pt-20 lg:pb-32">
-        <div className="max-w-4xl mx-auto text-center hero-text-shadow">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 sm:px-3 sm:py-1.5 md:px-4 md:py-2 bg-primary/20 backdrop-blur-sm rounded-full mb-3 sm:mb-4 md:mb-6 animate-fade-in-up">
-            <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-primary rounded-full animate-pulse" />
-            <span className="text-off-white text-[11px] sm:text-xs md:text-sm font-medium leading-tight">Diyarbakır Merkezli Profesyonel Nakliyat</span>
+      {/* Industrial Gradients & Grid Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-asphalt-950 via-asphalt-950/80 to-asphalt-950/60" />
+      <div className="absolute inset-0 bg-technical-grid opacity-30 pointer-events-none" />
+
+      {/* Decorative Technical Hazard Accent Line */}
+      <div className="absolute top-0 left-0 right-0 h-1 bg-hazard-stripes-bold opacity-80" />
+
+      {/* Main Content */}
+      <div className="relative z-10 container mx-auto px-4 sm:px-6">
+        <div className="max-w-5xl mx-auto">
+          {/* Tactical Metadata Bar */}
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-asphalt-900 border border-steel-border text-machinery-yellow text-[11px] sm:text-xs font-mono font-bold tracking-widest uppercase">
+              <span className="w-2 h-2 rounded-full bg-machinery-yellow animate-pulse" />
+              DİYARBAKIR &bull; 37°54&apos;N 40°14&apos;E
+            </div>
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-asphalt-900/90 border border-steel-border text-steel-light text-[11px] sm:text-xs font-mono">
+              <ShieldCheck className="w-3.5 h-3.5 text-machinery-yellow" />
+              <span>KGM & KTK 33/1 MEVZUAT UYUMLU</span>
+            </div>
+            <div className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 bg-asphalt-900/90 border border-steel-border text-steel-light text-[11px] sm:text-xs font-mono">
+              <Truck className="w-3.5 h-3.5 text-machinery-yellow" />
+              <span>4-8 DİNGİL LOWBED FİLOSU</span>
+            </div>
           </div>
 
           {/* Main Headline */}
-          <h1 className="font-display text-2.5xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold text-off-white mb-3 sm:mb-4 md:mb-5 lg:mb-6 leading-[1.1] sm:leading-tight px-1 animate-fade-in-up animation-delay-100">
-            Ağır Yüklerde{" "}
-            <span className="text-gradient-yellow block sm:inline mt-1 sm:mt-0">Güvenin Adı</span>
+          <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-foreground tracking-tight leading-[1.05] uppercase mb-4 sm:mb-6">
+            Diyarbakır ve Güneydoğu Merkezli <br className="hidden sm:block" />
+            <span className="text-machinery-yellow inline-block relative">
+              Gabari Dışı Ağır Taşımacılık
+              <span className="block h-1 w-full bg-machinery-yellow/60 mt-1" />
+            </span>{" "}
+            & Lowbed Operasyonları
           </h1>
 
-          {/* Subtext */}
-          <p className="text-sm sm:text-base md:text-lg lg:text-xl text-off-white/85 max-w-2xl mx-auto mb-5 sm:mb-6 md:mb-8 lg:mb-10 px-2 leading-relaxed animate-fade-in-up animation-delay-200">
-            Diyarbakır merkezli Bumerang Ağır Nakliyat ile ağır yüklerinizi güvenle taşıyoruz.
-            Profesyonel ekip, modern filomuz ve yılların tecrübesiyle hizmetinizdeyiz.
+          {/* Sub-headline */}
+          <p className="font-sans text-base sm:text-lg md:text-xl text-steel-light max-w-3xl leading-relaxed mb-8 sm:mb-10 font-normal">
+            Ekskavatör, dozer, taş kırma eleme tesisleri (konkasör), vinç ve ağır sanayi ekipmanları için{" "}
+            <strong className="text-foreground font-semibold">özel izinli</strong>,{" "}
+            <strong className="text-foreground font-semibold">eskort koordinasyonlu</strong> şehirlerarası ve şantiyeler arası lowbed transfer çözümleri.
           </p>
 
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-2.5 sm:gap-3 md:gap-4 justify-center items-stretch sm:items-center px-2 animate-fade-in-up animation-delay-300">
+          {/* Tactile Action Buttons */}
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-stretch sm:items-center mb-12 sm:mb-16">
+            <Button
+              variant="machinery"
+              size="lg"
+              className="h-13 sm:h-14 px-6 sm:px-8 text-sm sm:text-base font-display font-extrabold tracking-wider uppercase flex items-center justify-center gap-2 shadow-lg"
+              onClick={() => scrollToId("filo-teklif")}
+            >
+              Hızlı Yük Bildirimi & Fiyat Al
+              <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:translate-x-1" />
+            </Button>
+
             <Button
               variant="heroOutline"
-              size="default"
-              className="group w-full sm:w-auto text-xs sm:text-sm md:text-base px-4 py-2.5 sm:px-6 sm:py-3 md:px-8 md:py-3.5"
-              onClick={scrollToContact}
+              size="lg"
+              className="h-13 sm:h-14 px-6 sm:px-8 text-sm sm:text-base font-display font-bold tracking-wider uppercase"
+              onClick={() => scrollToId("filo")}
             >
-              Hemen İletişime Geç
-              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 transition-transform group-hover:translate-x-1" />
+              Teknik Filo & Kapasiteler
             </Button>
-            <Button
-              variant="hero"
-              size="default"
-              className="w-full sm:w-auto text-xs sm:text-sm md:text-base px-4 py-2.5 sm:px-6 sm:py-3 md:px-8 md:py-3.5"
-              onClick={() => {
-                const element = document.getElementById("hizmetler");
-                element?.scrollIntoView({ behavior: "smooth" });
-              }}
+
+            <a
+              href="tel:+905327459843"
+              className="inline-flex items-center justify-center gap-2 h-13 sm:h-14 px-5 text-sm sm:text-base font-mono font-bold text-steel-light bg-asphalt-900 border border-steel-border hover:border-machinery-yellow hover:text-machinery-yellow transition-all rounded-sm"
             >
-              Hizmetlerimiz
-            </Button>
+              <Phone className="w-4 h-4 text-machinery-yellow" />
+              <span>0532 745 98 43</span>
+            </a>
           </div>
 
-          {/* Trust Indicators */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-3 md:gap-4 lg:gap-6 mt-6 sm:mt-8 md:mt-12 lg:mt-16 px-1 animate-fade-in-up animation-delay-400">
-            {[
-              { icon: Shield, label: "Güvenilir Hizmet", desc: "Sigortalı Taşımacılık" },
-              { icon: Clock, label: "Zamanında Teslimat", desc: "7/24 Destek" },
-              { icon: Truck, label: "Modern Filo", desc: "Profesyonel Ekipman" },
-            ].map((item) => (
-              <div
-                key={item.label}
-                className="flex items-center gap-2.5 sm:gap-3 md:gap-4 p-2.5 sm:p-3 md:p-4 bg-charcoal/40 backdrop-blur-sm rounded-lg border border-off-white/10"
-              >
-                <div className="w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-primary/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <item.icon className="w-4.5 h-4.5 sm:w-5 sm:h-5 md:w-6 md:h-6 text-primary" />
-                </div>
-                <div className="text-left min-w-0 flex-1">
-                  <p className="text-off-white font-semibold text-xs sm:text-sm md:text-base leading-tight">{item.label}</p>
-                  <p className="text-off-white/70 text-[10px] sm:text-xs md:text-sm mt-0.5">{item.desc}</p>
-                </div>
+          {/* Factual Technical Capability Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 pt-4 border-t border-steel-border/80">
+            <div className="p-4 bg-asphalt-900/90 border border-steel-border rounded-sm relative overflow-hidden group hover:border-machinery-yellow/60 transition-colors">
+              <div className="flex items-center justify-between mb-2">
+                <span className="font-mono text-[11px] uppercase tracking-wider text-steel">FİLO DİNGİL YAPISI</span>
+                <Truck className="w-4 h-4 text-machinery-yellow" />
               </div>
-            ))}
-          </div>
-        </div>
-      </div>
+              <p className="font-display font-extrabold text-xl sm:text-2xl text-foreground">4 - 8 DİNGİL</p>
+              <p className="text-xs text-steel-light mt-1">Havuzlu, Düz & Teleskopik Uzatmalı Lowbed Dorseler</p>
+            </div>
 
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-4 sm:bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 animate-bounce hidden sm:block">
-        <div className="w-5 h-8 sm:w-6 sm:h-10 border-2 border-off-white/30 rounded-full flex items-start justify-center p-1.5 sm:p-2">
-          <div className="w-1 h-2 sm:w-1.5 sm:h-3 bg-primary rounded-full animate-pulse" />
+            <div className="p-4 bg-asphalt-900/90 border border-steel-border rounded-sm relative overflow-hidden group hover:border-machinery-yellow/60 transition-colors">
+              <div className="flex items-center justify-between mb-2">
+                <span className="font-mono text-[11px] uppercase tracking-wider text-steel">AZAMİ KAPASİTE</span>
+                <Gauge className="w-4 h-4 text-machinery-yellow" />
+              </div>
+              <p className="font-display font-extrabold text-xl sm:text-2xl text-machinery-yellow">120 TONA KADAR</p>
+              <p className="text-xs text-steel-light mt-1">Ağır Sanayi, Fabrika & Madencilik Ekipman Nakli</p>
+            </div>
+
+            <div className="p-4 bg-asphalt-900/90 border border-steel-border rounded-sm relative overflow-hidden group hover:border-machinery-yellow/60 transition-colors">
+              <div className="flex items-center justify-between mb-2">
+                <span className="font-mono text-[11px] uppercase tracking-wider text-steel">MEVZUAT & GÜVENLİK</span>
+                <ShieldCheck className="w-4 h-4 text-machinery-yellow" />
+              </div>
+              <p className="font-display font-extrabold text-xl sm:text-2xl text-foreground">KTK MADDE 33/1</p>
+              <p className="text-xs text-steel-light mt-1">KGM Özel İzin Belgesi & Öncü/Artçı Eskort Desteği</p>
+            </div>
+
+            <div className="p-4 bg-asphalt-900/90 border border-steel-border rounded-sm relative overflow-hidden group hover:border-machinery-yellow/60 transition-colors">
+              <div className="flex items-center justify-between mb-2">
+                <span className="font-mono text-[11px] uppercase tracking-wider text-steel">SEVKİYAT AĞI</span>
+                <MapPin className="w-4 h-4 text-machinery-yellow" />
+              </div>
+              <p className="font-display font-extrabold text-xl sm:text-2xl text-foreground">81 İL ŞANTİYE</p>
+              <p className="text-xs text-steel-light mt-1">Güzergah Köprü, Alt Geçit & Gabari Statik Analizi</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
