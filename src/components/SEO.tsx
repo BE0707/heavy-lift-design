@@ -10,10 +10,10 @@ interface SEOProps {
 }
 
 const SEO = ({ 
-  title = "Bumerang Ağır Nakliyat | Lowbed Taşımacılık - Diyarbakır",
-  description = "Diyarbakır merkezli Bumerang Ağır Nakliyat ile lowbed taşımacılık, ağır yük nakliyesi ve şehirlerarası profesyonel taşıma hizmetleri. Güvenilir ve zamanında teslimat.",
-  keywords = "lowbed taşımacılık, ağır nakliyat, diyarbakır nakliyat, iş makinesi taşıma, lowbed kiralama, ağır yük taşıma, şehirlerarası nakliyat",
-  image = "https://bumerangagirnakliyat.website/favicon.png",
+  title = "Bumerang Ağır Nakliyat | Lowbed Taşımacılık & Gabari Dışı Nakliye - Diyarbakır",
+  description = "Diyarbakır ve Güneydoğu merkezli gabari dışı ağır taşımacılık, 4-8 dingil lowbed dorse kiralama, iş makinesi ve şantiye nakliye çözümleri.",
+  keywords = "lowbed taşımacılık, ağır nakliyat, diyarbakır ağır nakliyat, gabari dışı taşıma, iş makinesi taşıma, lowbed kiralama, ktk 33/1 eskort, teleskopik lowbed, havuzlu dorse",
+  image = "https://bumerangagirnakliyat.website/og-image.png",
   type = "website"
 }: SEOProps) => {
   const location = useLocation();
