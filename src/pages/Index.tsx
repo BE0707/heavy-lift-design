@@ -10,11 +10,11 @@ const Index = () => {
   return (
     <>
       <SEO
-        title="Bumerang Ağır Nakliyat | Lowbed Taşımacılık & Gabari Dışı Ağır Nakliye - Diyarbakır"
-        description="Diyarbakır ve Güneydoğu merkezli gabari dışı ağır nakliyat, KTK 33/1 özel izinli ve eskortlu lowbed operasyonları. Ekskavatör, dozer, konkasör ve ağır sanayi ekipman nakliyesi."
-        keywords="lowbed taşımacılık, ağır nakliyat, diyarbakır ağır nakliyat, gabari dışı taşıma, iş makinesi taşıma, lowbed kiralama, ktk 33/1 eskort, teleskopik lowbed, havuzlu dorse, ekskavatör nakliyesi"
+        title="Bumerang Ağır Nakliyat | Lowbed Taşımacılık - Diyarbakır"
+        description="Diyarbakır merkezli Bumerang Ağır Nakliyat ile lowbed taşımacılık, ağır yük nakliyesi ve şehirlerarası profesyonel taşıma hizmetleri. Güvenilir ve zamanında teslimat."
+        keywords="lowbed taşımacılık, ağır nakliyat, diyarbakır nakliyat, iş makinesi taşıma, lowbed kiralama, ağır yük taşıma, şehirlerarası nakliyat, ekskavatör taşıma, iş makinesi nakliyesi"
       />
-      <div className="min-h-screen bg-asphalt-950 text-foreground selection:bg-machinery-yellow selection:text-asphalt-950">
+      <div className="min-h-screen">
         <Navbar />
         <HeroSection />
         <ServicesSection />

@@ -1,5 +1,4 @@
 import type { Config } from "tailwindcss";
-import tailwindcssAnimate from "tailwindcss-animate";
 
 export default {
   darkMode: ["class"],
@@ -15,10 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["'Plus Jakarta Sans'", "system-ui", "sans-serif"],
-        display: ["'Barlow Semi Condensed'", "Oswald", "system-ui", "sans-serif"],
-        oswald: ["Oswald", "sans-serif"],
-        mono: ["'JetBrains Mono'", "monospace"],
+        sans: ["Inter", "system-ui", "sans-serif"],
+        display: ["Oswald", "system-ui", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -62,27 +59,7 @@ export default {
           yellow: "hsl(var(--metallic-yellow))",
           gold: "hsl(var(--metallic-gold))",
         },
-        asphalt: {
-          950: "#0B0D10",
-          900: "#101317",
-          850: "#15181E",
-          800: "#1C2027",
-          700: "#272D37",
-          600: "#363E4D",
-        },
-        machinery: {
-          yellow: "#FDB813",
-          amber: "#E5A919",
-          warning: "#D97706",
-          hazard: "#F59E0B",
-        },
-        steel: {
-          DEFAULT: "#8A94A6",
-          light: "#C4CBD4",
-          dark: "#4E5664",
-          border: "#2A2F38",
-          grid: "#1E232B",
-        },
+        steel: "hsl(var(--steel-gray))",
         "off-white": "hsl(var(--off-white))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
@@ -124,5 +101,5 @@ export default {
       },
     },
   },
-  plugins: [tailwindcssAnimate],
+  plugins: [require("tailwindcss-animate")],
 } satisfies Config;

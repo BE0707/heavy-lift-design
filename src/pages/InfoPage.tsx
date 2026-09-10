@@ -1,10 +1,9 @@
 import { useEffect } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import ContactFooter from "@/components/ContactFooter";
 import SEO from "@/components/SEO";
-import { Truck, ShieldCheck, Scale, Compass, CheckCircle2, Phone, AlertTriangle, FileText, ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Truck, CheckCircle, Building2, Target, Users, Award } from "lucide-react";
 
 const InfoPage = () => {
   const location = useLocation();
@@ -23,268 +22,171 @@ const InfoPage = () => {
   return (
     <>
       <SEO
-        title="Lowbed Taşımacılık Nedir? KTK 33/1 ve Gabari Standartları | Bumerang Ağır Nakliyat"
-        description="Lowbed taşımacılık nedir? Gabari dışı ağır yük taşıma sınırları, Karayolları KTK 33/1 özel izin prosedürleri, dingil yükü hesaplamaları ve Bumerang Ağır Nakliyat saha altyapısı."
-        keywords="lowbed nedir, lowbed taşımacılık, gabari dışı taşıma sınırları, ktk 33/1 özel izin, ağır nakliyat mevzuatı, eskort araç zorunluluğu, diyarbakır lowbed firması"
+        title="Lowbed Taşımacılık Nedir? | Bumerang Ağır Nakliyat - Hakkımızda"
+        description="Lowbed taşımacılık nedir? Bumerang Ağır Nakliyat hakkında bilgi. İş makineleri, ağır tonajlı ve gabari dışı yük taşımacılığı hizmetleri. Diyarbakır merkezli profesyonel nakliyat firması."
+        keywords="lowbed nedir, lowbed taşımacılık nedir, ağır nakliyat firması, diyarbakır nakliyat şirketi, iş makinesi taşıma hizmeti, gabari dışı yük taşıma, ağır tonajlı nakliyat"
       />
-      <div className="min-h-screen bg-asphalt-950 text-foreground selection:bg-machinery-yellow selection:text-asphalt-950">
+      <div className="min-h-screen bg-background">
         <Navbar />
 
-        {/* Hero Section */}
-        <section className="pt-32 pb-16 sm:pt-36 sm:pb-20 bg-asphalt-900 border-b border-steel-border relative">
-          <div className="absolute inset-0 bg-technical-grid opacity-20 pointer-events-none" />
-          <div className="container mx-auto px-4 sm:px-6 relative z-10">
-            <div className="max-w-4xl">
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-asphalt-950 border border-steel-border text-machinery-yellow font-mono text-xs font-bold uppercase tracking-wider mb-4">
-                <FileText className="w-3.5 h-3.5" />
-                TEKNİK REHBER & MEVZUAT
-              </div>
-              <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold uppercase tracking-tight text-foreground">
-                Lowbed Taşımacılık, Gabari Sınırları & <br className="hidden sm:block" />
-                <span className="text-machinery-yellow">KTK 33/1 İzin Mevzuatı</span>
-              </h1>
-              <p className="font-sans text-steel-light text-base sm:text-lg mt-4 max-w-3xl leading-relaxed">
-                İş makineleri, şantiye tesisleri ve sanayi ekipmanlarının taşınmasında mühendislik hesapları, dingil başı ağırlık dağılımı ve resmi karayolları izin süreçleri hakkında teknik rehber.
+      {/* Hero Banner */}
+      <section className="pt-32 pb-16 bg-hero-gradient">
+        <div className="container mx-auto px-4 text-center">
+          <span className="inline-block px-4 py-1.5 bg-primary/20 text-primary font-semibold text-sm rounded-full mb-4">
+            BİLGİ
+          </span>
+          <h1 className="font-display text-3xl md:text-5xl font-bold text-off-white mb-4">
+            Lowbed Taşımacılık ve Hakkımızda
+          </h1>
+          <p className="text-off-white/70 text-lg max-w-2xl mx-auto">
+            Profesyonel ağır yük taşımacılığı hakkında bilmeniz gereken her şey.
+          </p>
+        </div>
+      </section>
+
+      {/* Lowbed Section */}
+      <section className="py-20 bg-background">
+        <div className="container mx-auto px-4">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            {/* Content */}
+            <div>
+              <span className="inline-block px-4 py-1.5 bg-primary/10 text-primary font-semibold text-sm rounded-full mb-4">
+                LOWBED NEDİR?
+              </span>
+              <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-6">
+                Lowbed Taşımacılık Nedir?
+              </h2>
+              <p className="text-muted-foreground text-lg leading-relaxed mb-6">
+                Lowbed taşımacılık; iş makineleri, ağır tonajlı ve gabari dışı yüklerin özel lowbed
+                dorseler ile güvenli şekilde taşınmasını sağlayan profesyonel bir nakliye hizmetidir.
               </p>
+              <p className="text-muted-foreground text-lg leading-relaxed mb-8">
+                Bu taşımacılık türü, uzmanlık, doğru ekipman ve deneyim gerektirir. Lowbed dorseler,
+                düşük zemin yükseklikleri sayesinde yüksek makinelerin ve ekipmanların güvenli bir
+                şekilde taşınmasına olanak tanır.
+              </p>
+
+              {/* Features */}
+              <div className="space-y-4">
+                {[
+                  "İş makineleri taşımacılığı",
+                  "Gabari dışı yük taşımacılığı",
+                  "Ağır tonajlı ekipman nakliyesi",
+                  "Özel izinli taşımacılık hizmetleri",
+                ].map((feature) => (
+                  <div key={feature} className="flex items-center gap-3">
+                    <CheckCircle className="w-5 h-5 text-primary flex-shrink-0" />
+                    <span className="text-foreground">{feature}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Visual */}
+            <div className="relative">
+              <div className="bg-secondary rounded-2xl p-8 md:p-12">
+                <div className="flex items-center justify-center">
+                  <div className="relative">
+                    <div className="w-32 h-32 bg-primary/20 rounded-full flex items-center justify-center">
+                      <Truck className="w-16 h-16 text-primary" />
+                    </div>
+                    <div className="absolute -top-2 -right-2 w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                      <CheckCircle className="w-5 h-5 text-primary-foreground" />
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-8 grid grid-cols-2 gap-4 text-center">
+                  <div className="p-4 bg-background rounded-xl">
+                    <p className="font-display text-2xl font-bold text-primary">60+</p>
+                    <p className="text-muted-foreground text-sm">Ton Kapasite</p>
+                  </div>
+                  <div className="p-4 bg-background rounded-xl">
+                    <p className="font-display text-2xl font-bold text-primary">24/7</p>
+                    <p className="text-muted-foreground text-sm">Hizmet</p>
+                  </div>
+                </div>
+              </div>
+              {/* Decorative Elements */}
+              <div className="absolute -z-10 top-4 left-4 w-full h-full bg-primary/10 rounded-2xl" />
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Technical Definition & Lowbed Mechanics */}
-        <section className="py-16 sm:py-20 bg-asphalt-950 border-b border-steel-border">
-          <div className="container mx-auto px-4 sm:px-6">
-            <div className="grid lg:grid-cols-12 gap-12 items-start">
-              {/* Left Column: Technical Principles */}
-              <div className="lg:col-span-7 space-y-6">
+      {/* About Section */}
+      <section id="hakkimizda" className="py-20 bg-secondary scroll-mt-24">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            {/* Header */}
+            <div className="text-center mb-16">
+              <span className="inline-block px-4 py-1.5 bg-primary/10 text-primary font-semibold text-sm rounded-full mb-4">
+                HAKKIMIZDA
+              </span>
+              <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-6">
+                Bumerang Ağır Nakliyat
+              </h2>
+              <p className="text-muted-foreground text-lg leading-relaxed">
+                Bumerang Ağır Nakliyat, Diyarbakır merkezli olarak yıllardır ağır nakliyat
+                sektöründe hizmet vermektedir. Tecrübe, bilgi birikimi ve güvenilirliği temel
+                ilke edinmiş firmamız, lowbed taşımacılık alanında profesyonel çözümler sunmaktadır.
+              </p>
+            </div>
+
+            {/* Mission & Values */}
+            <div className="grid md:grid-cols-3 gap-6 mb-16">
+              {[
+                {
+                  icon: Target,
+                  title: "Misyonumuz",
+                  description: "Ağır yük taşımacılığında en güvenilir ve profesyonel hizmeti sunmak.",
+                },
+                {
+                  icon: Building2,
+                  title: "Vizyonumuz",
+                  description: "Sektörün lider firması olarak yenilikçi çözümler üretmek.",
+                },
+                {
+                  icon: Award,
+                  title: "Değerlerimiz",
+                  description: "Güven, kalite, profesyonellik ve müşteri memnuniyeti.",
+                },
+              ].map((item) => (
+                <div
+                  key={item.title}
+                  className="bg-background p-6 rounded-xl text-center shadow-card"
+                >
+                  <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                    <item.icon className="w-7 h-7 text-primary" />
+                  </div>
+                  <h3 className="font-semibold text-foreground mb-2">{item.title}</h3>
+                  <p className="text-muted-foreground text-sm">{item.description}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* Team Highlight */}
+            <div className="bg-background p-8 md:p-12 rounded-2xl shadow-card">
+              <div className="flex flex-col md:flex-row items-center gap-8">
+                <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Users className="w-10 h-10 text-primary" />
+                </div>
                 <div>
-                  <span className="font-mono text-xs text-machinery-yellow font-bold uppercase tracking-widest block mb-2">
-                    01. MÜHENDİSLİK PRENSİBİ
-                  </span>
-                  <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-tight text-foreground">
-                    Lowbed Dorse Nedir ve Neden Zorunludur?
-                  </h2>
-                </div>
-
-                <p className="text-steel-light text-sm sm:text-base leading-relaxed">
-                  Standart tenteli veya açık kasa tır dorselerinin zemin yüksekliği 1.30m - 1.45m civarındadır. Karayolları Genel Müdürlüğü (KGM) mevzuatına göre köprü ve tünellerde maksimum yasal yükseklik sınırı <strong className="text-foreground">4.00 metre</strong>dir. Yüksekliği 3 metreyi aşan bir paletli ekskavatör standart dorsede taşındığında köprülere çarpma riski taşır ve kanunen yasaktır.
-                </p>
-
-                <p className="text-steel-light text-sm sm:text-base leading-relaxed">
-                  <strong className="text-machinery-yellow">Lowbed (Alçak Güverteli Dorse)</strong>, tekerlek akslarının arasına veya önüne indirgenmiş özel şasisi sayesinde zemin yüksekliğini <strong className="text-foreground">35 cm ile 60 cm</strong> seviyesine çeker. Böylece yüksek kabinli ekskavatör, kule vinç veya kırma eleme tesisleri köprü gabarisine takılmadan emniyetle sevk edilir.
-                </p>
-
-                {/* Technical Advantages */}
-                <div className="space-y-3 pt-2 font-mono text-xs">
-                  <div className="p-3.5 bg-asphalt-900 border border-steel-border rounded-sm flex items-start gap-3">
-                    <CheckCircle2 className="w-4 h-4 text-machinery-yellow flex-shrink-0 mt-0.5" />
-                    <div>
-                      <span className="font-bold text-foreground block uppercase">Düşük Ağırlık Merkezi:</span>
-                      <span className="text-steel-light">Virajlarda devrilme momentini minimize eder, yol tutuşunu maksimuma çıkarır.</span>
-                    </div>
-                  </div>
-
-                  <div className="p-3.5 bg-asphalt-900 border border-steel-border rounded-sm flex items-start gap-3">
-                    <CheckCircle2 className="w-4 h-4 text-machinery-yellow flex-shrink-0 mt-0.5" />
-                    <div>
-                      <span className="font-bold text-foreground block uppercase">Çok Dingilli Aks Yükü Dağılımı:</span>
-                      <span className="text-steel-light">4 ila 8 dingil sayesinde tonaj karayollarına eşit dağıtılır, yol tabakası korunur.</span>
-                    </div>
-                  </div>
-
-                  <div className="p-3.5 bg-asphalt-900 border border-steel-border rounded-sm flex items-start gap-3">
-                    <CheckCircle2 className="w-4 h-4 text-machinery-yellow flex-shrink-0 mt-0.5" />
-                    <div>
-                      <span className="font-bold text-foreground block uppercase">Hidrolik Dümenlenebilir Dingiller:</span>
-                      <span className="text-steel-light">Dar şantiye dönemeçlerinde ve şehirlerarası kavşaklarda manevra kabiliyeti sağlar.</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Right Column: Gabari Thresholds Matrix */}
-              <div className="lg:col-span-5 bg-asphalt-900 border border-steel-border p-6 sm:p-7 rounded-sm shadow-xl">
-                <div className="flex items-center gap-2 mb-4 pb-3 border-b border-steel-border">
-                  <Scale className="w-5 h-5 text-machinery-yellow" />
-                  <div>
-                    <span className="font-mono text-[11px] text-steel uppercase block">T.C. KARAYOLLARI MEVZUATI</span>
-                    <h3 className="font-display text-lg font-bold text-foreground uppercase">
-                      Gabari Dışı (Out of Gauge) Kriterleri
-                    </h3>
-                  </div>
-                </div>
-
-                <div className="space-y-3 font-mono text-xs">
-                  <div className="p-3 bg-asphalt-950 border border-steel-border/70 rounded-sm">
-                    <div className="flex justify-between text-steel mb-1">
-                      <span>YASAL GENİŞLİK SINIRI:</span>
-                      <span className="font-bold text-machinery-yellow">2.55 Metre</span>
-                    </div>
-                    <p className="text-[11px] text-steel-light">2.55 m üzeri yüklerde KGM Özel İzin ve öncü eskort şartı aranır.</p>
-                  </div>
-
-                  <div className="p-3 bg-asphalt-950 border border-steel-border/70 rounded-sm">
-                    <div className="flex justify-between text-steel mb-1">
-                      <span>YASAL YÜKSEKLİK SINIRI:</span>
-                      <span className="font-bold text-machinery-yellow">4.00 Metre</span>
-                    </div>
-                    <p className="text-[11px] text-steel-light">Yerden yükseklik 4.00 m üzeri yüklerde havuzlu lowbed zorunludur.</p>
-                  </div>
-
-                  <div className="p-3 bg-asphalt-950 border border-steel-border/70 rounded-sm">
-                    <div className="flex justify-between text-steel mb-1">
-                      <span>YASAL TOPLAM UZUNLUK:</span>
-                      <span className="font-bold text-machinery-yellow">16.50 – 18.75 Metre</span>
-                    </div>
-                    <p className="text-[11px] text-steel-light">18.75 m üzeri kiriş/boru yüklerinde teleskopik uzatmalı dorse kullanılır.</p>
-                  </div>
-
-                  <div className="p-3 bg-asphalt-950 border border-steel-border/70 rounded-sm">
-                    <div className="flex justify-between text-steel mb-1">
-                      <span>BRÜT AĞIRLIK SINIRI:</span>
-                      <span className="font-bold text-machinery-yellow">40 – 44 Ton</span>
-                    </div>
-                    <p className="text-[11px] text-steel-light">44 ton üstü taşımalar KTK 33/1 Özel İzin Belgesine tabidir.</p>
-                  </div>
-                </div>
-
-                <div className="mt-5 p-3 bg-machinery-yellow/10 border border-machinery-yellow/40 rounded-sm flex items-start gap-2.5">
-                  <AlertTriangle className="w-4 h-4 text-machinery-yellow flex-shrink-0 mt-0.5" />
-                  <p className="font-sans text-xs text-steel-light leading-relaxed">
-                    Bumerang Ağır Nakliyat, yükünüz bu limitleri aştığında Karayolları Genel Müdürlüğü&apos;nden resmi izinleri bizzat alarak sevkiyatı başlatır.
+                  <h3 className="font-display text-xl font-bold text-foreground mb-3">
+                    Deneyimli Ekibimiz
+                  </h3>
+                  <p className="text-muted-foreground leading-relaxed">
+                    Modern araç filomuz ve deneyimli ekibimizle yüklerinizi sorunsuz ve zamanında
+                    teslim ediyoruz. Her projede güvenliği ön planda tutarak, müşterilerimize
+                    en iyi hizmeti sunmayı amaçlıyoruz.
                   </p>
                 </div>
               </div>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* KTK 33/1 & Escort Protocols */}
-        <section className="py-16 sm:py-20 bg-asphalt-900 border-b border-steel-border">
-          <div className="container mx-auto px-4 sm:px-6">
-            <div className="max-w-4xl mb-12">
-              <span className="font-mono text-xs text-machinery-yellow font-bold uppercase tracking-widest block mb-2">
-                02. YASAL MEVZUAT & SAHA EMNİYETİ
-              </span>
-              <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-tight text-foreground">
-                KTK Madde 33/1 ve Eskort Refakat Prosedürü
-              </h2>
-              <p className="font-sans text-steel-light text-sm sm:text-base mt-2 leading-relaxed">
-                2918 sayılı Karayolları Trafik Kanunu’nun 33/1 maddesi uyarınca ağırlık ve boyutları standartları aşan araçların karayoluna çıkışı özel izne bağlanmıştır.
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-3 gap-6">
-              <div className="p-6 bg-asphalt-950 border border-steel-border rounded-sm shadow-md">
-                <div className="w-10 h-10 bg-asphalt-900 border border-steel-border flex items-center justify-center text-machinery-yellow mb-4 font-mono font-bold">
-                  01
-                </div>
-                <h3 className="font-display text-lg font-bold uppercase text-foreground mb-2">
-                  Özel İzin Belgesi Başvurusu
-                </h3>
-                <p className="text-steel-light text-xs sm:text-sm leading-relaxed font-sans">
-                  Çekici ve dorse plakaları, yükün net boyutları ve tonajı KGM sistemine işlenir. Belirlenen güzergah boyunca köprü ve menfez yük taşıma kapasiteleri taranır.
-                </p>
-              </div>
-
-              <div className="p-6 bg-asphalt-950 border border-steel-border rounded-sm shadow-md">
-                <div className="w-10 h-10 bg-asphalt-900 border border-steel-border flex items-center justify-center text-machinery-yellow mb-4 font-mono font-bold">
-                  02
-                </div>
-                <h3 className="font-display text-lg font-bold uppercase text-foreground mb-2">
-                  Öncü & Artçı Eskort Araç Tahsisi
-                </h3>
-                <p className="text-steel-light text-xs sm:text-sm leading-relaxed font-sans">
-                  Genişliği 3.00 metreyi aşan konvoylara önde uyarıcı öncü araç, arkada konvoy emniyetini sağlayan artçı araç eşlik eder. Araçlarda sarı tepe lambaları zorunludur.
-                </p>
-              </div>
-
-              <div className="p-6 bg-asphalt-950 border border-steel-border rounded-sm shadow-md">
-                <div className="w-10 h-10 bg-asphalt-900 border border-steel-border flex items-center justify-center text-machinery-yellow mb-4 font-mono font-bold">
-                  03
-                </div>
-                <h3 className="font-display text-lg font-bold uppercase text-foreground mb-2">
-                  EN 12195 Lashing Emniyeti
-                </h3>
-                <p className="text-steel-light text-xs sm:text-sm leading-relaxed font-sans">
-                  Yük, dorsenin şasisine Grade 80 çelik gerdirme zincirleriyle kilitlenir. Ani frenleme ve viraj savrulmalarında sıfır milim kayma hedeflenir.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* About Company & Regional Authority */}
-        <section id="hakkimizda" className="py-16 sm:py-20 bg-asphalt-950 scroll-mt-20">
-          <div className="container mx-auto px-4 sm:px-6">
-            <div className="max-w-5xl mx-auto">
-              <div className="bg-asphalt-900 border-2 border-steel-border p-6 sm:p-10 rounded-sm shadow-2xl">
-                <div className="inline-flex items-center gap-2 px-3 py-1 bg-machinery-yellow/15 border border-machinery-yellow/40 text-machinery-yellow font-mono text-xs font-bold uppercase tracking-wider mb-4">
-                  BUMERANG AĞIR NAKLİYAT HAKKIMIZDA
-                </div>
-
-                <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-extrabold uppercase tracking-tight text-foreground mb-4">
-                  Diyarbakır ve Güneydoğu&apos;nun <br className="hidden sm:block" />
-                  <span className="text-machinery-yellow">Ağır Sanayi & Lowbed Güvencesi</span>
-                </h2>
-
-                <p className="text-steel-light text-sm sm:text-base leading-relaxed mb-6 font-sans">
-                  Bumerang Ağır Nakliyat, Ramazan Karaboğa ve Engin Karaboğa yönetiminde, Diyarbakır merkez garajından Türkiye&apos;nin 81 iline ağır nakliye ve lowbed lojistiği sağlayan ihtisaslaşmış bir kuruluştur.
-                </p>
-
-                <p className="text-steel-light text-sm sm:text-base leading-relaxed mb-8 font-sans">
-                  Altyapı müteahhitleri, maden işletmeleri, taş ocakları, çimento fabrikaları ve enerji santrali projeleri için; standart lojistik firmalarının taşıyamadığı aşırı tonajlı ve gabari dışı yükleri, teknik donanımlı araçlarımız ve yasal izin protokollerimizle sıfır risk prensibiyle ulaştırıyoruz.
-                </p>
-
-                {/* Operational Dispatcher Row */}
-                <div className="grid sm:grid-cols-2 gap-4 pt-6 border-t border-steel-border/70">
-                  <div className="p-4 bg-asphalt-950 border border-steel-border rounded-sm">
-                    <span className="font-mono text-[11px] text-machinery-yellow font-bold uppercase block">
-                      Operasyon & Saha Koordinasyonu
-                    </span>
-                    <h4 className="font-display text-lg font-bold text-foreground mt-0.5">Ramazan Karaboğa</h4>
-                    <a
-                      href="tel:+905327459843"
-                      className="inline-flex items-center gap-1.5 font-mono text-xs font-bold text-steel-light hover:text-machinery-yellow mt-2 transition-colors"
-                    >
-                      <Phone className="w-3.5 h-3.5 text-machinery-yellow" />
-                      +90 532 745 98 43
-                    </a>
-                  </div>
-
-                  <div className="p-4 bg-asphalt-950 border border-steel-border rounded-sm">
-                    <span className="font-mono text-[11px] text-machinery-yellow font-bold uppercase block">
-                      Filo & Lojistik Dispeç
-                    </span>
-                    <h4 className="font-display text-lg font-bold text-foreground mt-0.5">Engin Karaboğa</h4>
-                    <a
-                      href="tel:+905326562605"
-                      className="inline-flex items-center gap-1.5 font-mono text-xs font-bold text-steel-light hover:text-machinery-yellow mt-2 transition-colors"
-                    >
-                      <Phone className="w-3.5 h-3.5 text-machinery-yellow" />
-                      +90 532 656 26 05
-                    </a>
-                  </div>
-                </div>
-
-                <div className="mt-8 flex flex-col sm:flex-row gap-3">
-                  <Link to="/#filo-teklif">
-                    <Button variant="machinery" size="lg" className="w-full sm:w-auto font-display font-extrabold uppercase text-xs sm:text-sm">
-                      Hızlı Yük Bildirimi Yap
-                      <ArrowRight className="w-4 h-4 ml-1" />
-                    </Button>
-                  </Link>
-                  <Link to="/#galeri">
-                    <Button variant="heroOutline" size="lg" className="w-full sm:w-auto font-display font-bold uppercase text-xs sm:text-sm">
-                      Saha Operasyonlarını İncele
-                    </Button>
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <ContactFooter />
+      <ContactFooter />
       </div>
     </>
   );

@@ -1,200 +1,104 @@
-import { Phone, MapPin, MessageSquare, ShieldCheck, Clock, Navigation, Radio } from "lucide-react";
+import { Phone, MapPin, Mail, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-const dispatchers = [
-  {
-    name: "Ramazan Karaboğa",
-    role: "Operasyon & Saha Koordinasyonu",
-    phone: "+90 532 745 98 43",
-    telLink: "tel:+905327459843",
-    whatsappLink: `https://wa.me/905327459843?text=${encodeURIComponent(
-      "Merhaba Ramazan Bey, ağır nakliyat / lowbed taşıma fiyatı almak istiyorum."
-    )}`,
-    badge: "SAHA SEVKİYAT",
-  },
-  {
-    name: "Engin Karaboğa",
-    role: "Filo & Lojistik Dispeç",
-    phone: "+90 532 656 26 05",
-    telLink: "tel:+905326562605",
-    whatsappLink: `https://wa.me/905326562605?text=${encodeURIComponent(
-      "Merhaba Engin Bey, ağır nakliyat / lowbed taşıma fiyatı almak istiyorum."
-    )}`,
-    badge: "FİLO PLANLAMA",
-  },
-];
-
-const coverageProvinces = [
-  "Diyarbakır (Merkez)",
-  "Batman",
-  "Mardin",
-  "Şanlıurfa",
-  "Elazığ",
-  "Bingöl",
-  "Gaziantep",
-  "Malatya",
-  "Siirt",
-  "Van",
-  "Erzurum",
-  "Mersin Limanı",
-  "İskenderun Limanı",
-  "Tüm 81 İl Şantiyeleri",
-];
 
 const ContactFooter = () => {
   return (
-    <footer id="iletisim" className="bg-asphalt-950 text-foreground border-t-2 border-machinery-yellow/60 relative">
-      {/* Top Hazard Accent Bar */}
-      <div className="h-2 bg-hazard-stripes-bold" />
-
-      <div className="py-16 sm:py-20 md:py-24">
-        <div className="container mx-auto px-4 sm:px-6">
-          {/* Section Header */}
-          <div className="max-w-3xl mb-12 sm:mb-16">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-asphalt-900 border border-steel-border text-machinery-yellow font-mono text-xs font-bold uppercase tracking-wider mb-3">
-              <Radio className="w-3.5 h-3.5 animate-pulse" />
-              OPERASYON & DİSPEÇ MERKEZİ
-            </div>
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold uppercase tracking-tight text-foreground">
-              Doğrudan Sevkiyat Masası ile <br className="hidden sm:block" />
-              <span className="text-machinery-yellow">7/24 İletişime Geçin</span>
-            </h2>
-            <p className="font-sans text-steel-light text-sm sm:text-base md:text-lg mt-3 leading-relaxed">
-              Aracı veya santral beklemeden, şantiye sahanızdaki nakliye talebini bizzat operasyon sorumlularımıza ileterek rotanıza en uygun lowbed aracını dakikalar içinde rezerve edin.
-            </p>
-          </div>
-
-          <div className="grid lg:grid-cols-12 gap-8 items-start mb-16">
-            {/* Dispatcher Direct Contact Cards (7 cols) */}
-            <div className="lg:col-span-7 space-y-4">
-              <h3 className="font-mono text-xs uppercase tracking-widest text-steel font-bold flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-machinery-yellow" />
-                Yetkili Dispeç Sorumluları:
-              </h3>
-
-              {dispatchers.map((disp) => (
-                <div
-                  key={disp.phone}
-                  className="bg-asphalt-900 border border-steel-border hover:border-machinery-yellow/60 rounded-sm p-5 sm:p-6 transition-all shadow-lg"
-                >
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    <div>
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="px-2 py-0.5 bg-machinery-yellow/15 border border-machinery-yellow/40 text-machinery-yellow font-mono text-[10px] font-bold tracking-widest uppercase">
-                          {disp.badge}
-                        </span>
-                        <span className="text-xs font-mono text-steel-light">7/24 Aktif Hat</span>
-                      </div>
-                      <h4 className="font-display text-xl sm:text-2xl font-bold text-foreground uppercase tracking-tight">
-                        {disp.name}
-                      </h4>
-                      <p className="text-xs sm:text-sm font-mono text-machinery-amber mt-0.5">
-                        {disp.role}
-                      </p>
-                      <p className="font-mono text-lg sm:text-xl font-extrabold text-foreground mt-2 tracking-wide">
-                        {disp.phone}
-                      </p>
-                    </div>
-
-                    {/* Action Buttons */}
-                    <div className="flex flex-row sm:flex-col gap-2 min-w-[170px]">
-                      <a
-                        href={disp.whatsappLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex-1 inline-flex items-center justify-center gap-2 px-3.5 py-2.5 bg-machinery-yellow text-asphalt-950 font-display font-extrabold text-xs tracking-wider uppercase rounded-sm hover:bg-machinery-amber transition-colors shadow-sm"
-                      >
-                        <MessageSquare className="w-3.5 h-3.5" />
-                        WhatsApp Fiyat Al
-                      </a>
-
-                      <a
-                        href={disp.telLink}
-                        className="flex-1 inline-flex items-center justify-center gap-2 px-3.5 py-2.5 bg-asphalt-800 border border-steel-border text-foreground hover:text-machinery-yellow hover:border-machinery-yellow font-display font-bold text-xs tracking-wider uppercase rounded-sm transition-colors"
-                      >
-                        <Phone className="w-3.5 h-3.5 text-machinery-yellow" />
-                        Hemen Ara
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              ))}
-
-              {/* Working Hours & Protocol Info */}
-              <div className="p-4 bg-asphalt-900/60 border border-steel-border/70 rounded-sm grid sm:grid-cols-2 gap-3 text-xs font-mono text-steel-light">
-                <div className="flex items-center gap-2">
-                  <Clock className="w-4 h-4 text-machinery-yellow flex-shrink-0" />
-                  <span>Haftanın 7 Günü / 24 Saat Çağrı Kabulü</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <ShieldCheck className="w-4 h-4 text-machinery-yellow flex-shrink-0" />
-                  <span>KGM İzin Belgeli & Sigortalı Sevkiyat</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Base & Coverage Map Column (5 cols) */}
-            <div className="lg:col-span-5 bg-asphalt-900 border border-steel-border rounded-sm p-6 sm:p-7 shadow-lg">
-              <div className="flex items-center gap-2 mb-4 pb-3 border-b border-steel-border/70">
-                <MapPin className="w-5 h-5 text-machinery-yellow" />
-                <div>
-                  <span className="font-mono text-[11px] text-steel uppercase block">MERKEZ GARAJ & ÜS</span>
-                  <h4 className="font-display text-lg font-bold text-foreground uppercase">
-                    Diyarbakır, Türkiye
-                  </h4>
-                </div>
-              </div>
-
-              <p className="text-steel-light text-xs sm:text-sm leading-relaxed mb-5">
-                Diyarbakır merkezli garajımızdan Güneydoğu, Doğu Anadolu, Akdeniz limanları ve Türkiye genelindeki tüm maden, baraj ve altyapı şantiyelerine transit lowbed sevkiyatı gerçekleştiriyoruz.
+    <footer id="iletisim" className="bg-charcoal text-off-white">
+      {/* Contact Section */}
+      <div className="py-12 sm:py-16 md:py-20">
+        <div className="container mx-auto px-3 sm:px-4">
+          <div className="grid lg:grid-cols-2 gap-8 sm:gap-10 md:gap-12 lg:gap-16 items-center">
+            {/* Left Content */}
+            <div>
+              <span className="inline-block px-3 py-1 sm:px-4 sm:py-1.5 bg-primary/20 text-primary font-semibold text-xs sm:text-sm rounded-full mb-3 sm:mb-4">
+                İLETİŞİM
+              </span>
+              <h2 className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-5 md:mb-6 leading-tight">
+                Bizimle{" "}
+                <span className="text-gradient-yellow block sm:inline">İletişime Geçin</span>
+              </h2>
+              <p className="text-off-white/70 text-sm sm:text-base md:text-lg mb-6 sm:mb-7 md:mb-8 leading-relaxed">
+                Ağır yük taşımacılığı ihtiyaçlarınız için bizimle iletişime geçin.
+                Uzman ekibimiz size en uygun çözümü sunmak için hazır.
               </p>
 
-              <div className="mb-4">
-                <span className="font-mono text-[11px] text-steel uppercase font-bold tracking-wider block mb-2">
-                  ÖNCELİKLİ GÜZERGAH & ŞANTİYE BÖLGELERİ:
-                </span>
-                <div className="flex flex-wrap gap-1.5 font-mono text-[11px]">
-                  {coverageProvinces.map((prov, idx) => (
-                    <span
-                      key={idx}
-                      className="px-2 py-1 bg-asphalt-950 border border-steel-border/80 text-steel-light rounded-sm"
-                    >
-                      {prov}
-                    </span>
-                  ))}
+              {/* Location */}
+              <div className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-charcoal-light rounded-lg sm:rounded-xl">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
+                </div>
+                <div>
+                  <p className="font-semibold text-sm sm:text-base">Konum</p>
+                  <p className="text-off-white/70 text-xs sm:text-sm">Diyarbakır, Türkiye</p>
                 </div>
               </div>
+            </div>
 
-              <div className="pt-4 border-t border-steel-border/70">
-                <a
-                  href="#filo-teklif"
-                  className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-asphalt-800 border border-steel-border text-foreground hover:border-machinery-yellow hover:text-machinery-yellow font-display font-bold text-xs tracking-wider uppercase rounded-sm transition-colors"
-                >
-                  <Navigation className="w-3.5 h-3.5 text-machinery-yellow" />
-                  Online Yük Bildirimi Yap
-                </a>
-              </div>
+            {/* Right - Contact Cards */}
+            <div className="grid gap-4 sm:gap-5 md:gap-6">
+              {/* Contact 1 */}
+              <a
+                href="tel:+905327459843"
+                className="group flex items-center justify-between p-4 sm:p-5 md:p-6 bg-charcoal-light rounded-xl sm:rounded-2xl hover:bg-primary transition-all duration-300"
+              >
+                <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 bg-primary/20 rounded-lg sm:rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-primary-foreground/20 transition-colors">
+                    <Phone className="w-6 h-6 sm:w-7 sm:h-7 text-primary group-hover:text-primary-foreground transition-colors" />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-off-white/70 text-xs sm:text-sm group-hover:text-primary-foreground/70 transition-colors">
+                      Ramazan Karaboğa
+                    </p>
+                    <p className="font-display text-base sm:text-lg md:text-xl font-bold group-hover:text-primary-foreground transition-colors break-all">
+                      +90 532 745 98 43
+                    </p>
+                  </div>
+                </div>
+                <ArrowUpRight className="w-5 h-5 sm:w-6 sm:h-6 opacity-0 group-hover:opacity-100 text-primary-foreground transition-all duration-300 transform group-hover:translate-x-1 group-hover:-translate-y-1 flex-shrink-0 ml-2" />
+              </a>
+
+              {/* Contact 2 */}
+              <a
+                href="tel:+905326562605"
+                className="group flex items-center justify-between p-4 sm:p-5 md:p-6 bg-charcoal-light rounded-xl sm:rounded-2xl hover:bg-primary transition-all duration-300"
+              >
+                <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 bg-primary/20 rounded-lg sm:rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-primary-foreground/20 transition-colors">
+                    <Phone className="w-6 h-6 sm:w-7 sm:h-7 text-primary group-hover:text-primary-foreground transition-colors" />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-off-white/70 text-xs sm:text-sm group-hover:text-primary-foreground/70 transition-colors">
+                      Engin Karaboğa
+                    </p>
+                    <p className="font-display text-base sm:text-lg md:text-xl font-bold group-hover:text-primary-foreground transition-colors break-all">
+                      +90 532 656 26 05
+                    </p>
+                  </div>
+                </div>
+                <ArrowUpRight className="w-5 h-5 sm:w-6 sm:h-6 opacity-0 group-hover:opacity-100 text-primary-foreground transition-all duration-300 transform group-hover:translate-x-1 group-hover:-translate-y-1 flex-shrink-0 ml-2" />
+              </a>
             </div>
           </div>
+        </div>
+      </div>
 
-          {/* Bottom Industrial Bar */}
-          <div className="pt-8 border-t border-steel-border/70 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-mono text-steel">
+      {/* Bottom Footer */}
+      <div className="border-t border-off-white/10 py-6 sm:py-8">
+        <div className="container mx-auto px-3 sm:px-4">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-3 sm:gap-4">
+            {/* Logo */}
             <div className="flex items-center gap-3">
-              <div className="w-7 h-7 bg-machinery-yellow text-asphalt-950 font-display font-extrabold flex items-center justify-center text-sm border border-machinery-amber">
-                B
-              </div>
               <div className="flex flex-col">
-                <span className="font-display font-bold text-sm tracking-wider text-foreground">
-                  BUMERANG AĞIR NAKLİYAT
-                </span>
-                <span className="text-[10px] tracking-widest uppercase text-steel">
-                  DİYARBAKIR &bull; LOWBED & GABARİ DIŞI TAŞIMACILIK
+                <span className="font-display font-bold text-base sm:text-lg leading-tight">Bumerang</span>
+                <span className="text-[10px] sm:text-xs tracking-wider uppercase text-off-white/50">
+                  Ağır Nakliyat
                 </span>
               </div>
             </div>
 
-            <p className="text-center md:text-right text-[11px]">
-              © {new Date().getFullYear()} Bumerang Ağır Nakliyat. KTK 33/1 KGM Özel İzinli Taşımacılık. Tüm hakları saklıdır.
+            {/* Copyright */}
+            <p className="text-off-white/50 text-xs sm:text-sm text-center md:text-left">
+              © {new Date().getFullYear()} Bumerang Ağır Nakliyat. Tüm hakları saklıdır.
             </p>
           </div>
         </div>

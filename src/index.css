@@ -2,86 +2,96 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Oswald:wght@400;500;600;700&display=swap');
+
 @layer base {
   :root {
-    --background: 220 16% 7%;      /* #0F1115 */
-    --foreground: 220 15% 95%;     /* #F1F3F5 */
+    --background: 0 0% 100%;
+    --foreground: 220 10% 15%;
 
-    --card: 220 14% 10%;            /* #16191E */
-    --card-foreground: 220 15% 98%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 10% 15%;
 
-    --popover: 220 14% 10%;
-    --popover-foreground: 220 15% 98%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 10% 15%;
 
-    --primary: 43 98% 53%;         /* #FDB813 Machinery Yellow */
-    --primary-foreground: 220 16% 7%;
+    --primary: 45 95% 50%;
+    --primary-foreground: 220 10% 10%;
 
-    --secondary: 220 14% 13%;      /* #1C2027 */
-    --secondary-foreground: 220 15% 95%;
+    --secondary: 220 10% 96%;
+    --secondary-foreground: 220 10% 15%;
 
-    --muted: 220 14% 16%;          /* #222731 */
-    --muted-foreground: 220 10% 65%; /* #9CA3AF */
+    --muted: 220 10% 96%;
+    --muted-foreground: 220 10% 45%;
 
-    --accent: 43 98% 53%;
-    --accent-foreground: 220 16% 7%;
+    --accent: 45 95% 50%;
+    --accent-foreground: 220 10% 10%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 220 14% 20%;         /* #2A2F38 Stark structural border */
-    --input: 220 14% 20%;
-    --ring: 43 98% 53%;
+    --border: 220 10% 90%;
+    --input: 220 10% 90%;
+    --ring: 45 95% 50%;
 
-    --radius: 0.25rem;             /* 4px crisp industrial corner */
+    --radius: 0.5rem;
 
     /* Custom tokens */
-    --charcoal: 220 16% 9%;        /* #12151B */
-    --charcoal-light: 220 14% 14%; /* #1E232B */
-    --metallic-yellow: 43 98% 53%; /* #FDB813 */
-    --metallic-gold: 41 90% 48%;   /* #E5A919 */
-    --steel-gray: 220 10% 65%;
-    --off-white: 220 15% 96%;
+    --charcoal: 220 10% 15%;
+    --charcoal-light: 220 10% 25%;
+    --metallic-yellow: 45 95% 50%;
+    --metallic-gold: 43 85% 45%;
+    --steel-gray: 220 10% 60%;
+    --off-white: 40 20% 98%;
 
     /* Gradients */
-    --gradient-hero: linear-gradient(180deg, rgba(15, 17, 21, 0.75) 0%, rgba(15, 17, 21, 0.94) 100%);
-    --gradient-yellow: linear-gradient(135deg, #FDB813 0%, #E5A919 100%);
-    --gradient-overlay: linear-gradient(to bottom, rgba(15, 17, 21, 0.72) 0%, rgba(15, 17, 21, 0.92) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(220 10% 10%) 0%, hsl(220 10% 20%) 100%);
+    --gradient-yellow: linear-gradient(135deg, hsl(45 95% 50%) 0%, hsl(43 85% 45%) 100%);
+    --gradient-overlay: linear-gradient(to bottom, hsla(220, 10%, 10%, 0.55) 0%, hsla(220, 10%, 10%, 0.25) 100%);
 
-    /* Shadows replaced with crisp edge highlights */
-    --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-    --shadow-elevated: 0 8px 24px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.07);
-    --shadow-yellow: 0 0 20px -3px rgba(253, 184, 19, 0.4);
+    /* Shadows */
+    --shadow-card: 0 4px 20px -4px hsla(220, 10%, 10%, 0.1);
+    --shadow-elevated: 0 10px 40px -10px hsla(220, 10%, 10%, 0.2);
+    --shadow-yellow: 0 4px 20px -4px hsla(45, 95%, 50%, 0.4);
 
-    --sidebar-background: 220 16% 8%;
-    --sidebar-foreground: 220 15% 95%;
-    --sidebar-primary: 43 98% 53%;
-    --sidebar-primary-foreground: 220 16% 7%;
-    --sidebar-accent: 220 14% 13%;
-    --sidebar-accent-foreground: 220 15% 95%;
-    --sidebar-border: 220 14% 20%;
-    --sidebar-ring: 43 98% 53%;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
   .dark {
-    --background: 220 16% 7%;
-    --foreground: 220 15% 95%;
-    --card: 220 14% 10%;
-    --card-foreground: 220 15% 98%;
-    --popover: 220 14% 10%;
-    --popover-foreground: 220 15% 98%;
-    --primary: 43 98% 53%;
-    --primary-foreground: 220 16% 7%;
-    --secondary: 220 14% 13%;
-    --secondary-foreground: 220 15% 95%;
-    --muted: 220 14% 16%;
-    --muted-foreground: 220 10% 65%;
-    --accent: 43 98% 53%;
-    --accent-foreground: 220 16% 7%;
+    --background: 220 10% 10%;
+    --foreground: 40 20% 98%;
+
+    --card: 220 10% 15%;
+    --card-foreground: 40 20% 98%;
+
+    --popover: 220 10% 15%;
+    --popover-foreground: 40 20% 98%;
+
+    --primary: 45 95% 50%;
+    --primary-foreground: 220 10% 10%;
+
+    --secondary: 220 10% 20%;
+    --secondary-foreground: 40 20% 98%;
+
+    --muted: 220 10% 20%;
+    --muted-foreground: 220 10% 60%;
+
+    --accent: 45 95% 50%;
+    --accent-foreground: 220 10% 10%;
+
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
-    --border: 220 14% 20%;
-    --input: 220 14% 20%;
-    --ring: 43 98% 53%;
+
+    --border: 220 10% 25%;
+    --input: 220 10% 25%;
+    --ring: 45 95% 50%;
   }
 }
 
@@ -91,18 +101,17 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans antialiased selection:bg-primary selection:text-primary-foreground;
+    @apply bg-background text-foreground font-sans antialiased;
   }
 
   html {
     scroll-behavior: smooth;
-    color-scheme: dark;
   }
 }
 
 @layer components {
   .text-gradient-yellow {
-    @apply bg-clip-text text-transparent font-bold;
+    @apply bg-clip-text text-transparent;
     background-image: var(--gradient-yellow);
   }
 
@@ -115,7 +124,7 @@
   }
 
   .bg-overlay-gradient-mobile {
-    background: linear-gradient(to bottom, rgba(15, 17, 21, 0.75) 0%, rgba(15, 17, 21, 0.95) 100%);
+    background: linear-gradient(to bottom, hsla(220, 10%, 10%, 0.4) 0%, hsla(220, 10%, 10%, 0.18) 100%);
   }
 
   .shadow-card {
@@ -131,48 +140,7 @@
   }
 
   .hero-text-shadow {
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.85);
-  }
-
-  /* Industrial Hazard Striping */
-  .bg-hazard-stripes {
-    background-size: 24px 24px;
-    background-image: repeating-linear-gradient(
-      -45deg,
-      rgba(253, 184, 19, 0.15),
-      rgba(253, 184, 19, 0.15) 8px,
-      transparent 8px,
-      transparent 16px
-    );
-  }
-
-  .bg-hazard-stripes-bold {
-    background-size: 20px 20px;
-    background-image: repeating-linear-gradient(
-      -45deg,
-      #FDB813,
-      #FDB813 6px,
-      #12151B 6px,
-      #12151B 12px
-    );
-  }
-
-  /* Engineering Blueprint / Precision Grid */
-  .bg-technical-grid {
-    background-size: 32px 32px;
-    background-image: 
-      linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-  }
-
-  .bg-technical-dots {
-    background-size: 24px 24px;
-    background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
-  }
-
-  /* Tactical Technical Badges */
-  .tech-badge {
-    @apply inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-mono font-semibold tracking-wider uppercase border border-border bg-secondary text-foreground;
+    text-shadow: 0 2px 8px hsla(220, 10%, 10%, 0.45);
   }
 }
 
