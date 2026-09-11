@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://bumerangagirnakliyat.website/</loc>
-    <lastmod>2025-01-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
+    <loc>https://www.bumerangagirnakliyat.website/</loc>
+    <lastmod>2026-09-11</lastmod>
   </url>
   <url>
-    <loc>https://bumerangagirnakliyat.website/bilgi</loc>
-    <lastmod>2025-01-17</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://www.bumerangagirnakliyat.website/bilgi</loc>
+    <lastmod>2026-09-11</lastmod>
   </url>
 </urlset>

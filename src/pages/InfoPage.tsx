@@ -1,195 +1,170 @@
-import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import Navbar from "@/components/Navbar";
-import ContactFooter from "@/components/ContactFooter";
+import type { ReactNode } from "react";
+import { Link } from "react-router-dom";
+import { ArrowRight, Phone } from "lucide-react";
 import SEO from "@/components/SEO";
-import { Truck, CheckCircle, Building2, Target, Users, Award } from "lucide-react";
+import PageShell from "@/components/layout/PageShell";
+import CapacityTable from "@/components/CapacityTable";
+import { COMPANY, DISPATCHERS, telHref } from "@/data/company";
+import { PAGES } from "@/data/seo";
+import { LEGAL_LIMITS, PAYLOAD_WITHOUT_PERMIT } from "@/lib/load-check";
 
-const InfoPage = () => {
-  const location = useLocation();
+const fmt = (n: number) => n.toLocaleString("tr-TR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
-  useEffect(() => {
-    if (location.hash === "#hakkimizda") {
-      setTimeout(() => {
-        const element = document.getElementById("hakkimizda");
-        element?.scrollIntoView({ behavior: "smooth" });
-      }, 100);
-    } else {
-      window.scrollTo(0, 0);
-    }
-  }, [location]);
+const PRICE_FACTORS = [
+  { title: "Mesafe ve güzergah", text: "Çıkış–varış arası kilometre, dağ yolu veya şehir içi geçişler, köprü ve üst geçit kısıtları." },
+  { title: "Yük ağırlığı ve ölçüleri", text: "Dorse tipini ve dingil sayısını belirler; havuzlu veya çok dingilli dorse maliyeti artırır." },
+  { title: "Özel izin ve eskort", text: "Gabari dışı genişlik, yükseklik veya ağırlıkta KGM izni ve refakat aracı ihtiyacı." },
+  { title: "Yükleme ve indirme", text: "Makinenin kendi yürüyüşüyle rampadan çıkması ya da vinç gerektirmesi, sökülecek ataşmanlar." },
+  { title: "Şantiye erişimi", text: "Dar giriş, rampalı veya stabilize yol, zemin durumu ve bekleme süresi." },
+  { title: "Tarih esnekliği", text: "İzinli sevk saatleri, hafta sonu ve bayram kısıtları ile acil sevkiyat talebi." },
+] as const;
 
-  return (
-    <>
-      <SEO
-        title="Lowbed Taşımacılık Nedir? | Bumerang Ağır Nakliyat - Hakkımızda"
-        description="Lowbed taşımacılık nedir? Bumerang Ağır Nakliyat hakkında bilgi. İş makineleri, ağır tonajlı ve gabari dışı yük taşımacılığı hizmetleri. Diyarbakır merkezli profesyonel nakliyat firması."
-        keywords="lowbed nedir, lowbed taşımacılık nedir, ağır nakliyat firması, diyarbakır nakliyat şirketi, iş makinesi taşıma hizmeti, gabari dışı yük taşıma, ağır tonajlı nakliyat"
-      />
-      <div className="min-h-screen bg-background">
-        <Navbar />
+const Section = ({ id, index, title, children }: { id?: string; index: string; title: string; children: ReactNode }) => (
+  <section id={id} aria-labelledby={`${id ?? index}-title`} className="grid gap-6 border-t border-rule py-14 lg:grid-cols-12 lg:gap-10 lg:py-20">
+    <div className="min-w-0 lg:col-span-4">
+      <p className="label flex items-center gap-3">
+        <span className="text-signal">{index}</span>
+        <span aria-hidden="true" className="h-px w-10 bg-rule-strong" />
+      </p>
+      <h2 id={`${id ?? index}-title`} className="mt-4 text-balance text-4xl leading-[0.95]">
+        {title}
+      </h2>
+    </div>
+    {/* min-w-0: geniş tablo (overflow-x-auto) grid sütununu mobilde taşırmasın */}
+    <div className="min-w-0 lg:col-span-8">{children}</div>
+  </section>
+);
 
-      {/* Hero Banner */}
-      <section className="pt-32 pb-16 bg-hero-gradient">
-        <div className="container mx-auto px-4 text-center">
-          <span className="inline-block px-4 py-1.5 bg-primary/20 text-primary font-semibold text-sm rounded-full mb-4">
-            BİLGİ
-          </span>
-          <h1 className="font-display text-3xl md:text-5xl font-bold text-off-white mb-4">
-            Lowbed Taşımacılık ve Hakkımızda
+const InfoPage = () => (
+  <>
+    <SEO title={PAGES.bilgi.title} description={PAGES.bilgi.description} />
+    <PageShell>
+      <div className="border-b border-rule bg-ink">
+        <div className="container py-12 lg:py-16">
+          <nav aria-label="Konum" className="label">
+            <Link to="/" className="-my-1.5 inline-block py-1.5 hover:text-bone">
+              Ana sayfa
+            </Link>
+            <span aria-hidden="true" className="mx-2 text-dim">/</span>
+            <span aria-current="page" className="text-bone">Lowbed rehberi</span>
+          </nav>
+          <h1 className="mt-6 max-w-4xl text-balance font-display text-5xl font-bold uppercase leading-[0.92] sm:text-6xl">
+            Lowbed Taşımacılık Rehberi
           </h1>
-          <p className="text-off-white/70 text-lg max-w-2xl mx-auto">
-            Profesyonel ağır yük taşımacılığı hakkında bilmeniz gereken her şey.
+          <p className="mt-5 max-w-2xl text-pretty text-lg leading-relaxed text-steel">
+            Dorse tipleri, yasal gabari sınırları, özel izin ve eskort süreci. Yükünüzü bildirmeden önce bilmeniz gerekenler.
           </p>
         </div>
-      </section>
-
-      {/* Lowbed Section */}
-      <section className="py-20 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            {/* Content */}
-            <div>
-              <span className="inline-block px-4 py-1.5 bg-primary/10 text-primary font-semibold text-sm rounded-full mb-4">
-                LOWBED NEDİR?
-              </span>
-              <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-6">
-                Lowbed Taşımacılık Nedir?
-              </h2>
-              <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-                Lowbed taşımacılık; iş makineleri, ağır tonajlı ve gabari dışı yüklerin özel lowbed
-                dorseler ile güvenli şekilde taşınmasını sağlayan profesyonel bir nakliye hizmetidir.
-              </p>
-              <p className="text-muted-foreground text-lg leading-relaxed mb-8">
-                Bu taşımacılık türü, uzmanlık, doğru ekipman ve deneyim gerektirir. Lowbed dorseler,
-                düşük zemin yükseklikleri sayesinde yüksek makinelerin ve ekipmanların güvenli bir
-                şekilde taşınmasına olanak tanır.
-              </p>
-
-              {/* Features */}
-              <div className="space-y-4">
-                {[
-                  "İş makineleri taşımacılığı",
-                  "Gabari dışı yük taşımacılığı",
-                  "Ağır tonajlı ekipman nakliyesi",
-                  "Özel izinli taşımacılık hizmetleri",
-                ].map((feature) => (
-                  <div key={feature} className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-primary flex-shrink-0" />
-                    <span className="text-foreground">{feature}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Visual */}
-            <div className="relative">
-              <div className="bg-secondary rounded-2xl p-8 md:p-12">
-                <div className="flex items-center justify-center">
-                  <div className="relative">
-                    <div className="w-32 h-32 bg-primary/20 rounded-full flex items-center justify-center">
-                      <Truck className="w-16 h-16 text-primary" />
-                    </div>
-                    <div className="absolute -top-2 -right-2 w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-                      <CheckCircle className="w-5 h-5 text-primary-foreground" />
-                    </div>
-                  </div>
-                </div>
-                <div className="mt-8 grid grid-cols-2 gap-4 text-center">
-                  <div className="p-4 bg-background rounded-xl">
-                    <p className="font-display text-2xl font-bold text-primary">60+</p>
-                    <p className="text-muted-foreground text-sm">Ton Kapasite</p>
-                  </div>
-                  <div className="p-4 bg-background rounded-xl">
-                    <p className="font-display text-2xl font-bold text-primary">24/7</p>
-                    <p className="text-muted-foreground text-sm">Hizmet</p>
-                  </div>
-                </div>
-              </div>
-              {/* Decorative Elements */}
-              <div className="absolute -z-10 top-4 left-4 w-full h-full bg-primary/10 rounded-2xl" />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* About Section */}
-      <section id="hakkimizda" className="py-20 bg-secondary scroll-mt-24">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            {/* Header */}
-            <div className="text-center mb-16">
-              <span className="inline-block px-4 py-1.5 bg-primary/10 text-primary font-semibold text-sm rounded-full mb-4">
-                HAKKIMIZDA
-              </span>
-              <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-6">
-                Bumerang Ağır Nakliyat
-              </h2>
-              <p className="text-muted-foreground text-lg leading-relaxed">
-                Bumerang Ağır Nakliyat, Diyarbakır merkezli olarak yıllardır ağır nakliyat
-                sektöründe hizmet vermektedir. Tecrübe, bilgi birikimi ve güvenilirliği temel
-                ilke edinmiş firmamız, lowbed taşımacılık alanında profesyonel çözümler sunmaktadır.
-              </p>
-            </div>
-
-            {/* Mission & Values */}
-            <div className="grid md:grid-cols-3 gap-6 mb-16">
-              {[
-                {
-                  icon: Target,
-                  title: "Misyonumuz",
-                  description: "Ağır yük taşımacılığında en güvenilir ve profesyonel hizmeti sunmak.",
-                },
-                {
-                  icon: Building2,
-                  title: "Vizyonumuz",
-                  description: "Sektörün lider firması olarak yenilikçi çözümler üretmek.",
-                },
-                {
-                  icon: Award,
-                  title: "Değerlerimiz",
-                  description: "Güven, kalite, profesyonellik ve müşteri memnuniyeti.",
-                },
-              ].map((item) => (
-                <div
-                  key={item.title}
-                  className="bg-background p-6 rounded-xl text-center shadow-card"
-                >
-                  <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-4">
-                    <item.icon className="w-7 h-7 text-primary" />
-                  </div>
-                  <h3 className="font-semibold text-foreground mb-2">{item.title}</h3>
-                  <p className="text-muted-foreground text-sm">{item.description}</p>
-                </div>
-              ))}
-            </div>
-
-            {/* Team Highlight */}
-            <div className="bg-background p-8 md:p-12 rounded-2xl shadow-card">
-              <div className="flex flex-col md:flex-row items-center gap-8">
-                <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-                  <Users className="w-10 h-10 text-primary" />
-                </div>
-                <div>
-                  <h3 className="font-display text-xl font-bold text-foreground mb-3">
-                    Deneyimli Ekibimiz
-                  </h3>
-                  <p className="text-muted-foreground leading-relaxed">
-                    Modern araç filomuz ve deneyimli ekibimizle yüklerinizi sorunsuz ve zamanında
-                    teslim ediyoruz. Her projede güvenliği ön planda tutarak, müşterilerimize
-                    en iyi hizmeti sunmayı amaçlıyoruz.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <ContactFooter />
       </div>
-    </>
-  );
-};
+
+      <div className="container">
+        <Section id="lowbed-nedir" index="01" title="Lowbed nedir?">
+          <div className="grid gap-5 text-pretty text-lg leading-relaxed text-steel">
+            <p>
+              Lowbed, platform yüksekliği standart dorselere göre düşük tutulmuş, iş makineleri ve ağır ekipman için
+              tasarlanmış yarı römorktur. Düşük platform, yükün yüksekliğine daha fazla pay bırakır; böylece ekskavatör,
+              dozer veya mobil kırıcı gibi yüksek makineler {fmt(LEGAL_LIMITS.height)} m toplam yükseklik sınırına
+              takılmadan taşınabilir.
+            </p>
+            <p>
+              Paletli ve lastikli makineler çoğunlukla dorsenin hidrolik rampalarından kendi yürüyüşüyle yüklenir. Yük,
+              zincir ve gerdirmelerle dorsenin bağlama noktalarına sabitlenir; ağırlık dingillere dengeli dağıtılacak
+              şekilde konumlandırılır.
+            </p>
+          </div>
+        </Section>
+
+        <Section id="dorse-tipleri" index="02" title="Dorse tipleri">
+          <p className="mb-6 text-pretty text-lg leading-relaxed text-steel">
+            Standart lowbed çoğu iş makinesi için yeterlidir. Yük ağırlaştıkça dingil sayısı artar; yük yükseldikçe
+            havuzlu dorseye, uzadıkça teleskopik dorseye geçilir.
+          </p>
+          <CapacityTable />
+          <Link to="/#filo" className="btn btn-outline mt-6">
+            Spec sayfalarını incele
+            <ArrowRight />
+          </Link>
+        </Section>
+
+        <Section id="ozel-izin" index="03" title="Ne zaman özel izin gerekir?">
+          <div className="grid gap-5 text-pretty text-lg leading-relaxed text-steel">
+            <p>
+              Karayolları Trafik Yönetmeliği'nin genel sınırlarını aşan taşımalar Karayolları Genel Müdürlüğü'nden (KGM)
+              alınan özel izinle yapılır. İzin belgesi güzergahı, sevk saatlerini ve eskort koşullarını tanımlar.
+            </p>
+          </div>
+          <dl className="mt-6 grid grid-cols-2 gap-px border border-rule bg-rule sm:grid-cols-4">
+            {[
+              ["Genişlik", `${fmt(LEGAL_LIMITS.width)} m`],
+              ["Yükseklik", `${fmt(LEGAL_LIMITS.height)} m`],
+              ["Çekici + yarı römork", `${fmt(LEGAL_LIMITS.length)} m`],
+              ["Toplam ağırlık", `${LEGAL_LIMITS.grossWeight} t`],
+            ].map(([label, value]) => (
+              <div key={label} className="bg-asphalt px-4 py-4">
+                <dt className="label">{label}</dt>
+                <dd className="mt-1.5 font-display text-3xl font-semibold text-bone">{value}</dd>
+              </div>
+            ))}
+          </dl>
+          <ul className="mt-6 grid gap-3 text-steel">
+            <li className="border-l-2 border-signal pl-4">
+              Çekici ve boş lowbed yaklaşık {PAYLOAD_WITHOUT_PERMIT} t gelir; bu nedenle {PAYLOAD_WITHOUT_PERMIT} t
+              üzerindeki makinelerde toplam ağırlık {LEGAL_LIMITS.grossWeight} t sınırını aşar ve izin gerekir.
+            </li>
+            <li className="border-l-2 border-signal pl-4">
+              Toplam yükseklik yol yüzeyinden ölçülür: yük yüksekliğine platform yüksekliği (standart lowbedde ≈ 0,9–1,0 m)
+              eklenir.
+            </li>
+            <li className="border-l-2 border-signal pl-4">
+              Genişliği sınırı aşan yüklerde ön ve arka eskort aracı ve gerektiğinde trafik ekipleriyle geçiş planı yapılır.
+            </li>
+          </ul>
+        </Section>
+
+        <Section id="fiyat" index="04" title="Fiyatı neler belirler?">
+          <ol className="grid gap-px border border-rule bg-rule sm:grid-cols-2">
+            {PRICE_FACTORS.map((f, i) => (
+              <li key={f.title} className="bg-asphalt p-5">
+                <p className="font-mono text-sm text-signal">{String(i + 1).padStart(2, "0")}</p>
+                <h3 className="mt-2 text-xl uppercase tracking-[0.02em]">{f.title}</h3>
+                <p className="mt-1.5 text-pretty text-steel">{f.text}</p>
+              </li>
+            ))}
+          </ol>
+          <Link to="/#fiyat-talebi" className="btn btn-primary mt-6">
+            Yük bildir · Fiyat al
+            <ArrowRight />
+          </Link>
+        </Section>
+
+        <Section id="hakkimizda" index="05" title="Hakkımızda">
+          <div className="grid gap-5 text-pretty text-lg leading-relaxed text-steel">
+            <p>
+              {COMPANY.name}, {COMPANY.base} merkezli bir ağır nakliyat firmasıdır. Lowbed dorselerle paletli ve lastikli
+              iş makineleri, mobil kırıcı ve eleme tesisleri, sondaj ekipmanları, tarım makineleri ve şantiye
+              ekipmanları taşır.
+            </p>
+            <p>
+              Operasyonlar {DISPATCHERS.map((d) => d.name).join(" ve ")} tarafından yürütülür. Güneydoğu ve Doğu
+              Anadolu merkezli olmak üzere Türkiye geneli şehirlerarası sevkiyat yapılır; özel izin ve eskort süreçleri
+              sevkiyatla birlikte planlanır.
+            </p>
+          </div>
+          <div className="mt-8 grid gap-3 sm:grid-cols-2">
+            {DISPATCHERS.map((d) => (
+              <a key={d.id} href={telHref(d.phone)} className="btn btn-outline h-auto flex-wrap justify-between gap-y-1 whitespace-normal py-3">
+                <span className="flex items-center gap-2.5">
+                  <Phone />
+                  {d.name}
+                </span>
+                <span className="tabular font-mono text-sm tracking-normal">{d.display}</span>
+              </a>
+            ))}
+          </div>
+        </Section>
+      </div>
+    </PageShell>
+  </>
+);
 
 export default InfoPage;

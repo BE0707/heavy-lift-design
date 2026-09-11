@@ -1,9 +1,4 @@
 User-agent: *
 Allow: /
 
-# Sitemap
-Sitemap: https://bumerangagirnakliyat.website/sitemap.xml
-
-# Disallow admin or private areas if any
-# Disallow: /admin/
-# Disallow: /private/
+Sitemap: https://www.bumerangagirnakliyat.website/sitemap.xml

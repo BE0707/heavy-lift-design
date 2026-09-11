@@ -2,245 +2,153 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Oswald:wght@400;500;600;700&display=swap');
-
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 220 10% 15%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 220 10% 15%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 220 10% 15%;
-
-    --primary: 45 95% 50%;
-    --primary-foreground: 220 10% 10%;
-
-    --secondary: 220 10% 96%;
-    --secondary-foreground: 220 10% 15%;
-
-    --muted: 220 10% 96%;
-    --muted-foreground: 220 10% 45%;
-
-    --accent: 45 95% 50%;
-    --accent-foreground: 220 10% 10%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 220 10% 90%;
-    --input: 220 10% 90%;
-    --ring: 45 95% 50%;
-
-    --radius: 0.5rem;
-
-    /* Custom tokens */
-    --charcoal: 220 10% 15%;
-    --charcoal-light: 220 10% 25%;
-    --metallic-yellow: 45 95% 50%;
-    --metallic-gold: 43 85% 45%;
-    --steel-gray: 220 10% 60%;
-    --off-white: 40 20% 98%;
-
-    /* Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(220 10% 10%) 0%, hsl(220 10% 20%) 100%);
-    --gradient-yellow: linear-gradient(135deg, hsl(45 95% 50%) 0%, hsl(43 85% 45%) 100%);
-    --gradient-overlay: linear-gradient(to bottom, hsla(220, 10%, 10%, 0.55) 0%, hsla(220, 10%, 10%, 0.25) 100%);
-
-    /* Shadows */
-    --shadow-card: 0 4px 20px -4px hsla(220, 10%, 10%, 0.1);
-    --shadow-elevated: 0 10px 40px -10px hsla(220, 10%, 10%, 0.2);
-    --shadow-yellow: 0 4px 20px -4px hsla(45, 95%, 50%, 0.4);
-
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    color-scheme: dark;
+    --header-h: 64px;
+    --dock-h: 64px;
   }
 
-  .dark {
-    --background: 220 10% 10%;
-    --foreground: 40 20% 98%;
-
-    --card: 220 10% 15%;
-    --card-foreground: 40 20% 98%;
-
-    --popover: 220 10% 15%;
-    --popover-foreground: 40 20% 98%;
-
-    --primary: 45 95% 50%;
-    --primary-foreground: 220 10% 10%;
-
-    --secondary: 220 10% 20%;
-    --secondary-foreground: 40 20% 98%;
-
-    --muted: 220 10% 20%;
-    --muted-foreground: 220 10% 60%;
-
-    --accent: 45 95% 50%;
-    --accent-foreground: 220 10% 10%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 220 10% 25%;
-    --input: 220 10% 25%;
-    --ring: 45 95% 50%;
-  }
-}
-
-@layer base {
   * {
-    @apply border-border;
-  }
-
-  body {
-    @apply bg-background text-foreground font-sans antialiased;
+    border-color: theme("colors.rule.DEFAULT");
   }
 
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--header-h) + 16px);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-asphalt font-sans text-base text-bone antialiased;
+    font-feature-settings: "kern", "liga";
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: theme("colors.signal.DEFAULT");
+    color: theme("colors.ink");
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-display font-semibold text-bone;
+    letter-spacing: -0.005em;
+  }
+
+  /* Belirgin, dokunsal odak halkası: klavye ve şantiyede eldivenle kullanım için */
+  :focus-visible {
+    outline: 3px solid theme("colors.signal.DEFAULT");
+    outline-offset: 3px;
+  }
+
+  img {
+    @apply max-w-full;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }
 
 @layer components {
-  .text-gradient-yellow {
-    @apply bg-clip-text text-transparent;
-    background-image: var(--gradient-yellow);
+  /* ---- Butonlar: kare köşe, alt kenarda basılabilir hissi veren sert çizgi ---- */
+  .btn {
+    @apply inline-flex min-h-12 select-none items-center justify-center gap-2.5 whitespace-nowrap border px-5 font-display text-[1.0625rem] font-semibold uppercase leading-none tracking-[0.06em] transition-[background-color,border-color,color,transform] duration-150;
+  }
+  .btn:active {
+    transform: translateY(1px);
+  }
+  .btn svg {
+    @apply h-[1.15em] w-[1.15em] shrink-0;
+  }
+  .btn-primary {
+    @apply border-signal bg-signal text-ink hover:border-signal-hover hover:bg-signal-hover active:bg-signal-press;
+    box-shadow: inset 0 -3px 0 rgb(0 0 0 / 0.25);
+  }
+  .btn-primary:active {
+    box-shadow: inset 0 -1px 0 rgb(0 0 0 / 0.25);
+  }
+  .btn-primary:focus-visible {
+    outline-color: theme("colors.bone");
+  }
+  .btn-outline {
+    @apply border-rule-strong bg-transparent text-bone hover:border-bone hover:bg-graphite;
+  }
+  .btn-dark {
+    @apply border-rule-strong bg-ink text-bone hover:border-steel hover:bg-plate;
+  }
+  .btn-sm {
+    @apply min-h-10 px-3.5 text-[0.9375rem];
   }
 
-  .bg-hero-gradient {
-    background: var(--gradient-hero);
+  /* ---- Mono etiket (spec plakası tipografisi) ---- */
+  .label {
+    @apply font-mono text-2xs font-medium uppercase tracking-label text-steel;
   }
 
-  .bg-overlay-gradient {
-    background: var(--gradient-overlay);
+  /* ---- Form alanları ---- */
+  .field {
+    @apply block w-full rounded-none border border-rule-strong bg-ink px-3.5 py-3 text-base text-bone transition-colors placeholder:text-dim hover:border-steel focus:border-signal focus:outline-none focus-visible:outline-none;
+    min-height: 3rem;
+  }
+  .field:focus {
+    box-shadow: 0 0 0 1px theme("colors.signal.DEFAULT");
+  }
+  .field[aria-invalid="true"] {
+    @apply border-hazard;
+  }
+  select.field {
+    @apply cursor-pointer appearance-none pr-10;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath stroke='%23A7AFB8' stroke-width='1.6' d='M1 1.5l5 5 5-5'/%3E%3C/svg%3E");
+    background-position: right 0.95rem center;
+    background-repeat: no-repeat;
   }
 
-  .bg-overlay-gradient-mobile {
-    background: linear-gradient(to bottom, hsla(220, 10%, 10%, 0.4) 0%, hsla(220, 10%, 10%, 0.18) 100%);
+  /* ---- Teknik yüzeyler ---- */
+  .bg-blueprint {
+    background-image:
+      linear-gradient(to right, rgb(236 237 239 / 0.045) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(236 237 239 / 0.045) 1px, transparent 1px);
+    background-size: 24px 24px;
   }
-
-  .shadow-card {
-    box-shadow: var(--shadow-card);
+  .hazard-band {
+    background: repeating-linear-gradient(-45deg, theme("colors.signal.DEFAULT") 0 10px, theme("colors.ink") 10px 20px);
   }
-
-  .shadow-elevated {
-    box-shadow: var(--shadow-elevated);
+  /* Teknik çizim köşe işaretleri */
+  .corner-ticks {
+    @apply relative;
   }
-
-  .shadow-yellow {
-    box-shadow: var(--shadow-yellow);
+  .corner-ticks::before,
+  .corner-ticks::after {
+    content: "";
+    @apply pointer-events-none absolute h-3 w-3 border-signal;
   }
-
-  .hero-text-shadow {
-    text-shadow: 0 2px 8px hsla(220, 10%, 10%, 0.45);
+  .corner-ticks::before {
+    @apply -left-px -top-px border-l-2 border-t-2;
+  }
+  .corner-ticks::after {
+    @apply -bottom-px -right-px border-b-2 border-r-2;
   }
 }
 
 @layer utilities {
-  /* Truck animation */
-  @keyframes truck-move {
-    0% {
-      transform: translateX(-100%);
-    }
-    100% {
-      transform: translateX(100vw);
-    }
+  .text-balance {
+    text-wrap: balance;
   }
-
-  @keyframes truck-bounce {
-    0%, 100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-2px);
-    }
+  .text-pretty {
+    text-wrap: pretty;
   }
-
-  @keyframes fade-in-up {
-    0% {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  .tabular {
+    font-variant-numeric: tabular-nums;
   }
-
-  @keyframes fade-in {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-
-  @keyframes slide-in-left {
-    0% {
-      opacity: 0;
-      transform: translateX(-30px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-
-  @keyframes pulse-glow {
-    0%, 100% {
-      box-shadow: 0 0 20px hsla(45, 95%, 50%, 0.3);
-    }
-    50% {
-      box-shadow: 0 0 40px hsla(45, 95%, 50%, 0.5);
-    }
-  }
-
-  .animate-truck-move {
-    animation: truck-move 15s linear infinite;
-  }
-
-  .animate-truck-bounce {
-    animation: truck-bounce 0.5s ease-in-out infinite;
-  }
-
-  .animate-fade-in-up {
-    animation: fade-in-up 0.6s ease-out forwards;
-  }
-
-  .animate-fade-in {
-    animation: fade-in 0.8s ease-out forwards;
-  }
-
-  .animate-slide-in-left {
-    animation: slide-in-left 0.6s ease-out forwards;
-  }
-
-  .animate-pulse-glow {
-    animation: pulse-glow 2s ease-in-out infinite;
-  }
-
-  .animation-delay-100 {
-    animation-delay: 100ms;
-  }
-
-  .animation-delay-200 {
-    animation-delay: 200ms;
-  }
-
-  .animation-delay-300 {
-    animation-delay: 300ms;
-  }
-
-  .animation-delay-400 {
-    animation-delay: 400ms;
+  .pb-dock {
+    padding-bottom: calc(var(--dock-h) + env(safe-area-inset-bottom));
   }
 }

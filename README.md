@@ -1,72 +1,58 @@
-# Heavy Lift Design - Ağır Nakliyat Website
+# Bumerang Ağır Nakliyat — web sitesi
 
-A modern, responsive website for heavy transport and logistics services built with React, TypeScript, and Tailwind CSS.
+Diyarbakır merkezli lowbed ve gabari dışı ağır taşımacılık firmasının sitesi:
+<https://www.bumerangagirnakliyat.website>
 
-## Technologies
+React 18 + TypeScript + Vite + Tailwind CSS. Statik olarak GitHub Pages'e yayınlanır.
 
-This project is built with:
+## Komutlar
 
-- **Vite** - Fast build tool and development server
-- **TypeScript** - Type-safe JavaScript
-- **React** - UI library
-- **shadcn-ui** - High-quality component library
-- **Tailwind CSS** - Utility-first CSS framework
-- **React Router** - Client-side routing
+| Komut | Açıklama |
+| --- | --- |
+| `npm run dev` | Geliştirme sunucusu (<http://localhost:8080>) |
+| `npm run build` | Üretim derlemesi → `dist/` (`bilgi.html` ve `404.html` dahil) |
+| `npm run preview` | Derlenmiş siteyi yerelde sunar |
+| `npm test` | Birim ve sayfa testleri (Vitest + Testing Library) |
+| `npm run lint` | ESLint |
+| `npm run photos` | Proje fotoğraflarının WebP/JPEG türevlerini yeniden üretir |
+| `npm run icons` | Favicon, uygulama ikonları ve `og-image.jpg` paylaşım görselini yeniden üretir |
 
-## Getting Started
+`photos` ve `icons` betikleri ImageMagick 7 (`magick`) ister; çıktılar depoya işlenir,
+derleme sırasında gerekmez.
 
-### Prerequisites
+## İçerik nerede?
 
-- Node.js (v18 or higher recommended)
-- npm or yarn
+Metin ve teknik veriler bileşenlerin içinde değil, `src/data/` altındadır:
 
-### Installation
+| Dosya | İçerik |
+| --- | --- |
+| `company.ts` | Firma adı, sevk hatları (telefon/WhatsApp), hazır WhatsApp mesajı |
+| `fleet.ts` | Dorse spec sayfaları ve karşılaştırma tablosu |
+| `projects.ts` | Proje arşivi fotoğrafları, kategori ve açıklamalar |
+| `coverage.ts` | Operasyon bölgesi illeri (plaka, koordinat) |
+| `seo.ts` | Sayfa başlıkları, açıklamalar, site adresi |
 
-1. Clone the repository:
-```bash
-git clone <YOUR_GIT_URL>
-cd heavy-lift-design
-```
+> **Yayından önce doğrulayın:** `fleet.ts` değerleri dorse tiplerinin tipik aralıklarıdır
+> (≈ ile). Firmanın gerçek dorse ruhsatı / tip onay belgesiyle karşılaştırılmalıdır.
+> Proje açıklamaları fotoğrafta okunabilen bilgilerden yazılmıştır; bilinen güzergahlar
+> `route` alanına eklenebilir.
 
-2. Install dependencies:
-```bash
-npm install
-```
+Yasal gabari sınırları ve izin ön kontrolü kuralları `src/lib/load-check.ts` içindedir.
 
-3. Start the development server:
-```bash
-npm run dev
-```
+## Fotoğraflar
 
-The application will be available at `http://localhost:8080`
+Orijinaller `assets-src/photos/` altında (tanımlayıcı dosya adlarıyla) durur.
+`scripts/build-photos.mjs` ekran görüntüsü kenar bantlarını kırpar, yan çekilmiş kareyi
+döndürür, meta veriyi siler ve `src/assets/photos/` altına 480/960/1600 px WebP + tek
+JPEG yedeği üretir. Yeni fotoğraf eklemek için: dosyayı `assets-src/photos/<slug>.jpg`
+olarak koyun, betikteki `PHOTOS` listesine ekleyin, `npm run photos` çalıştırın ve
+`src/data/projects.ts` içine kaydını yazın.
 
-## Available Scripts
+## Yayın
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run build:dev` - Build in development mode
-- `npm run preview` - Preview production build
-- `npm run lint` - Run ESLint
-- `npm run test` - Run tests
-- `npm run test:watch` - Run tests in watch mode
+`main` dalına push edildiğinde `.github/workflows/deploy.yml` siteyi GitHub Pages'e
+yayınlar. Özel alan adı `www.bumerangagirnakliyat.website` (apex adres www'ye yönlenir).
 
-## Project Structure
-
-```
-src/
-├── components/     # React components
-├── pages/         # Page components
-├── hooks/         # Custom React hooks
-├── lib/           # Utility functions
-└── assets/        # Static assets
-```
-
-## Deployment
-
-Build the project for production:
-
-```bash
-npm run build
-```
-
-The `dist` folder will contain the production-ready files that can be deployed to any static hosting service.
+GitHub Pages SPA rotalarını bilmediği için `vite.config.ts` içindeki `static-routes`
+eklentisi derlemede `bilgi.html` (rotaya özel başlık/açıklama/canonical ile) ve
+`404.html` üretir; böylece `/bilgi` doğrudan açıldığında 200 döner.

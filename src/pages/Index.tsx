@@ -1,29 +1,24 @@
-import Navbar from "@/components/Navbar";
-import HeroSection from "@/components/HeroSection";
-import ServicesSection from "@/components/ServicesSection";
-import WhyChooseUs from "@/components/WhyChooseUs";
-import Gallery from "@/components/Gallery";
-import ContactFooter from "@/components/ContactFooter";
 import SEO from "@/components/SEO";
+import PageShell from "@/components/layout/PageShell";
+import Hero from "@/components/home/Hero";
+import FleetSection from "@/components/home/FleetSection";
+import OperationsProtocol from "@/components/home/OperationsProtocol";
+import QuoteRequest from "@/components/home/QuoteRequest";
+import ProjectArchive from "@/components/home/ProjectArchive";
+import DispatchRoom from "@/components/home/DispatchRoom";
 
-const Index = () => {
-  return (
-    <>
-      <SEO
-        title="Bumerang Ağır Nakliyat | Lowbed Taşımacılık - Diyarbakır"
-        description="Diyarbakır merkezli Bumerang Ağır Nakliyat ile lowbed taşımacılık, ağır yük nakliyesi ve şehirlerarası profesyonel taşıma hizmetleri. Güvenilir ve zamanında teslimat."
-        keywords="lowbed taşımacılık, ağır nakliyat, diyarbakır nakliyat, iş makinesi taşıma, lowbed kiralama, ağır yük taşıma, şehirlerarası nakliyat, ekskavatör taşıma, iş makinesi nakliyesi"
-      />
-      <div className="min-h-screen">
-        <Navbar />
-        <HeroSection />
-        <ServicesSection />
-        <WhyChooseUs />
-        <Gallery />
-        <ContactFooter />
-      </div>
-    </>
-  );
-};
+const Index = () => (
+  <>
+    <SEO />
+    <PageShell>
+      <Hero />
+      <FleetSection />
+      <OperationsProtocol />
+      <QuoteRequest />
+      <ProjectArchive />
+      <DispatchRoom />
+    </PageShell>
+  </>
+);
 
 export default Index;

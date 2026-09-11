@@ -1,69 +1,47 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { OG_IMAGE, PAGES, SITE_URL } from "@/data/seo";
 
 interface SEOProps {
   title?: string;
   description?: string;
-  keywords?: string;
-  image?: string;
-  type?: string;
 }
 
-const SEO = ({ 
-  title = "Bumerang Ağır Nakliyat | Lowbed Taşımacılık - Diyarbakır",
-  description = "Diyarbakır merkezli Bumerang Ağır Nakliyat ile lowbed taşımacılık, ağır yük nakliyesi ve şehirlerarası profesyonel taşıma hizmetleri. Güvenilir ve zamanında teslimat.",
-  keywords = "lowbed taşımacılık, ağır nakliyat, diyarbakır nakliyat, iş makinesi taşıma, lowbed kiralama, ağır yük taşıma, şehirlerarası nakliyat",
-  image = "https://bumerangagirnakliyat.website/favicon.png",
-  type = "website"
-}: SEOProps) => {
-  const location = useLocation();
-  const baseUrl = "https://bumerangagirnakliyat.website";
-  const url = `${baseUrl}${location.pathname}`;
+const setMeta = (attr: "name" | "property", key: string, content: string) => {
+  let el = document.head.querySelector<HTMLMetaElement>(`meta[${attr}="${key}"]`);
+  if (!el) {
+    el = document.createElement("meta");
+    el.setAttribute(attr, key);
+    document.head.appendChild(el);
+  }
+  el.setAttribute("content", content);
+};
+
+/** Rota bazlı başlık, açıklama, canonical ve Open Graph etiketlerini günceller */
+const SEO = ({ title = PAGES.home.title, description = PAGES.home.description }: SEOProps) => {
+  const { pathname } = useLocation();
+  const path = pathname === "/" ? "/" : pathname.replace(/\/+$/, "");
+  const url = `${SITE_URL}${path}`;
 
   useEffect(() => {
-    // Update document title
     document.title = title;
+    setMeta("name", "description", description);
+    setMeta("property", "og:title", title);
+    setMeta("property", "og:description", description);
+    setMeta("property", "og:url", url);
+    setMeta("property", "og:image", OG_IMAGE);
+    setMeta("name", "twitter:title", title);
+    setMeta("name", "twitter:description", description);
+    setMeta("name", "twitter:image", OG_IMAGE);
 
-    // Update or create meta tags
-    const updateMetaTag = (name: string, content: string, attribute: string = "name") => {
-      let element = document.querySelector(`meta[${attribute}="${name}"]`) as HTMLMetaElement;
-      if (!element) {
-        element = document.createElement("meta");
-        element.setAttribute(attribute, name);
-        document.head.appendChild(element);
-      }
-      element.setAttribute("content", content);
-    };
-
-    // Basic meta tags
-    updateMetaTag("description", description);
-    updateMetaTag("keywords", keywords);
-    updateMetaTag("robots", "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1");
-
-    // Open Graph tags
-    updateMetaTag("og:title", title, "property");
-    updateMetaTag("og:description", description, "property");
-    updateMetaTag("og:type", type, "property");
-    updateMetaTag("og:url", url, "property");
-    updateMetaTag("og:image", image, "property");
-    updateMetaTag("og:site_name", "Bumerang Ağır Nakliyat", "property");
-    updateMetaTag("og:locale", "tr_TR", "property");
-
-    // Twitter Card tags
-    updateMetaTag("twitter:card", "summary_large_image");
-    updateMetaTag("twitter:title", title);
-    updateMetaTag("twitter:description", description);
-    updateMetaTag("twitter:image", image);
-
-    // Canonical URL
-    let canonical = document.querySelector("link[rel='canonical']") as HTMLLinkElement;
+    let canonical = document.head.querySelector<HTMLLinkElement>("link[rel='canonical']");
     if (!canonical) {
       canonical = document.createElement("link");
-      canonical.setAttribute("rel", "canonical");
+      canonical.rel = "canonical";
       document.head.appendChild(canonical);
     }
-    canonical.setAttribute("href", url);
-  }, [title, description, keywords, image, type, url]);
+    canonical.href = url;
+  }, [title, description, url]);
 
   return null;
 };
