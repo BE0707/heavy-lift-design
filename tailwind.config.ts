@@ -15,16 +15,17 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ['"Barlow Condensed"', '"Arial Narrow"', "system-ui", "sans-serif"],
+        display: ['"Bricolage Grotesque"', '"Barlow Condensed"', "system-ui", "sans-serif"],
+        condensed: ['"Barlow Condensed"', '"Arial Narrow"', "system-ui", "sans-serif"],
         sans: ["Barlow", "system-ui", "-apple-system", '"Segoe UI"', "sans-serif"],
         mono: ['"JetBrains Mono"', "ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
       },
       colors: {
         ink: "#0F1115",
         asphalt: "#121417",
-        graphite: "#1C1F24",
-        plate: "#23272D",
-        rule: { DEFAULT: "#2A2F35", strong: "#3B424B" },
+        graphite: "#1A1D22",
+        plate: "#22262D",
+        rule: { DEFAULT: "#262B32", strong: "#363D47", subtle: "rgba(255, 255, 255, 0.07)" },
         bone: "#ECEDEF",
         steel: "#A7AFB8",
         dim: "#858D97",

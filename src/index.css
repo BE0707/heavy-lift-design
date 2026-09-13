@@ -32,12 +32,12 @@
 
   h1, h2, h3, h4 {
     @apply font-display font-semibold text-bone;
-    letter-spacing: -0.005em;
+    letter-spacing: -0.025em;
   }
 
   /* Belirgin, dokunsal odak halkası: klavye ve şantiyede eldivenle kullanım için */
   :focus-visible {
-    outline: 3px solid theme("colors.signal.DEFAULT");
+    outline: 2px solid theme("colors.signal.DEFAULT");
     outline-offset: 3px;
   }
 
@@ -58,22 +58,21 @@
 }
 
 @layer components {
-  /* ---- Butonlar: kare köşe, alt kenarda basılabilir hissi veren sert çizgi ---- */
+  /* ---- Butonlar: mimari, net hatlar, abartısız ve güven veren etkileşim ---- */
   .btn {
-    @apply inline-flex min-h-12 select-none items-center justify-center gap-2.5 whitespace-nowrap border px-5 font-display text-[1.0625rem] font-semibold uppercase leading-none tracking-[0.06em] transition-[background-color,border-color,color,transform] duration-150;
+    @apply inline-flex min-h-12 select-none items-center justify-center gap-2.5 whitespace-nowrap border px-5 font-condensed text-[1.0625rem] font-semibold uppercase leading-none tracking-[0.06em] transition-all duration-150;
   }
   .btn:active {
     transform: translateY(1px);
   }
   .btn svg {
-    @apply h-[1.15em] w-[1.15em] shrink-0;
+    @apply h-[1.15em] w-[1.15em] shrink-0 transition-transform duration-150;
+  }
+  .btn:hover svg:last-child:not(:first-child) {
+    transform: translateX(2px);
   }
   .btn-primary {
     @apply border-signal bg-signal text-ink hover:border-signal-hover hover:bg-signal-hover active:bg-signal-press;
-    box-shadow: inset 0 -3px 0 rgb(0 0 0 / 0.25);
-  }
-  .btn-primary:active {
-    box-shadow: inset 0 -1px 0 rgb(0 0 0 / 0.25);
   }
   .btn-primary:focus-visible {
     outline-color: theme("colors.bone");
@@ -82,7 +81,7 @@
     @apply border-rule-strong bg-transparent text-bone hover:border-bone hover:bg-graphite;
   }
   .btn-dark {
-    @apply border-rule-strong bg-ink text-bone hover:border-steel hover:bg-plate;
+    @apply border-rule bg-ink text-bone hover:border-steel hover:bg-graphite;
   }
   .btn-sm {
     @apply min-h-10 px-3.5 text-[0.9375rem];
@@ -114,8 +113,8 @@
   /* ---- Teknik yüzeyler ---- */
   .bg-blueprint {
     background-image:
-      linear-gradient(to right, rgb(236 237 239 / 0.045) 1px, transparent 1px),
-      linear-gradient(to bottom, rgb(236 237 239 / 0.045) 1px, transparent 1px);
+      linear-gradient(to right, rgb(236 237 239 / 0.035) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(236 237 239 / 0.035) 1px, transparent 1px);
     background-size: 24px 24px;
   }
   .hazard-band {
@@ -128,13 +127,13 @@
   .corner-ticks::before,
   .corner-ticks::after {
     content: "";
-    @apply pointer-events-none absolute h-3 w-3 border-signal;
+    @apply pointer-events-none absolute h-2.5 w-2.5 border-signal;
   }
   .corner-ticks::before {
-    @apply -left-px -top-px border-l-2 border-t-2;
+    @apply -left-px -top-px border-l border-t;
   }
   .corner-ticks::after {
-    @apply -bottom-px -right-px border-b-2 border-r-2;
+    @apply -bottom-px -right-px border-b border-r;
   }
 }
 
