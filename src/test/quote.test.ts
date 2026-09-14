@@ -12,7 +12,7 @@ const form = (overrides: Partial<QuoteForm> = {}): QuoteForm => ({
   origin: "Diyarbakır / Kayapınar",
   destination: "Şanlıurfa / Siverek",
   date: "",
-  trailer: "",
+  loading: "",
   contact: "",
   note: "",
   dispatcherId: "ramazan",
@@ -54,11 +54,11 @@ describe("buildQuoteMessage", () => {
     expect(lines.some((l) => l.startsWith("Marka / model"))).toBe(false);
   });
 
-  it("ölçü, tarih ve dorse tercihini biçimler", () => {
-    const text = buildQuoteMessage(form({ length: "11,2", height: "3,4", date: "2026-09-15", trailer: "Standart Lowbed (3–4 dingil)" }));
+  it("ölçü, tarih ve yükleme şeklini biçimler", () => {
+    const text = buildQuoteMessage(form({ length: "11,2", height: "3,4", date: "2026-09-15", loading: "Kendi yürüyüşüyle rampadan çıkar" }));
     expect(text).toContain("Ölçüler (boy × en × yükseklik): 11,2 × — × 3,4 m");
     expect(text).toContain("Planlanan yükleme: 15.09.2026");
-    expect(text).toContain("Dorse / hizmet tercihi: Standart Lowbed (3–4 dingil)");
+    expect(text).toContain("Yükleme şekli: Kendi yürüyüşüyle rampadan çıkar");
   });
 });
 

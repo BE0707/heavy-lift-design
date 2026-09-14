@@ -1,9 +1,13 @@
 import type { Config } from "tailwindcss";
 
+/** Renkler src/index.css'teki CSS değişkenlerinden gelir; .theme-dark kapsamı aynı adları koyu değerlerle doldurur */
+const token = (name: string) => `rgb(var(--${name}) / <alpha-value>)`;
+
 /**
- * Endüstriyel editoryal tasarım sistemi.
- * Tek tema (koyu). Nötr kömür zeminler, sıcak kırık beyaz metin; sarı (signal)
- * yalnızca hassas vurgu: ana eylem, aktif durum, ölçü ve bölüm işareti.
+ * Endüstriyel editoryal tasarım sistemi: basılı teknik katalog.
+ * Beyaz kâğıt zemin, siyah metin; yeşil (signal) yalnızca hassas vurgu: ana eylem,
+ * aktif durum, ölçü ve bölüm işareti. Üst menü, alt bilgi, menüler ve fotoğraf
+ * görüntüleyici .theme-dark kapsamında siyahtır.
  * Yazı: IBM Plex Sans (başlık + metin) ve IBM Plex Mono (ölçü, kod, teknik etiket).
  */
 export default {
@@ -23,16 +27,12 @@ export default {
         brand: ['"Barlow Condensed"', '"Arial Narrow"', "sans-serif"],
       },
       colors: {
-        ink: "#0E0E0D",
-        asphalt: "#131312",
-        graphite: "#1B1B19",
-        plate: "#242421",
-        rule: { DEFAULT: "#2C2B28", strong: "#3E3C38" },
-        bone: "#ECE8DF",
-        steel: "#A9A59C",
-        dim: "#8B877F",
-        signal: { DEFAULT: "#FDB813", hover: "#FFC83D", press: "#E5A919" },
-        hazard: { DEFAULT: "#E65100", text: "#FF7A1A" },
+        surface: { DEFAULT: token("surface"), alt: token("surface-alt"), sunken: token("surface-sunken") },
+        fg: { DEFAULT: token("fg"), muted: token("fg-muted"), subtle: token("fg-subtle") },
+        rule: { DEFAULT: token("rule"), strong: token("rule-strong") },
+        field: token("field"),
+        signal: { DEFAULT: token("signal"), hover: token("signal-hover"), press: token("signal-press"), fg: token("on-signal") },
+        hazard: { DEFAULT: token("hazard"), text: token("hazard-text") },
       },
       fontSize: {
         "2xs": ["0.6875rem", { lineHeight: "1rem" }],

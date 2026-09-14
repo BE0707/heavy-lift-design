@@ -64,7 +64,7 @@ const Lightbox = ({ items, index, onIndexChange, onClosed }: LightboxProps) => {
   return (
     <Dialog.Root open={item !== null} onOpenChange={(open) => !open && onIndexChange(null)}>
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 z-50 bg-ink data-[state=open]:animate-overlay-in" />
+        <Dialog.Overlay className="theme-dark fixed inset-0 z-50 bg-surface data-[state=open]:animate-overlay-in" />
         {item && index !== null && (
           <Dialog.Content
             aria-describedby={undefined}
@@ -77,10 +77,10 @@ const Lightbox = ({ items, index, onIndexChange, onClosed }: LightboxProps) => {
               if (e.key === "ArrowRight") go(1);
               if (e.key === "ArrowLeft") go(-1);
             }}
-            className="fixed inset-0 z-50 flex flex-col focus:outline-none"
+            className="theme-dark fixed inset-0 z-50 flex flex-col focus:outline-none"
           >
             <div className="flex items-center justify-between gap-4 border-b border-rule px-4 py-3 sm:px-8">
-              <p className="font-mono text-xs text-steel">
+              <p className="font-mono text-xs text-fg-muted">
                 {pad(index + 1)} / {pad(items.length)} · {recordCode(item.slug)} · {categoryLabel(item.category)}
               </p>
               <Dialog.Close className="btn btn-dark btn-sm h-10 w-10 px-0" aria-label="Kapat">
@@ -103,7 +103,7 @@ const Lightbox = ({ items, index, onIndexChange, onClosed }: LightboxProps) => {
               <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
                 <div className="max-w-3xl">
                   <Dialog.Title className="text-2xl sm:text-3xl">{item.title}</Dialog.Title>
-                  <Dialog.Description id="lightbox-detail" className="mt-1.5 text-steel">
+                  <Dialog.Description id="lightbox-detail" className="mt-1.5 text-fg-muted">
                     {item.detail}
                     {item.route ? ` · ${item.route}` : ""}
                   </Dialog.Description>
@@ -143,7 +143,7 @@ const EntryImage = ({ project, onOpen, aspect, sizes, maxWidth = 960, className 
     data-project={project.slug}
     onClick={onOpen}
     aria-label={`${project.title}: fotoğrafı büyüt`}
-    className={cn("reveal-clip relative block w-full overflow-hidden bg-graphite focus-visible:outline-offset-4", aspect, className)}
+    className={cn("reveal-clip relative block w-full overflow-hidden bg-surface-sunken focus-visible:outline-offset-4", aspect, className)}
   >
     <Picture
       slug={project.slug}
@@ -157,7 +157,7 @@ const EntryImage = ({ project, onOpen, aspect, sizes, maxWidth = 960, className 
 );
 
 const Fragments = ({ detail, className }: { detail: string; className?: string }) => (
-  <ul className={cn("text-sm text-dim transition-colors duration-300 group-hover:text-steel", className)}>
+  <ul className={cn("text-sm text-fg-subtle transition-colors duration-300 group-hover:text-fg-muted", className)}>
     {detail.split(" · ").map((part) => (
       <li key={part} className="border-t border-rule py-2 first:border-t-0 first:pt-0">
         {part}
@@ -168,12 +168,12 @@ const Fragments = ({ detail, className }: { detail: string; className?: string }
 
 const Caption = ({ project, size = "md" }: { project: Project; size?: "md" | "lg" }) => (
   <>
-    <p className="flex flex-wrap items-baseline gap-x-3 font-mono text-xs text-dim">
-      <span className="text-steel">{recordCode(project.slug)}</span>
+    <p className="flex flex-wrap items-baseline gap-x-3 font-mono text-xs text-fg-subtle">
+      <span className="text-fg-muted">{recordCode(project.slug)}</span>
       <span>{categoryLabel(project.category)}</span>
     </p>
     <h3 className={cn("mt-2.5 text-balance", size === "lg" ? "text-display-md" : "text-xl leading-snug")}>{project.title}</h3>
-    {project.route && <p className="mt-1.5 font-mono text-sm text-bone">{project.route}</p>}
+    {project.route && <p className="mt-1.5 font-mono text-sm text-fg">{project.route}</p>}
   </>
 );
 
@@ -192,7 +192,7 @@ const ProjectArchive = () => {
   ];
 
   return (
-    <section id="projeler" aria-labelledby="projeler-title" className="border-t border-rule bg-ink py-24 lg:py-32">
+    <section id="projeler" aria-labelledby="projeler-title" className="border-t border-rule bg-surface-alt py-24 lg:py-32">
       <div ref={revealRef} className="container">
         <SectionHeader
           index="04"
@@ -212,11 +212,11 @@ const ProjectArchive = () => {
               onClick={() => setFilter(f.id)}
               className={cn(
                 "-mb-px flex items-baseline gap-2 border-b py-4 text-[0.9375rem] transition-colors",
-                filter === f.id ? "border-signal text-bone" : "border-transparent text-steel hover:text-bone",
+                filter === f.id ? "border-signal text-fg" : "border-transparent text-fg-muted hover:text-fg",
               )}
             >
               {f.label}
-              <span className="tabular font-mono text-xs text-dim">{pad(f.count)}</span>
+              <span className="tabular font-mono text-xs text-fg-subtle">{pad(f.count)}</span>
             </button>
           ))}
         </div>
@@ -281,7 +281,7 @@ const ProjectArchive = () => {
                     <div className="lg:col-span-5">
                       <Caption project={p} />
                     </div>
-                    <p className="text-pretty text-sm text-dim transition-colors duration-300 group-hover:text-steel lg:col-span-7 lg:pt-7">
+                    <p className="text-pretty text-sm text-fg-subtle transition-colors duration-300 group-hover:text-fg-muted lg:col-span-7 lg:pt-7">
                       {p.detail}
                     </p>
                   </div>
@@ -303,7 +303,7 @@ const ProjectArchive = () => {
                       />
                       <div className="mt-5">
                         <Caption project={p} />
-                        <p className="mt-2 text-pretty text-sm text-dim transition-colors duration-300 group-hover:text-steel">{p.detail}</p>
+                        <p className="mt-2 text-pretty text-sm text-fg-subtle transition-colors duration-300 group-hover:text-fg-muted">{p.detail}</p>
                       </div>
                     </div>
                   );

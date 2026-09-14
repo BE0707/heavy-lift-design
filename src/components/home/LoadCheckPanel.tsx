@@ -3,8 +3,8 @@ import { ASSUMPTIONS, LEGAL_LIMITS, type CheckLevel, type LoadAssessment } from 
 import { cn } from "@/lib/utils";
 
 const LEVEL: Record<CheckLevel, { icon: typeof Info; tag: string; className: string }> = {
-  ok: { icon: CheckSquare, tag: "Uygun", className: "text-steel" },
-  info: { icon: Info, tag: "Not", className: "text-bone" },
+  ok: { icon: CheckSquare, tag: "Uygun", className: "text-fg-muted" },
+  info: { icon: Info, tag: "Not", className: "text-fg" },
   warn: { icon: AlertTriangle, tag: "İzin", className: "text-hazard-text" },
 };
 
@@ -22,29 +22,29 @@ const Total = ({ label, value, unit, limit, assumption }: { label: string; value
     <dt className="label">{label}</dt>
     <dd className="mt-2 flex items-baseline gap-1.5">
       {value === undefined ? (
-        <span className="text-lg text-dim">—</span>
+        <span className="text-lg text-fg-subtle">—</span>
       ) : (
         <span key={value} className="flex animate-spec-in items-baseline gap-1.5">
-          <span className="font-mono text-sm text-dim">≈</span>
-          <span className={cn("text-2xl font-medium tracking-[-0.02em]", value > limit ? "text-hazard-text" : "text-bone")}>
+          <span className="font-mono text-sm text-fg-subtle">≈</span>
+          <span className={cn("text-2xl font-medium tracking-[-0.02em]", value > limit ? "text-hazard-text" : "text-fg")}>
             {fmt(value, unit === "t" ? 0 : 2)}
           </span>
           <span className="font-mono text-sm text-signal">{unit}</span>
         </span>
       )}
     </dd>
-    <dd className="mt-1 text-xs text-dim">{assumption}</dd>
+    <dd className="mt-1 text-xs text-fg-subtle">{assumption}</dd>
   </div>
 );
 
 /** Ön değerlendirme raporu: kutulu kart yerine teknik rapor sayfası düzeni */
 const LoadCheckPanel = ({ assessment }: { assessment: LoadAssessment | null }) => (
-  <aside aria-labelledby="precheck-title" className="border-t-2 border-bone/80 bg-ink">
+  <aside aria-labelledby="precheck-title" className="border-t-2 border-fg bg-surface-alt">
     <div className="flex items-baseline justify-between gap-4 px-5 pb-4 pt-5 sm:px-6">
       <h3 id="precheck-title" className="text-xl">
         İzin ön kontrolü
       </h3>
-      <span className={cn("font-mono text-2xs uppercase tracking-label", assessment ? "text-signal" : "text-dim")}>
+      <span className={cn("font-mono text-2xs uppercase tracking-label", assessment ? "text-signal" : "text-fg-subtle")}>
         {assessment ? "Hesaplandı" : "Veri bekleniyor"}
       </span>
     </div>
@@ -54,7 +54,7 @@ const LoadCheckPanel = ({ assessment }: { assessment: LoadAssessment | null }) =
         <dl className="border-t border-rule">
           <div className="px-5 py-5 sm:px-6">
             <dt className="label">KGM özel izni</dt>
-            <dd aria-live="polite" className={cn("mt-2 text-lg leading-snug", assessment.permit === "gerekli" ? "text-hazard-text" : "text-bone")}>
+            <dd aria-live="polite" className={cn("mt-2 text-lg leading-snug", assessment.permit === "gerekli" ? "text-hazard-text" : "text-fg")}>
               {PERMIT_TEXT[assessment.permit]}
             </dd>
           </div>
@@ -81,7 +81,7 @@ const LoadCheckPanel = ({ assessment }: { assessment: LoadAssessment | null }) =
             return (
               <li key={`${item.topic}-${i}`} className="flex gap-3 border-b border-rule px-5 py-4 last:border-b-0 sm:px-6">
                 <Icon aria-hidden="true" className={cn("mt-0.5 h-4 w-4 shrink-0", className)} />
-                <p className="text-sm leading-relaxed text-steel">
+                <p className="text-sm leading-relaxed text-fg-muted">
                   <span className={cn("mr-2 font-mono text-2xs font-medium uppercase tracking-label", className)}>
                     {item.topic} · {tag}
                   </span>
@@ -94,7 +94,7 @@ const LoadCheckPanel = ({ assessment }: { assessment: LoadAssessment | null }) =
       </div>
     ) : (
       <div className="border-t border-rule px-5 py-6 sm:px-6">
-        <p className="text-sm leading-relaxed text-steel">
+        <p className="text-sm leading-relaxed text-fg-muted">
           Ağırlık ve ölçüleri girdikçe gabari ve özel izin ön değerlendirmesi burada hesaplanır.
         </p>
         <dl className="mt-6 grid grid-cols-2">
@@ -105,15 +105,15 @@ const LoadCheckPanel = ({ assessment }: { assessment: LoadAssessment | null }) =
             ["Toplam ağırlık", `${LEGAL_LIMITS.grossWeight} t`],
           ].map(([label, value], i) => (
             <div key={label} className={cn("border-t border-rule py-3.5", i % 2 === 1 && "border-l pl-4")}>
-              <dt className="text-sm text-dim">{label} sınırı</dt>
-              <dd className="tabular mt-1 font-mono text-bone">{value}</dd>
+              <dt className="text-sm text-fg-subtle">{label} sınırı</dt>
+              <dd className="tabular mt-1 font-mono text-fg">{value}</dd>
             </div>
           ))}
         </dl>
       </div>
     )}
 
-    <p className="border-t border-rule px-5 py-4 text-xs leading-relaxed text-dim sm:px-6">
+    <p className="border-t border-rule px-5 py-4 text-xs leading-relaxed text-fg-subtle sm:px-6">
       Ön değerlendirmedir; platform yüksekliği ve dara varsayımdır. Dorseye uygunluğu operasyon masası, kesin kararı
       güzergah etüdü ve KGM izin süreci verir.
     </p>

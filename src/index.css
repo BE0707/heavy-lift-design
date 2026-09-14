@@ -3,14 +3,51 @@
 @tailwind utilities;
 
 @layer base {
+  /*
+   * Renk tokenları (R G B). Açık tema: basılı teknik katalog gibi beyaz kâğıt,
+   * siyah metin, yeşil vurgu (RAL 6032 sinyal yeşiline yakın). Aynı adlar
+   * .theme-dark kapsamında koyu değer alır: üst menü, alt bilgi, menüler, görüntüleyici.
+   */
   :root {
-    color-scheme: dark;
+    color-scheme: light;
     --header-h: 64px;
     --dock-h: 64px;
+
+    --surface: 255 255 255;
+    --surface-alt: 244 244 241;
+    --surface-sunken: 232 232 228;
+    --fg: 18 18 17;
+    --fg-muted: 74 74 69;
+    --fg-subtle: 107 107 101;
+    --rule: 225 225 220;
+    --rule-strong: 196 196 190;
+    --field: 138 138 132;
+    --signal: 35 127 82;
+    --signal-hover: 29 107 69;
+    --signal-press: 24 90 58;
+    --on-signal: 255 255 255;
+    --hazard: 194 65 12;
+    --hazard-text: 194 65 12;
+  }
+
+  .theme-dark {
+    color-scheme: dark;
+    --surface: 14 14 13;
+    --surface-alt: 22 22 21;
+    --surface-sunken: 30 30 28;
+    --fg: 245 245 242;
+    --fg-muted: 181 181 174;
+    --fg-subtle: 142 142 135;
+    --rule: 42 42 39;
+    --rule-strong: 66 66 62;
+    --field: 107 107 101;
+    --hazard: 255 122 26;
+    --hazard-text: 255 122 26;
+    color: rgb(var(--fg));
   }
 
   * {
-    border-color: theme("colors.rule.DEFAULT");
+    border-color: rgb(var(--rule));
   }
 
   html {
@@ -20,24 +57,24 @@
   }
 
   body {
-    @apply bg-asphalt font-sans text-base text-bone antialiased;
+    @apply bg-surface font-sans text-base text-fg antialiased;
     font-feature-settings: "kern", "liga";
     text-rendering: optimizeLegibility;
   }
 
   ::selection {
-    background: theme("colors.signal.DEFAULT");
-    color: theme("colors.ink");
+    background: rgb(var(--signal));
+    color: rgb(var(--on-signal));
   }
 
   h1, h2, h3, h4 {
-    @apply font-display font-medium text-bone;
+    @apply font-display font-medium text-fg;
     letter-spacing: -0.02em;
   }
 
   /* Belirgin odak halkası: klavye ve şantiyede eldivenle kullanım için */
   :focus-visible {
-    outline: 2px solid theme("colors.signal.DEFAULT");
+    outline: 2px solid rgb(var(--signal));
     outline-offset: 3px;
   }
 
@@ -58,7 +95,7 @@
 }
 
 @layer components {
-  /* ---- Butonlar: sade, kare köşe; sarı yalnızca ana eylemde ---- */
+  /* ---- Butonlar: sade, kare köşe; yeşil yalnızca ana eylemde ---- */
   .btn {
     @apply inline-flex min-h-12 select-none items-center justify-center gap-2.5 whitespace-nowrap border px-5 font-sans text-[0.9375rem] font-medium leading-none tracking-[0.005em] transition-[background-color,border-color,color] duration-200;
   }
@@ -69,16 +106,17 @@
     transform: translateX(3px);
   }
   .btn-primary {
-    @apply border-signal bg-signal text-ink hover:border-signal-hover hover:bg-signal-hover active:bg-signal-press;
+    @apply border-signal bg-signal text-signal-fg hover:border-signal-hover hover:bg-signal-hover active:bg-signal-press;
   }
   .btn-primary:focus-visible {
-    outline-color: theme("colors.bone");
+    outline-color: rgb(var(--fg));
   }
   .btn-outline {
-    @apply border-rule-strong bg-transparent text-bone hover:border-steel;
+    @apply border-rule-strong bg-transparent text-fg hover:border-fg-muted;
   }
+  /* İkon düğmesi: bulunduğu zeminin bir ton koyusu (koyu kapsamda siyah) */
   .btn-dark {
-    @apply border-rule bg-ink text-bone hover:border-steel;
+    @apply border-rule bg-surface-alt text-fg hover:border-fg-subtle;
   }
   .btn-sm {
     @apply min-h-10 px-4 text-sm;
@@ -102,20 +140,20 @@
   .link-rule {
     @apply link-u;
     background-size: 100% 1px;
-    background-image: linear-gradient(theme("colors.rule.strong"), theme("colors.rule.strong"));
+    background-image: linear-gradient(rgb(var(--rule-strong)), rgb(var(--rule-strong)));
   }
   .link-rule:hover,
   a:hover > .link-rule {
     background-image: linear-gradient(currentColor, currentColor);
   }
 
-  /* ---- Teknik etiket (mono, küçük harfli değil: yalnızca metadata için) ---- */
+  /* ---- Teknik etiket (mono, büyük harf: yalnızca metadata için) ---- */
   .label {
-    @apply font-mono text-2xs font-medium uppercase tracking-label text-dim;
+    @apply font-mono text-2xs font-medium uppercase tracking-label text-fg-subtle;
   }
-  /* Bölüm işareti: belge içindeki bölüm numarası gibi, tek sarı çentik */
+  /* Bölüm işareti: belge içindeki bölüm numarası gibi, tek yeşil çentik */
   .section-mark {
-    @apply flex items-center gap-3 font-mono text-xs text-dim;
+    @apply flex items-center gap-3 font-mono text-xs text-fg-subtle;
   }
   .section-mark::before {
     content: "";
@@ -123,28 +161,30 @@
   }
 
   /* ---- Form alanları ---- */
+  /* Alan çerçevesi beyaz zeminde 3:1 kontrastlı (field); odakta yeşil çift çizgi */
   .field {
-    @apply block w-full rounded-none border border-rule-strong bg-ink px-3.5 py-3 text-base text-bone transition-colors placeholder:text-dim hover:border-steel focus:border-signal focus:outline-none focus-visible:outline-none;
+    @apply block w-full rounded-none border border-field bg-surface px-3.5 py-3 text-base text-fg transition-colors placeholder:text-fg-subtle hover:border-fg-muted focus:border-signal focus:outline-none focus-visible:outline-none;
     min-height: 3rem;
   }
   .field:focus {
-    box-shadow: 0 0 0 1px theme("colors.signal.DEFAULT");
+    box-shadow: 0 0 0 1px rgb(var(--signal));
   }
   .field[aria-invalid="true"] {
     @apply border-hazard;
   }
   select.field {
     @apply cursor-pointer appearance-none pr-10;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath stroke='%23A9A59C' stroke-width='1.4' d='M1 1.5l5 5 5-5'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath stroke='%234A4A45' stroke-width='1.4' d='M1 1.5l5 5 5-5'/%3E%3C/svg%3E");
     background-position: right 0.95rem center;
     background-repeat: no-repeat;
   }
 
-  /* ---- Teknik yüzey: milimetrik çizim ızgarası ---- */
+  /* ---- Teknik yüzey: milimetrik çizim kâğıdı ---- */
   .bg-blueprint {
+    background-color: rgb(var(--surface));
     background-image:
-      linear-gradient(to right, rgb(236 232 223 / 0.03) 1px, transparent 1px),
-      linear-gradient(to bottom, rgb(236 232 223 / 0.03) 1px, transparent 1px);
+      linear-gradient(to right, rgb(var(--fg) / 0.045) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(var(--fg) / 0.045) 1px, transparent 1px);
     background-size: 24px 24px;
   }
 

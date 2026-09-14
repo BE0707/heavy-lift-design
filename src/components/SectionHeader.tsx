@@ -20,7 +20,7 @@ interface SectionHeaderProps {
 const SectionHeader = ({ index, kicker, title, lead, titleId, className, layout = "default" }: SectionHeaderProps) => {
   const mark = (
     <p className="section-mark">
-      <span className="text-steel">{index}</span>
+      <span className="text-fg-muted">{index}</span>
       <span>{kicker}</span>
     </p>
   );
@@ -37,7 +37,7 @@ const SectionHeader = ({ index, kicker, title, lead, titleId, className, layout 
           {mark}
           {heading}
         </div>
-        {lead && <p className="max-w-[38rem] text-pretty text-lg leading-relaxed text-steel lg:col-span-5 lg:pb-1.5">{lead}</p>}
+        {lead && <p className="max-w-[38rem] text-pretty text-lg leading-relaxed text-fg-muted lg:col-span-5 lg:pb-1.5">{lead}</p>}
       </header>
     );
   }
@@ -46,7 +46,7 @@ const SectionHeader = ({ index, kicker, title, lead, titleId, className, layout 
     <header className={cn("max-w-3xl", className)}>
       {mark}
       {heading}
-      {lead && <p className="mt-5 max-w-[38rem] text-pretty text-lg leading-relaxed text-steel">{lead}</p>}
+      {lead && <p className="mt-5 max-w-[38rem] text-pretty text-lg leading-relaxed text-fg-muted">{lead}</p>}
     </header>
   );
 };

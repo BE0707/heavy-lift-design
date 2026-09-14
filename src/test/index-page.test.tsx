@@ -15,7 +15,7 @@ describe("ana sayfa", () => {
   it("sektöre özgü başlığı ve bölümleri gösterir", () => {
     renderHome();
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Gabari Dışı Ağır Taşımacılık & Lowbed Operasyonları");
-    for (const name of ["Teknik Filo & Taşıma Kapasiteleri", "Hızlı Yük Bildirimi & Fiyat Talebi", "Proje Arşivi", "Operasyon Masası & Hizmet Bölgesi"]) {
+    for (const name of ["Filo & Taşıma Kapasitesi", "Hızlı Yük Bildirimi & Fiyat Talebi", "Proje Arşivi", "Operasyon Masası & Hizmet Bölgesi"]) {
       expect(screen.getByRole("heading", { level: 2, name })).toBeInTheDocument();
     }
     expect(document.body.textContent).not.toMatch(/8500\+|Güvenin Adı|Fark Yaratıyoruz/);
@@ -31,9 +31,11 @@ describe("ana sayfa", () => {
     expect(document.activeElement).toBe(loadType);
   });
 
-  it("?dorse= ile gelen tercihi forma aktarır", () => {
-    renderHome("/?dorse=havuzlu");
-    expect(screen.getByLabelText(/Dorse \/ hizmet tercihi/)).toHaveValue("Havuzlu & Çok Dingilli (5–8 dingil)");
+  it("filoda yalnızca 3 dingilli lowbed anlatılır; doğrulanmamış dorse tipi ve kapasite yazılmaz", () => {
+    renderHome();
+    expect(screen.getByRole("heading", { level: 3, name: "3 dingilli lowbed, hidrolik rampalı" })).toBeInTheDocument();
+    expect(screen.queryByRole("tablist")).not.toBeInTheDocument();
+    expect(document.body.textContent).not.toMatch(/havuzlu|teleskopik|çok dingilli|4–8|5–8|80 t|faydalı yük/i);
   });
 
   it("izin ön kontrolü girilen ölçülere göre hesaplanır", () => {
@@ -42,6 +44,9 @@ describe("ana sayfa", () => {
     fireEvent.change(screen.getByLabelText("En"), { target: { value: "3,2" } });
     const panel = screen.getByRole("complementary", { name: "İzin ön kontrolü" });
     expect(within(panel).getByText("Gerekli görünüyor")).toBeInTheDocument();
+    // 38 t yük + ≈ 20 t dara varsayımı
+    expect(within(panel).getByText("58")).toBeInTheDocument();
+    expect(within(panel).getByText(/Dara ≈ 20 t varsayımıyla/)).toBeInTheDocument();
   });
 
   it("proje arşivi kategoriye göre filtrelenir", () => {

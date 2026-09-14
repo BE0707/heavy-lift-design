@@ -28,8 +28,8 @@ const Field = ({ id, label, required = false, error, className, children }: {
 }) => (
   <div className={className}>
     <label htmlFor={id} className="mb-2 flex items-baseline justify-between gap-3">
-      <span className="text-[0.9375rem] font-medium text-bone">{label}</span>
-      <span className="font-mono text-2xs text-dim">{required ? "Zorunlu" : "İsteğe bağlı"}</span>
+      <span className="text-[0.9375rem] font-medium text-fg">{label}</span>
+      <span className="font-mono text-2xs text-fg-subtle">{required ? "Zorunlu" : "İsteğe bağlı"}</span>
     </label>
     {children}
     {error && (
@@ -43,7 +43,7 @@ const Field = ({ id, label, required = false, error, className, children }: {
 /** Form bölümü: kutu yerine ince çizgi ve sade başlıkla ayrılan belge alanı */
 const Group = ({ title, children }: { title: string; children: ReactNode }) => (
   <fieldset className="grid gap-x-5 gap-y-6 border-t border-rule py-8 sm:grid-cols-2">
-    <legend className="float-left mb-1 w-full text-sm text-steel sm:col-span-2">{title}</legend>
+    <legend className="float-left mb-1 w-full text-sm text-fg-muted sm:col-span-2">{title}</legend>
     {children}
   </fieldset>
 );
@@ -119,7 +119,7 @@ const QuoteRequest = () => {
           <form noValidate onSubmit={onSubmit} className="lg:col-span-7" aria-labelledby="fiyat-title">
             <div aria-live="assertive">
               {errorCount > 0 && (
-                <p className="mb-6 border-l-2 border-hazard pl-4 text-sm text-bone">
+                <p className="mb-6 border-l-2 border-hazard pl-4 text-sm text-fg">
                   Formda {errorCount} alan eksik veya hatalı. İşaretli alanları kontrol edin.
                 </p>
               )}
@@ -150,8 +150,8 @@ const QuoteRequest = () => {
               </Field>
               <div className="sm:col-span-2">
                 <p className="mb-2 flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
-                  <span className="text-[0.9375rem] font-medium text-bone">Ölçüler (metre)</span>
-                  <span className="font-mono text-2xs text-dim">Ön kontrol için önerilir</span>
+                  <span className="text-[0.9375rem] font-medium text-fg">Ölçüler (metre)</span>
+                  <span className="font-mono text-2xs text-fg-subtle">Ön kontrol için önerilir</span>
                 </p>
                 <div className="grid grid-cols-3 gap-3">
                   {(
@@ -162,7 +162,7 @@ const QuoteRequest = () => {
                     ] as const
                   ).map(([key, label]) => (
                     <div key={key}>
-                      <label htmlFor={`q-${key}`} className="mb-1.5 block text-sm text-steel">
+                      <label htmlFor={`q-${key}`} className="mb-1.5 block text-sm text-fg-muted">
                         {label}
                       </label>
                       <input
@@ -209,9 +209,9 @@ const QuoteRequest = () => {
             </Group>
 
             <details className="group border-t border-rule">
-              <summary className="flex min-h-16 cursor-pointer list-none items-center justify-between text-sm text-steel transition-colors hover:text-bone [&::-webkit-details-marker]:hidden">
+              <summary className="flex min-h-16 cursor-pointer list-none items-center justify-between text-sm text-fg-muted transition-colors hover:text-fg [&::-webkit-details-marker]:hidden">
                 Ek bilgiler: marka/model, iletişim, not
-                <span aria-hidden="true" className="font-mono text-base text-dim transition-transform duration-300 group-open:rotate-45">
+                <span aria-hidden="true" className="font-mono text-base text-fg-subtle transition-transform duration-300 group-open:rotate-45">
                   +
                 </span>
               </summary>
@@ -236,12 +236,12 @@ const QuoteRequest = () => {
             </details>
 
             <fieldset className="border-t border-rule pt-8">
-              <legend className="float-left mb-4 w-full text-sm text-steel">Mesaj gidecek hat</legend>
+              <legend className="float-left mb-4 w-full text-sm text-fg-muted">Mesaj gidecek hat</legend>
               <div className="clear-both grid border-t border-rule sm:grid-cols-2">
                 {DISPATCHERS.map((d, i) => (
                   <label
                     key={d.id}
-                    className={`flex min-h-16 cursor-pointer items-center gap-3.5 border-b border-rule py-3 pr-4 transition-colors has-[:checked]:text-bone has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-signal ${i === 1 ? "sm:border-l sm:pl-5" : ""}`}
+                    className={`flex min-h-16 cursor-pointer items-center gap-3.5 border-b border-rule py-3 pr-4 transition-colors has-[:checked]:text-fg has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-signal ${i === 1 ? "sm:border-l sm:pl-5" : ""}`}
                   >
                     <input
                       type="radio"
@@ -249,11 +249,11 @@ const QuoteRequest = () => {
                       value={d.id}
                       checked={form.dispatcherId === d.id}
                       onChange={update("dispatcherId")}
-                      className="h-4 w-4 accent-[#FDB813] focus-visible:outline-none"
+                      className="h-4 w-4 accent-signal focus-visible:outline-none"
                     />
                     <span className="flex flex-col">
-                      <span className="text-bone">{d.name}</span>
-                      <span className="tabular font-mono text-xs text-dim">
+                      <span className="text-fg">{d.name}</span>
+                      <span className="tabular font-mono text-xs text-fg-subtle">
                         {d.line} · {d.display}
                       </span>
                     </span>
@@ -268,16 +268,16 @@ const QuoteRequest = () => {
                 WhatsApp ile gönder
               </button>
               <a href={telHref(PRIMARY_DISPATCHER.phone)} className="inline-flex items-baseline gap-3">
-                <span className="text-sm text-dim">veya telefonla bildirin</span>
-                <span className="tabular font-mono text-bone link-u">{PRIMARY_DISPATCHER.display}</span>
+                <span className="text-sm text-fg-subtle">veya telefonla bildirin</span>
+                <span className="tabular font-mono text-fg link-u">{PRIMARY_DISPATCHER.display}</span>
               </a>
             </div>
 
             <div role="status" className="mt-5">
               {sentUrl && (
-                <p className="border-l-2 border-signal pl-4 text-sm text-steel">
+                <p className="border-l-2 border-signal pl-4 text-sm text-fg-muted">
                   WhatsApp açıldı; mesajı göndermeyi unutmayın. Açılmadıysa{" "}
-                  <a href={sentUrl} target="_blank" rel="noopener noreferrer" className="text-bone underline underline-offset-4">
+                  <a href={sentUrl} target="_blank" rel="noopener noreferrer" className="text-fg underline underline-offset-4">
                     buraya dokunun
                   </a>
                   .

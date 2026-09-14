@@ -56,7 +56,7 @@ const LOAD_PHOTOS: readonly { slug: PhotoSlug; alt: string; caption: string }[] 
 const GuideHeading = ({ index, kicker, id, children, className }: { index: string; kicker: string; id: string; children: ReactNode; className?: string }) => (
   <div className={className}>
     <p className="section-mark">
-      <span className="text-steel">{index}</span>
+      <span className="text-fg-muted">{index}</span>
       <span>{kicker}</span>
     </p>
     <h2 id={`${id}-title`} className="mt-5 max-w-[16ch] text-balance text-display-lg">
@@ -82,31 +82,31 @@ const InfoPage = () => (
       {/* Rehber başlığı ve içindekiler */}
       <header className="container grid gap-14 pb-16 pt-12 lg:grid-cols-12 lg:pb-24 lg:pt-16">
         <div className="lg:col-span-8">
-          <nav aria-label="Konum" className="flex items-center gap-2 font-mono text-xs text-dim">
-            <Link to="/" className="-my-1.5 inline-block py-1.5 transition-colors hover:text-bone">
+          <nav aria-label="Konum" className="flex items-center gap-2 font-mono text-xs text-fg-subtle">
+            <Link to="/" className="-my-1.5 inline-block py-1.5 transition-colors hover:text-fg">
               Ana sayfa
             </Link>
             <span aria-hidden="true">/</span>
-            <span aria-current="page" className="text-steel">
+            <span aria-current="page" className="text-fg-muted">
               Rehber
             </span>
           </nav>
           <h1 className="mt-10 max-w-[14ch] text-display-xl">Lowbed Taşımacılık Rehberi</h1>
-          <p className="mt-7 max-w-[36rem] text-pretty text-xl leading-relaxed text-bone">
+          <p className="mt-7 max-w-[36rem] text-pretty text-xl leading-relaxed text-fg">
             Gabari dışı ve ağır yük taşımacılığını planlamak için pratik bir rehber.
           </p>
-          <p className="mt-4 max-w-[36rem] text-pretty text-lg leading-relaxed text-steel">
+          <p className="mt-4 max-w-[36rem] text-pretty text-lg leading-relaxed text-fg-muted">
             Lowbed dorse, yasal gabari sınırları, özel izin ve eskort süreci: yükünüzü bildirmeden önce bilmeniz gereken
             teknik ayrıntılar.
           </p>
         </div>
         <nav aria-label="İçindekiler" className="lg:col-span-4 lg:pt-24">
-          <p className="text-sm text-dim">İçindekiler</p>
+          <p className="text-sm text-fg-subtle">İçindekiler</p>
           <ol className="mt-4 border-t border-rule">
             {TOC.map((t, i) => (
               <li key={t.id} className="border-b border-rule">
-                <a href={`#${t.id}`} className="group flex items-baseline gap-4 py-3 text-steel transition-colors hover:text-bone">
-                  <span className="tabular font-mono text-xs text-dim">{String(i + 1).padStart(2, "0")}</span>
+                <a href={`#${t.id}`} className="group flex items-baseline gap-4 py-3 text-fg-muted transition-colors hover:text-fg">
+                  <span className="tabular font-mono text-xs text-fg-subtle">{String(i + 1).padStart(2, "0")}</span>
                   <span className="link-u">{t.title}</span>
                 </a>
               </li>
@@ -121,7 +121,7 @@ const InfoPage = () => (
           <GuideHeading index="01" kicker="Tanım" id="lowbed-nedir" className="lg:col-span-4">
             Lowbed nedir?
           </GuideHeading>
-          <div className="grid gap-5 text-pretty text-lg leading-relaxed text-steel lg:col-span-7 lg:col-start-6 lg:pt-10">
+          <div className="grid gap-5 text-pretty text-lg leading-relaxed text-fg-muted lg:col-span-7 lg:col-start-6 lg:pt-10">
             <p>
               Lowbed, platform yüksekliği standart dorselere göre düşük tutulmuş, iş makineleri ve ağır ekipman için
               tasarlanmış yarı römorktur. Düşük platform, yükün yüksekliğine daha fazla pay bırakır; böylece ekskavatör,
@@ -147,7 +147,7 @@ const InfoPage = () => (
               </div>
             </div>
           </div>
-          <figcaption className="container mt-3 text-sm text-dim">
+          <figcaption className="container mt-3 text-sm text-fg-subtle">
             3 dingilli, hidrolik rampalı lowbed, yan görünüş. Yük zarfı, 4,00 m yasal yükseklikten platform yüksekliği (h)
             düşülerek bulunur; ön kontrolde h ≈ 1 m varsayılır.
           </figcaption>
@@ -155,13 +155,13 @@ const InfoPage = () => (
       </RevealSection>
 
       {/* 02 · görsel ağırlıklı */}
-      <RevealSection id="yukler" className="bg-ink">
+      <RevealSection id="yukler" className="bg-surface-alt">
         <div className="container">
           <div className="grid gap-8 lg:grid-cols-12">
             <GuideHeading index="02" kicker="Yük tipleri" id="yukler" className="lg:col-span-6">
               Hangi yükler için kullanılır?
             </GuideHeading>
-            <p className="max-w-[36rem] text-pretty text-lg leading-relaxed text-steel lg:col-span-5 lg:col-start-8 lg:self-end">
+            <p className="max-w-[36rem] text-pretty text-lg leading-relaxed text-fg-muted lg:col-span-5 lg:col-start-8 lg:self-end">
               Paletli ve lastikli iş makineleri, mobil kırıcı ve eleme tesisleri, fore kazık ve sondaj makineleri, tarım
               makineleri ve şantiye ekipmanı. Aşağıdaki örneklerin tamamı 3 dingilli lowbed dorsemizle taşındı.
             </p>
@@ -170,7 +170,7 @@ const InfoPage = () => (
           <div className="mt-14 grid gap-6 lg:grid-cols-12 lg:grid-rows-2">
             {LOAD_PHOTOS.map((photo, i) => (
               <figure key={photo.slug} className={cn("group", i === 0 ? "lg:col-span-7 lg:row-span-2" : "lg:col-span-5")}>
-                <div className={cn("overflow-hidden bg-graphite", i === 0 ? "aspect-[4/3] lg:aspect-auto lg:h-[calc(100%-2.25rem)]" : "aspect-[16/9]")}>
+                <div className={cn("overflow-hidden bg-surface-sunken", i === 0 ? "aspect-[4/3] lg:aspect-auto lg:h-[calc(100%-2.25rem)]" : "aspect-[16/9]")}>
                   <Picture
                     slug={photo.slug}
                     alt={photo.alt}
@@ -179,7 +179,7 @@ const InfoPage = () => (
                     className="photo-grade h-full w-full object-cover group-hover:scale-[1.025]"
                   />
                 </div>
-                <figcaption className="mt-2.5 text-sm text-dim">{photo.caption}</figcaption>
+                <figcaption className="mt-2.5 text-sm text-fg-subtle">{photo.caption}</figcaption>
               </figure>
             ))}
           </div>
@@ -189,7 +189,7 @@ const InfoPage = () => (
             {PROJECT_CATEGORIES.map((c, i) => (
               <div key={c.id} className={cn("border-b border-rule py-7 lg:border-b-0", i > 0 && "lg:border-l lg:pl-8", i < 2 && "lg:pr-8")}>
                 <dt className="text-xl">{c.label}</dt>
-                <dd className="mt-3 text-pretty leading-relaxed text-steel">
+                <dd className="mt-3 text-pretty leading-relaxed text-fg-muted">
                   {LOAD_EXAMPLES.filter((l) => exampleCategory(l.slug) === c.id)
                     .map((l) => (l.weightClass ? `${l.load} (${l.weightClass} t sınıfı)` : l.load))
                     .join(" · ")}
@@ -207,13 +207,13 @@ const InfoPage = () => (
             <div className="bg-blueprint overflow-x-auto border-y border-rule">
               <GaugeProfile className="mx-auto block h-auto w-full min-w-[520px] max-w-[680px]" />
             </div>
-            <figcaption className="mt-3 text-sm text-dim">Arka görünüş: yasal zarf ve genişliği aşan örnek yük (taralı).</figcaption>
+            <figcaption className="mt-3 text-sm text-fg-subtle">Arka görünüş: yasal zarf ve genişliği aşan örnek yük (taralı).</figcaption>
           </figure>
           <div className="lg:order-1 lg:col-span-4">
             <GuideHeading index="03" kicker="Mevzuat" id="ozel-izin">
               Ne zaman özel izin gerekir?
             </GuideHeading>
-            <p className="mt-6 text-pretty text-lg leading-relaxed text-steel">
+            <p className="mt-6 text-pretty text-lg leading-relaxed text-fg-muted">
               Karayolları Trafik Yönetmeliği'nin genel sınırlarını aşan taşımalar Karayolları Genel Müdürlüğü'nden (KGM)
               alınan özel izinle yapılır. İzin belgesi güzergahı, sevk saatlerini ve eskort koşullarını tanımlar.
             </p>
@@ -225,15 +225,15 @@ const InfoPage = () => (
                 ["Toplam ağırlık", String(LEGAL_LIMITS.grossWeight), "t"],
               ].map(([label, value, unit], i) => (
                 <div key={label} className={cn("border-b border-rule py-4", i % 2 === 1 && "border-l pl-5")}>
-                  <dt className="text-sm text-dim">{label}</dt>
+                  <dt className="text-sm text-fg-subtle">{label}</dt>
                   <dd className="mt-1 flex items-baseline gap-1.5">
-                    <span className="text-3xl font-medium tracking-[-0.03em] text-bone">{value}</span>
+                    <span className="text-3xl font-medium tracking-[-0.03em] text-fg">{value}</span>
                     <span className="font-mono text-sm text-signal">{unit}</span>
                   </dd>
                 </div>
               ))}
             </dl>
-            <ul className="mt-8 grid gap-4 text-pretty text-[0.9375rem] leading-relaxed text-steel">
+            <ul className="mt-8 grid gap-4 text-pretty text-[0.9375rem] leading-relaxed text-fg-muted">
               <li className="border-l border-rule-strong pl-4">
                 Ön kontrolde çekici ve boş lowbed darası ≈ {ASSUMPTIONS.tare} t varsayılır; bu nedenle yaklaşık{" "}
                 {ASSUMPTIONS.tare} t üzerindeki makinelerde toplam ağırlık {LEGAL_LIMITS.grossWeight} t sınırını aşar ve
@@ -252,7 +252,7 @@ const InfoPage = () => (
       </RevealSection>
 
       {/* 04 · metin ağırlıklı */}
-      <RevealSection id="fiyat" className="bg-ink">
+      <RevealSection id="fiyat" className="bg-surface-alt">
         <div className="container">
           <GuideHeading index="04" kicker="Fiyatlandırma" id="fiyat">
             Fiyatı neler belirler?
@@ -261,8 +261,8 @@ const InfoPage = () => (
           <ul className="mt-14 gap-x-12 border-t border-rule pt-8 sm:columns-2 lg:columns-3 lg:gap-x-16">
             {PRICE_FACTORS.map((f) => (
               <li key={f.title} className="break-inside-avoid pb-7">
-                <p className="text-pretty text-lg leading-relaxed text-steel">
-                  <strong className="font-medium text-bone">{f.title}.</strong> {f.text}
+                <p className="text-pretty text-lg leading-relaxed text-fg-muted">
+                  <strong className="font-medium text-fg">{f.title}.</strong> {f.text}
                 </p>
               </li>
             ))}
@@ -278,7 +278,7 @@ const InfoPage = () => (
       <RevealSection id="hakkimizda">
         <div className="container grid gap-12 lg:grid-cols-12 lg:items-end">
           <figure className="group lg:col-span-5">
-            <div className="aspect-[4/3] overflow-hidden bg-graphite">
+            <div className="aspect-[4/3] overflow-hidden bg-surface-sunken">
               <Picture
                 slug={LOWBED.photo.slug}
                 alt={LOWBED.photo.alt}
@@ -286,15 +286,15 @@ const InfoPage = () => (
                 className="photo-grade h-full w-full object-cover group-hover:scale-[1.025]"
               />
             </div>
-            <figcaption className="mt-2.5 text-sm text-dim">{LOWBED.photo.caption}</figcaption>
+            <figcaption className="mt-2.5 text-sm text-fg-subtle">{LOWBED.photo.caption}</figcaption>
           </figure>
           <div className="lg:col-span-6 lg:col-start-7">
             <GuideHeading index="05" kicker="Firma" id="hakkimizda">
               Hakkımızda
             </GuideHeading>
-            <div className="mt-6 grid gap-5 text-pretty text-lg leading-relaxed text-steel">
+            <div className="mt-6 grid gap-5 text-pretty text-lg leading-relaxed text-fg-muted">
               <p>
-                {COMPANY.name}, {COMPANY.base} merkezli bir ağır nakliyat firmasıdır. 3 dingilli, hidrolik rampalı lowbed
+                {COMPANY.name}, {COMPANY.base} merkezli bir ağır nakliyat firmasıdır. Hidrolik rampalı, 3 dingilli lowbed
                 dorselerle paletli ve lastikli iş makineleri, mobil kırıcı ve eleme tesisleri, sondaj ekipmanları, tarım
                 makineleri ve şantiye ekipmanları taşır.
               </p>
@@ -307,8 +307,8 @@ const InfoPage = () => (
             <ul className="mt-9 border-t border-rule">
               {DISPATCHERS.map((d) => (
                 <li key={d.id} className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-rule py-4">
-                  <span className="text-steel">{d.name}</span>
-                  <a href={telHref(d.phone)} className="tabular font-mono text-xl text-bone link-u">
+                  <span className="text-fg-muted">{d.name}</span>
+                  <a href={telHref(d.phone)} className="tabular font-mono text-xl text-fg link-u">
                     {d.display}
                   </a>
                 </li>

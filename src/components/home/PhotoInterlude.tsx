@@ -18,7 +18,7 @@ const PhotoInterlude = ({ slug, caption, focus = "50% 50%" }: PhotoInterludeProp
 
   return (
     <figure ref={ref} className="border-t border-rule">
-      <div className="reveal-clip relative h-[clamp(240px,42vw,620px)] overflow-hidden bg-graphite">
+      <div className="reveal-clip relative h-[clamp(240px,42vw,620px)] overflow-hidden bg-surface-sunken">
         <Picture
           slug={slug}
           alt={project?.alt ?? caption}
@@ -28,9 +28,9 @@ const PhotoInterlude = ({ slug, caption, focus = "50% 50%" }: PhotoInterludeProp
         />
       </div>
       <figcaption className="container grid gap-2 py-5 sm:grid-cols-[5rem_1fr_auto] sm:items-baseline sm:gap-8">
-        <span className="font-mono text-xs text-dim">{recordCode(slug)}</span>
-        <span className="max-w-[62ch] text-pretty text-steel">{caption}</span>
-        <Link to="/#projeler" className="-my-2 justify-self-start py-2 text-sm text-bone">
+        <span className="font-mono text-xs text-fg-subtle">{recordCode(slug)}</span>
+        <span className="max-w-[62ch] text-pretty text-fg-muted">{caption}</span>
+        <Link to="/#projeler" className="-my-2 justify-self-start py-2 text-sm text-fg">
           <span className="link-rule">Proje arşivi</span>
         </Link>
       </figcaption>

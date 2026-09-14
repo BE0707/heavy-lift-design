@@ -11,9 +11,9 @@ import { cn } from "@/lib/utils";
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   cn(
-    "relative flex h-16 items-center text-[0.9375rem] transition-colors duration-200 hover:text-bone",
+    "relative flex h-16 items-center text-[0.9375rem] transition-colors duration-200 hover:text-fg",
     "after:absolute after:inset-x-0 after:bottom-[18px] after:h-px after:origin-left after:bg-signal after:transition-transform after:duration-300",
-    isActive ? "text-bone after:scale-x-100" : "text-steel after:scale-x-0",
+    isActive ? "text-fg after:scale-x-100" : "text-fg-muted after:scale-x-0",
   );
 
 const MobileMenu = () => {
@@ -28,10 +28,10 @@ const MobileMenu = () => {
         </button>
       </Dialog.Trigger>
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 z-50 bg-ink/90 data-[state=open]:animate-overlay-in" />
+        <Dialog.Overlay className="theme-dark fixed inset-0 z-50 bg-surface/80 data-[state=open]:animate-overlay-in" />
         <Dialog.Content
           aria-describedby={undefined}
-          className="fixed inset-x-0 top-0 z-50 max-h-dvh overflow-y-auto border-b border-rule bg-ink data-[state=open]:animate-panel-in"
+          className="theme-dark fixed inset-x-0 top-0 z-50 max-h-dvh overflow-y-auto border-b border-rule bg-surface data-[state=open]:animate-panel-in"
         >
           <div className="container flex h-16 items-center justify-between">
             <Dialog.Title className="sr-only">Site menüsü</Dialog.Title>
@@ -46,9 +46,9 @@ const MobileMenu = () => {
             <ul className="border-t border-rule">
               {NAV_ITEMS.map((item) => (
                 <li key={item.to} className="border-b border-rule">
-                  <Link to={item.to} onClick={close} className="flex min-h-14 items-center justify-between text-2xl tracking-[-0.02em] text-bone">
+                  <Link to={item.to} onClick={close} className="flex min-h-14 items-center justify-between text-2xl tracking-[-0.02em] text-fg">
                     {item.label}
-                    <span aria-hidden="true" className="font-mono text-sm text-dim">→</span>
+                    <span aria-hidden="true" className="font-mono text-sm text-fg-subtle">→</span>
                   </Link>
                 </li>
               ))}
@@ -58,8 +58,8 @@ const MobileMenu = () => {
             <ul className="grid gap-4">
               {DISPATCHERS.map((d) => (
                 <li key={d.id} className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                  <span className="text-steel">{d.name}</span>
-                  <a href={telHref(d.phone)} className="tabular font-mono text-lg text-bone link-u">
+                  <span className="text-fg-muted">{d.name}</span>
+                  <a href={telHref(d.phone)} className="tabular font-mono text-lg text-fg link-u">
                     {d.display}
                   </a>
                 </li>
@@ -75,15 +75,15 @@ const MobileMenu = () => {
   );
 };
 
-/** Sakin, kompakt üst menü: kaydırınca yalnızca zemin ve alt çizgi belirginleşir */
+/** Sakin, kompakt, siyah üst menü: kaydırınca yalnızca zemin ve alt çizgi belirginleşir */
 const SiteHeader = () => {
   const scrolled = useScrolled(12);
 
   return (
     <header
       className={cn(
-        "sticky top-0 z-40 border-b transition-[background-color,border-color] duration-300",
-        scrolled ? "border-rule bg-ink" : "border-transparent bg-asphalt",
+        "theme-dark sticky top-0 z-40 border-b transition-[background-color,border-color] duration-300",
+        scrolled ? "border-rule bg-surface-alt" : "border-transparent bg-surface",
       )}
     >
       <div className="container flex h-16 items-center gap-3 sm:gap-6">
@@ -113,9 +113,9 @@ const SiteHeader = () => {
         <div className="flex items-center gap-2 sm:gap-4 lg:ml-4 xl:gap-5">
           <a
             href={telHref(PRIMARY_DISPATCHER.phone)}
-            className="hidden items-center gap-2 py-3 font-mono text-sm text-bone md:inline-flex lg:hidden xl:inline-flex"
+            className="hidden items-center gap-2 py-3 font-mono text-sm text-fg md:inline-flex lg:hidden xl:inline-flex"
           >
-            <Phone aria-hidden="true" className="h-3.5 w-3.5 text-steel" />
+            <Phone aria-hidden="true" className="h-3.5 w-3.5 text-fg-muted" />
             <span className="tabular link-u">{PRIMARY_DISPATCHER.display}</span>
           </a>
           <a
@@ -123,7 +123,7 @@ const SiteHeader = () => {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="WhatsApp ile yazın"
-            className="hidden h-10 w-10 items-center justify-center text-steel transition-colors hover:text-bone xl:inline-flex"
+            className="hidden h-10 w-10 items-center justify-center text-fg-muted transition-colors hover:text-fg xl:inline-flex"
           >
             <WhatsAppIcon className="h-[1.125rem] w-[1.125rem]" />
           </a>

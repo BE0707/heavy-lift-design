@@ -25,22 +25,22 @@ const FleetSection = () => {
 
         <article aria-labelledby="spec-lowbed" className="mt-16 grid gap-y-12 border-t border-rule pt-12 lg:grid-cols-12 lg:gap-x-12 lg:pt-16">
           <div className="lg:col-span-4">
-            <p className="font-mono text-xs text-dim">{LOWBED.code}</p>
+            <p className="font-mono text-xs text-fg-subtle">{LOWBED.code}</p>
             <h3 id="spec-lowbed" className="mt-3 text-balance text-display-md">
               {LOWBED.title}
             </h3>
-            <p className="mt-5 text-pretty text-lg leading-relaxed text-steel">{LOWBED.summary}</p>
+            <p className="mt-5 text-pretty text-lg leading-relaxed text-fg-muted">{LOWBED.summary}</p>
 
             <dl className="mt-9 border-t border-rule">
               {LOWBED.facts.map((f) => (
                 <div key={f.label} className="grid grid-cols-[6.5rem_1fr] gap-4 border-b border-rule py-3.5">
-                  <dt className="text-sm text-dim">{f.label}</dt>
-                  <dd className="text-pretty text-[0.9375rem] text-bone">{f.value}</dd>
+                  <dt className="text-sm text-fg-subtle">{f.label}</dt>
+                  <dd className="text-pretty text-[0.9375rem] text-fg">{f.value}</dd>
                 </div>
               ))}
             </dl>
 
-            <Link to="/#fiyat-talebi" className="group mt-9 inline-flex items-center gap-2.5 py-1 text-bone">
+            <Link to="/#fiyat-talebi" className="group mt-9 inline-flex items-center gap-2.5 py-1 text-fg">
               <span className="link-rule">Yükünüz için teklif isteyin</span>
               <ArrowRight aria-hidden="true" className="h-4 w-4 text-signal transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
@@ -52,17 +52,18 @@ const FleetSection = () => {
                 <TrailerDrawing />
               </div>
             </div>
-            <figure className="group mt-8 grid gap-4 sm:grid-cols-[minmax(0,1fr)_minmax(0,1.35fr)] sm:items-end sm:gap-8">
-              <div className="aspect-[4/3] overflow-hidden bg-graphite sm:order-2">
+            {/* Çizimin altında aynı dorsenin gerçeği: şema ve fotoğraf yan yana okunur */}
+            <figure className="group mt-8">
+              <div className="aspect-[4/3] overflow-hidden bg-surface-sunken sm:aspect-[16/7]">
                 <Picture
                   slug={LOWBED.photo.slug}
                   alt={LOWBED.photo.alt}
-                  sizes="(min-width: 1360px) 480px, (min-width: 1024px) 36vw, (min-width: 640px) 55vw, 90vw"
-                  maxWidth={960}
+                  sizes="(min-width: 1360px) 870px, (min-width: 1024px) 64vw, 100vw"
                   className="photo-grade h-full w-full object-cover group-hover:scale-[1.025]"
+                  style={{ objectPosition: "50% 70%" }}
                 />
               </div>
-              <figcaption className="text-pretty text-sm leading-relaxed text-dim sm:order-1 sm:pb-1">
+              <figcaption className="mt-2.5 text-pretty text-sm text-fg-subtle">
                 {LOWBED.photo.caption}. Rampalar kaldırılmış, dorse boş.
               </figcaption>
             </figure>

@@ -41,6 +41,17 @@ Metin ve teknik veriler bileşenlerin içinde değil, `src/data/` altındadır:
 
 Yasal gabari sınırları ve izin ön kontrolü kuralları `src/lib/load-check.ts` içindedir.
 
+## Tasarım sistemi
+
+Basılı teknik katalog: beyaz zemin, siyah metin, yeşil vurgu (RAL 6032 sinyal yeşiline
+yakın `#237F52`). Renkler `src/index.css` içinde CSS değişkeni olarak tanımlıdır
+(`--surface`, `--fg`, `--signal` …) ve Tailwind'e `surface`, `fg`, `rule`, `signal`
+adlarıyla bağlanır (`tailwind.config.ts`). Üst menü, alt bilgi, mobil menüler ve fotoğraf
+görüntüleyici `.theme-dark` sınıfıyla aynı adları koyu değerlerle kullanır. Teknik
+çizimlerin (SVG) paleti `src/lib/drawing.ts` içindedir. Yazı tipleri: IBM Plex Sans ve
+Mono; Barlow Condensed yalnızca logo yazısında. Marka ikonları ve paylaşım görseli
+`npm run icons` ile üretilir.
+
 ## Fotoğraflar
 
 Orijinaller `assets-src/photos/` altında (tanımlayıcı dosya adlarıyla) durur.

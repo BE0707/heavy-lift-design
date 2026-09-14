@@ -35,31 +35,32 @@ const fmt = (n: number, digits = 2) => n.toLocaleString("tr-TR", { minimumFracti
 
 const Station = ({ index, title, text, className }: { index: number; title: string; text: string; className?: string }) => (
   <div className={className}>
-    <p className="font-mono text-xs text-dim">{String(index + 1).padStart(2, "0")}</p>
+    <p className="font-mono text-xs text-fg-subtle">{String(index + 1).padStart(2, "0")}</p>
     <h3 className="mt-2 text-xl leading-snug">{title}</h3>
-    <p className="mt-2 max-w-[28ch] text-pretty text-[0.9375rem] leading-relaxed text-steel">{text}</p>
+    <p className="mt-2 max-w-[28ch] text-pretty text-[0.9375rem] leading-relaxed text-fg-muted">{text}</p>
   </div>
 );
 
 /**
  * Güzergah şeması: altı istasyonlu tek hat. Masaüstünde metinler hattın bir
- * üstünde bir altında yer alır; mobilde dikey hat.
+ * üstünde bir altında yer alır; mobilde dikey hat. Satırlar tüm istasyonlarda
+ * ortaktır (subgrid): metin uzunluğu ne olursa olsun hat tek düz çizgi kalır.
  */
 const RouteSheet = () => (
   <div className="mt-20">
     {/* masaüstü: yatay hat */}
-    <ol className="hidden grid-cols-6 lg:grid" aria-label="Operasyon adımları">
+    <ol className="hidden grid-cols-6 grid-rows-[auto_1.5rem_auto] lg:grid" aria-label="Operasyon adımları">
       {STEPS.map((step, i) => {
         const above = i % 2 === 1;
         return (
-          <li key={step.title} className="grid grid-rows-[minmax(11rem,auto)_1.5rem_minmax(11rem,auto)] pr-6">
+          <li key={step.title} className="row-span-3 grid grid-rows-subgrid pr-6">
             {above ? <Station index={i} {...step} className="self-end pb-6" /> : <span aria-hidden="true" />}
             <div aria-hidden="true" className="relative flex items-center">
               <span className={cn("absolute inset-x-0 top-1/2 h-px -translate-y-1/2", i === STEPS.length - 1 ? "right-auto w-0" : "bg-rule-strong", "-mr-6")} />
               <span
                 className={cn(
                   "relative z-10 block border",
-                  i === 0 || i === STEPS.length - 1 ? "h-3 w-3 border-signal bg-signal" : "h-3 w-3 rounded-full border-steel bg-ink",
+                  i === 0 || i === STEPS.length - 1 ? "h-3 w-3 border-signal bg-signal" : "h-3 w-3 rounded-full border-fg-muted bg-surface-alt",
                 )}
               />
             </div>
@@ -77,7 +78,7 @@ const RouteSheet = () => (
             aria-hidden="true"
             className={cn(
               "absolute -left-[calc(1.75rem+6.5px)] top-1 block h-3 w-3 border",
-              i === 0 || i === STEPS.length - 1 ? "border-signal bg-signal" : "rounded-full border-steel bg-ink",
+              i === 0 || i === STEPS.length - 1 ? "border-signal bg-signal" : "rounded-full border-fg-muted bg-surface-alt",
             )}
           />
           <Station index={i} {...step} />
@@ -91,7 +92,7 @@ const OperationsProtocol = () => {
   const revealRef = useReveal<HTMLDivElement>();
 
   return (
-    <section id="protokol" aria-labelledby="protokol-title" className="border-t border-rule bg-ink py-24 lg:py-32">
+    <section id="protokol" aria-labelledby="protokol-title" className="border-t border-rule bg-surface-alt py-24 lg:py-32">
       <div ref={revealRef} className="container">
         <SectionHeader
           index="02"
@@ -107,7 +108,7 @@ const OperationsProtocol = () => {
         <div className="mt-24 grid gap-12 border-t border-rule pt-14 lg:mt-28 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-4">
             <h3 className="text-display-md">Yasal gabari sınırları</h3>
-            <p className="mt-4 max-w-[36ch] text-pretty text-steel">
+            <p className="mt-4 max-w-[36ch] text-pretty text-fg-muted">
               Karayolları Trafik Yönetmeliği genel sınırları. Bu değerlerden birini aşan sevkiyat özel izin ve eskort
               kapsamındadır.
             </p>
@@ -117,9 +118,9 @@ const OperationsProtocol = () => {
                 { label: "Toplam ağırlık (5 dingil)", value: fmt(LEGAL_LIMITS.grossWeight, 0), unit: "t" },
               ].map((l, i) => (
                 <div key={l.label} className={cn("pt-5", i === 1 && "border-l pl-5")}>
-                  <dt className="text-sm text-dim">{l.label}</dt>
+                  <dt className="text-sm text-fg-subtle">{l.label}</dt>
                   <dd className="mt-2 flex items-baseline gap-1.5">
-                    <span className="text-4xl font-medium tracking-[-0.03em] text-bone">{l.value}</span>
+                    <span className="text-4xl font-medium tracking-[-0.03em] text-fg">{l.value}</span>
                     <span className="font-mono text-sm text-signal">{l.unit}</span>
                   </dd>
                 </div>
@@ -130,7 +131,7 @@ const OperationsProtocol = () => {
             <div className="bg-blueprint overflow-x-auto border-y border-rule">
               <GaugeProfile className="mx-auto block h-auto w-full min-w-[520px] max-w-[720px]" />
             </div>
-            <figcaption className="mt-3 text-sm text-dim">
+            <figcaption className="mt-3 text-sm text-fg-subtle">
               Genişlik ve yükseklik sınırı arka görünüşte; boy ve ağırlık sınırı solda. Taralı bölge, zarfı aşan yük
               kısmıdır.
             </figcaption>

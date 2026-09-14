@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import manifest from "@/assets/photos/photos.json";
 import { HUB, PROVINCES, distanceKm } from "@/data/coverage";
-import { FLEET } from "@/data/fleet";
+import { EXCAVATOR_CLASS_RANGE, LOAD_EXAMPLES, LOWBED } from "@/data/fleet";
 import { PROJECTS, PROJECT_CATEGORIES } from "@/data/projects";
 import { getPhoto } from "@/lib/photos";
 
@@ -33,9 +33,18 @@ describe("proje arşivi verisi", () => {
 });
 
 describe("filo ve kapsama verisi", () => {
-  it("filo kimlikleri benzersiz ve spec satırları dolu", () => {
-    expect(new Set(FLEET.map((f) => f.id)).size).toBe(FLEET.length);
-    for (const item of FLEET) expect(item.specs.length).toBeGreaterThanOrEqual(5);
+  it("taşınan yük örneklerinin her biri proje arşivindeki bir kayda dayanır", () => {
+    const archive = new Set(PROJECTS.map((p) => p.slug));
+    expect(new Set(LOAD_EXAMPLES.map((l) => l.slug)).size).toBe(LOAD_EXAMPLES.length);
+    for (const example of LOAD_EXAMPLES) expect(archive.has(example.slug)).toBe(true);
+    expect(manifest).toHaveProperty(LOWBED.photo.slug);
+  });
+
+  it("sınıfı bilinen yükler ağırdan hafife sıralı; aralık bunlardan hesaplanır", () => {
+    const classes = LOAD_EXAMPLES.flatMap((l) => (l.weightClass ? [l.weightClass] : []));
+    expect(classes).toEqual([...classes].sort((a, b) => b - a));
+    expect(LOAD_EXAMPLES.findIndex((l) => !l.weightClass)).toBe(classes.length);
+    expect(EXCAVATOR_CLASS_RANGE).toBe("21–38");
   });
 
   it("plakalar benzersiz; kuş uçuşu mesafeler makul", () => {
