@@ -17,8 +17,8 @@ const project = (lat: number, lon: number) => ({
   y: ORIGIN.y - (lat - HUB.lat) * KM_PER_LAT,
 });
 
-const C = { surface: "#121417", grid: "#2A2F35", ring: "#3B424B", text: "#A7AFB8", dim: "#858D97", bone: "#ECEDEF", hub: "#FDB813" } as const;
-const MONO = "'JetBrains Mono', ui-monospace, monospace";
+const C = { surface: "#131312", grid: "#2C2B28", ring: "#3E3C38", text: "#A9A59C", dim: "#8B877F", bone: "#ECE8DF", hub: "#FDB813" } as const;
+const MONO = "'IBM Plex Mono', ui-monospace, monospace";
 /** Halka etiketi açısı (derece, saat yönü 0° = doğu): üs etiketiyle çakışmaması için 100/200 km sağ üstte */
 const RINGS = [
   { r: 100, angle: -40 },
@@ -164,7 +164,7 @@ const CoverageMap = () => {
         <div
           role="presentation"
           className={cn(
-            "pointer-events-none absolute z-10 border border-rule-strong bg-ink px-3 py-2 shadow-[0_0_0_1px_#121417]",
+            "pointer-events-none absolute z-10 border border-rule-strong bg-ink px-3 py-2 ",
             // Kenardaki işaretlerde (Kilis, Hakkari) ipucu harita dışına taşmasın: ortalamak yerine kenara yasla
             active.x < W * 0.22 ? "translate-x-0" : active.x > W * 0.78 ? "-translate-x-full" : "-translate-x-1/2",
             active.y > H * 0.6 && "-translate-y-full",

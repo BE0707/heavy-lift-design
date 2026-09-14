@@ -2,76 +2,51 @@ import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 interface SectionHeaderProps {
-  /** Teknik dizin numarası, örn. "02" */
+  /** Belge içi bölüm numarası, örn. "02" */
   index: string;
   kicker: string;
   title: ReactNode;
   lead?: ReactNode;
   titleId?: string;
   className?: string;
+  /** split: başlık solda, açıklama sağda alt hizada (geniş bölümler için) */
   layout?: "default" | "split";
 }
 
 /**
- * Editoryal bölüm başlığı: mono dizin numarası, rafine kicker ve
- * güçlü tipografik hiyerarşi. Split yerleşimle başlık ve açıklama dengelenir.
+ * Bölüm başlığı: katalog/teknik el kitabı düzeni. Tek sarı çentikli bölüm işareti,
+ * normal büyük-küçük harfli başlık; kontrast ağırlıktan değil boyuttan gelir.
  */
-const SectionHeader = ({
-  index,
-  kicker,
-  title,
-  lead,
-  titleId,
-  className,
-  layout = "default",
-}: SectionHeaderProps) => {
+const SectionHeader = ({ index, kicker, title, lead, titleId, className, layout = "default" }: SectionHeaderProps) => {
+  const mark = (
+    <p className="section-mark">
+      <span className="text-steel">{index}</span>
+      <span>{kicker}</span>
+    </p>
+  );
+  const heading = (
+    <h2 id={titleId} className="mt-5 max-w-[18ch] text-balance text-display-lg">
+      {title}
+    </h2>
+  );
+
   if (layout === "split") {
     return (
-      <header className={cn("border-b border-rule pb-8 lg:pb-12", className)}>
-        <div className="grid gap-6 lg:grid-cols-12 lg:items-end lg:gap-12">
-          <div className="lg:col-span-7">
-            <p className="label flex items-center gap-2.5">
-              <span className="font-mono text-xs font-semibold text-signal">{index}</span>
-              <span aria-hidden="true" className="h-px w-8 bg-rule-strong" />
-              <span className="tracking-[0.1em] text-steel">{kicker}</span>
-            </p>
-            <h2
-              id={titleId}
-              className="mt-3.5 text-balance font-display text-3xl font-bold tracking-[-0.025em] text-bone sm:text-4xl lg:text-5xl lg:leading-[1.04]"
-            >
-              {title}
-            </h2>
-          </div>
-          {lead && (
-            <div className="lg:col-span-5">
-              <p className="text-pretty font-sans text-base leading-relaxed text-steel lg:text-lg">
-                {lead}
-              </p>
-            </div>
-          )}
+      <header className={cn("grid gap-6 lg:grid-cols-12 lg:items-end lg:gap-10", className)}>
+        <div className="lg:col-span-7">
+          {mark}
+          {heading}
         </div>
+        {lead && <p className="max-w-[38rem] text-pretty text-lg leading-relaxed text-steel lg:col-span-5 lg:pb-1.5">{lead}</p>}
       </header>
     );
   }
 
   return (
     <header className={cn("max-w-3xl", className)}>
-      <p className="label flex items-center gap-2.5">
-        <span className="font-mono text-xs font-semibold text-signal">{index}</span>
-        <span aria-hidden="true" className="h-px w-8 bg-rule-strong" />
-        <span className="tracking-[0.1em] text-steel">{kicker}</span>
-      </p>
-      <h2
-        id={titleId}
-        className="mt-3.5 text-balance font-display text-3xl font-bold tracking-[-0.025em] text-bone sm:text-4xl lg:text-5xl lg:leading-[1.04]"
-      >
-        {title}
-      </h2>
-      {lead && (
-        <p className="mt-4 max-w-2xl text-pretty font-sans text-base leading-relaxed text-steel lg:text-lg">
-          {lead}
-        </p>
-      )}
+      {mark}
+      {heading}
+      {lead && <p className="mt-5 max-w-[38rem] text-pretty text-lg leading-relaxed text-steel">{lead}</p>}
     </header>
   );
 };

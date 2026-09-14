@@ -1,5 +1,8 @@
 import SectionHeader from "@/components/SectionHeader";
+import GaugeProfile from "@/components/GaugeProfile";
 import { LEGAL_LIMITS } from "@/lib/load-check";
+import { useReveal } from "@/hooks/use-reveal";
+import { cn } from "@/lib/utils";
 
 const STEPS = [
   {
@@ -30,73 +33,112 @@ const STEPS = [
 
 const fmt = (n: number, digits = 2) => n.toLocaleString("tr-TR", { minimumFractionDigits: digits, maximumFractionDigits: digits });
 
-const LIMITS = [
-  { label: "Genişlik", value: `${fmt(LEGAL_LIMITS.width)} m`, note: "Maks. yasal sınır" },
-  { label: "Yükseklik (yoldan)", value: `${fmt(LEGAL_LIMITS.height)} m`, note: "Yol kotundan ölçülür" },
-  { label: "Çekici + yarı römork boyu", value: `${fmt(LEGAL_LIMITS.length)} m`, note: "Standart kombinasyon" },
-  { label: "Toplam ağırlık (5 dingil)", value: `${fmt(LEGAL_LIMITS.grossWeight, 0)} t`, note: "İzinsiz azami sınır" },
-];
+const Station = ({ index, title, text, className }: { index: number; title: string; text: string; className?: string }) => (
+  <div className={className}>
+    <p className="font-mono text-xs text-dim">{String(index + 1).padStart(2, "0")}</p>
+    <h3 className="mt-2 text-xl leading-snug">{title}</h3>
+    <p className="mt-2 max-w-[28ch] text-pretty text-[0.9375rem] leading-relaxed text-steel">{text}</p>
+  </div>
+);
 
-const OperationsProtocol = () => (
-  <section id="protokol" aria-labelledby="protokol-title" className="border-b border-rule bg-ink py-20 lg:py-28">
-    <div className="container">
-      <SectionHeader
-        index="02"
-        kicker="Operasyon protokolü"
-        titleId="protokol-title"
-        title="İzin, Güzergah & Eskort Protokolü"
-        lead="Gabari dışı her sevkiyat aynı sırayla ilerler: ölçü, dorse, güzergah, izin, eskort, teslim. Eskort araç tahsisi ve geçiş izinleri KTK mevzuatına uygun yürütülür."
-        layout="split"
-      />
-
-      {/* Editoryal süreç akışı: kutu kafesi yerine açık, ritmik zaman çizgisi */}
-      <ol className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
-        {STEPS.map((step, i) => (
-          <li key={step.title} className="group flex flex-col border-t border-rule pt-6 transition-colors hover:border-signal">
-            <div className="flex items-center justify-between">
-              <span className="font-mono text-sm font-semibold text-signal">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <span className="h-1.5 w-1.5 rounded-none bg-rule-strong group-hover:bg-signal transition-colors" />
+/**
+ * Güzergah şeması: altı istasyonlu tek hat. Masaüstünde metinler hattın bir
+ * üstünde bir altında yer alır; mobilde dikey hat.
+ */
+const RouteSheet = () => (
+  <div className="mt-20">
+    {/* masaüstü: yatay hat */}
+    <ol className="hidden grid-cols-6 lg:grid" aria-label="Operasyon adımları">
+      {STEPS.map((step, i) => {
+        const above = i % 2 === 1;
+        return (
+          <li key={step.title} className="grid grid-rows-[minmax(11rem,auto)_1.5rem_minmax(11rem,auto)] pr-6">
+            {above ? <Station index={i} {...step} className="self-end pb-6" /> : <span aria-hidden="true" />}
+            <div aria-hidden="true" className="relative flex items-center">
+              <span className={cn("absolute inset-x-0 top-1/2 h-px -translate-y-1/2", i === STEPS.length - 1 ? "right-auto w-0" : "bg-rule-strong", "-mr-6")} />
+              <span
+                className={cn(
+                  "relative z-10 block border",
+                  i === 0 || i === STEPS.length - 1 ? "h-3 w-3 border-signal bg-signal" : "h-3 w-3 rounded-full border-steel bg-ink",
+                )}
+              />
             </div>
-            <h3 className="mt-4 font-display text-xl font-bold uppercase tracking-tight text-bone">
-              {step.title}
-            </h3>
-            <p className="mt-2 text-pretty font-sans text-sm leading-relaxed text-steel/90">
-              {step.text}
-            </p>
+            {!above ? <Station index={i} {...step} className="pt-6" /> : <span aria-hidden="true" />}
           </li>
-        ))}
-      </ol>
+        );
+      })}
+    </ol>
 
-      {/* Yasal sınırlar: kutu yerine açık editoryal teknik veri bandı */}
-      <div className="mt-16 border-t border-rule-strong pt-10">
-        <div className="grid gap-8 lg:grid-cols-12 lg:items-start">
+    {/* mobil / tablet: dikey hat */}
+    <ol className="relative grid gap-10 border-l border-rule-strong pl-7 lg:hidden" aria-label="Operasyon adımları">
+      {STEPS.map((step, i) => (
+        <li key={step.title} className="relative">
+          <span
+            aria-hidden="true"
+            className={cn(
+              "absolute -left-[calc(1.75rem+6.5px)] top-1 block h-3 w-3 border",
+              i === 0 || i === STEPS.length - 1 ? "border-signal bg-signal" : "rounded-full border-steel bg-ink",
+            )}
+          />
+          <Station index={i} {...step} />
+        </li>
+      ))}
+    </ol>
+  </div>
+);
+
+const OperationsProtocol = () => {
+  const revealRef = useReveal<HTMLDivElement>();
+
+  return (
+    <section id="protokol" aria-labelledby="protokol-title" className="border-t border-rule bg-ink py-24 lg:py-32">
+      <div ref={revealRef} className="container">
+        <SectionHeader
+          index="02"
+          kicker="Operasyon protokolü"
+          titleId="protokol-title"
+          title="İzin, Güzergah & Eskort Protokolü"
+          lead="Gabari dışı her sevkiyat aynı sırayla ilerler: ölçü, dorse, güzergah, izin, eskort, teslim. Eskort araç tahsisi ve geçiş izinleri KTK mevzuatına uygun yürütülür."
+          layout="split"
+        />
+
+        <RouteSheet />
+
+        <div className="mt-24 grid gap-12 border-t border-rule pt-14 lg:mt-28 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-4">
-            <p className="label text-signal">Mevzuat Referansı</p>
-            <h3 className="mt-2 font-display text-2xl font-bold uppercase tracking-tight text-bone">
-              Yasal gabari sınırları
-            </h3>
-            <p className="mt-2 text-pretty font-sans text-sm leading-relaxed text-steel">
-              Karayolları Trafik Yönetmeliği genel sınırları. Bu değerlerden birini aşan sevkiyat özel izin ve eskort kapsamındadır.
+            <h3 className="text-display-md">Yasal gabari sınırları</h3>
+            <p className="mt-4 max-w-[36ch] text-pretty text-steel">
+              Karayolları Trafik Yönetmeliği genel sınırları. Bu değerlerden birini aşan sevkiyat özel izin ve eskort
+              kapsamındadır.
             </p>
+            <dl className="mt-10 grid grid-cols-2 border-t border-rule">
+              {[
+                { label: "Çekici + yarı römork", value: fmt(LEGAL_LIMITS.length), unit: "m" },
+                { label: "Toplam ağırlık (5 dingil)", value: fmt(LEGAL_LIMITS.grossWeight, 0), unit: "t" },
+              ].map((l, i) => (
+                <div key={l.label} className={cn("pt-5", i === 1 && "border-l pl-5")}>
+                  <dt className="text-sm text-dim">{l.label}</dt>
+                  <dd className="mt-2 flex items-baseline gap-1.5">
+                    <span className="text-4xl font-medium tracking-[-0.03em] text-bone">{l.value}</span>
+                    <span className="font-mono text-sm text-signal">{l.unit}</span>
+                  </dd>
+                </div>
+              ))}
+            </dl>
           </div>
-
-          <dl className="grid grid-cols-2 gap-6 sm:grid-cols-4 lg:col-span-8">
-            {LIMITS.map((l) => (
-              <div key={l.label} className="border-l border-rule pl-4">
-                <dt className="label text-dim">{l.label}</dt>
-                <dd className="mt-2 font-display text-3xl font-bold tabular text-bone lg:text-4xl">
-                  {l.value}
-                </dd>
-                <dd className="mt-1 font-mono text-2xs text-steel/70">{l.note}</dd>
-              </div>
-            ))}
-          </dl>
+          <figure className="min-w-0 lg:col-span-8">
+            <div className="bg-blueprint overflow-x-auto border-y border-rule">
+              <GaugeProfile className="mx-auto block h-auto w-full min-w-[520px] max-w-[720px]" />
+            </div>
+            <figcaption className="mt-3 text-sm text-dim">
+              Genişlik ve yükseklik sınırı arka görünüşte; boy ve ağırlık sınırı solda. Taralı bölge, zarfı aşan yük
+              kısmıdır.
+            </figcaption>
+          </figure>
         </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 export default OperationsProtocol;

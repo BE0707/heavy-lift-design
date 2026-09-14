@@ -1,15 +1,50 @@
 import { useMemo, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
-import { ChevronLeft, ChevronRight, Maximize2, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import SectionHeader from "@/components/SectionHeader";
 import Picture from "@/components/Picture";
-import { PROJECTS, PROJECT_CATEGORIES, type Project, type ProjectCategory } from "@/data/projects";
+import manifest from "@/assets/photos/photos.json";
+import { PROJECTS, PROJECT_CATEGORIES, recordCode, type Project, type ProjectCategory } from "@/data/projects";
+import { useReveal } from "@/hooks/use-reveal";
 import { cn } from "@/lib/utils";
 
 type Filter = ProjectCategory | "all";
+type RowType = "lead" | "pair" | "wide" | "single";
 
 const categoryLabel = (id: ProjectCategory) => PROJECT_CATEGORIES.find((c) => c.id === id)?.label ?? "";
 const pad = (n: number) => String(n).padStart(2, "0");
+
+/** Editoryal ritim: büyük kayıt → asimetrik ikili → panorama → ters ikili … */
+const PATTERN: readonly RowType[] = ["lead", "pair", "wide", "pair"];
+
+const ratio = (p: Project) => manifest[p.slug].width / manifest[p.slug].height;
+/** Öne çıkan (lead/wide) kareler yalnızca yüksek çözünürlüklü yatay fotoğrafla dolar; aksi hâlde kırpım bozulur ya da görüntü yumuşar */
+const suitsFeature = (p: Project) => manifest[p.slug].width >= 1200 && ratio(p) >= 1.2;
+
+interface Row {
+  type: RowType;
+  items: Project[];
+  mirrored: boolean;
+}
+
+/** Görünür kayıtları satırlara yerleştirir; öne çıkan kare için en fazla 3 kayıt ileriye bakar */
+function arrange(items: readonly Project[]) {
+  const queue = [...items];
+  const rows: Row[] = [];
+  let pairCount = 0;
+  for (let step = 0; queue.length; step++) {
+    const type = PATTERN[step % PATTERN.length];
+    if (type === "pair") {
+      if (queue.length === 1) rows.push({ type: "single", items: queue.splice(0, 1), mirrored: false });
+      else rows.push({ type: "pair", items: queue.splice(0, 2), mirrored: pairCount++ % 2 === 1 });
+      continue;
+    }
+    const pick = queue.slice(0, 3).findIndex(suitsFeature);
+    if (pick === -1) rows.push({ type: "single", items: queue.splice(0, 1), mirrored: false });
+    else rows.push({ type, items: queue.splice(pick, 1), mirrored: false });
+  }
+  return { rows, order: rows.flatMap((r) => r.items) };
+}
 
 interface LightboxProps {
   items: readonly Project[];
@@ -29,10 +64,11 @@ const Lightbox = ({ items, index, onIndexChange, onClosed }: LightboxProps) => {
   return (
     <Dialog.Root open={item !== null} onOpenChange={(open) => !open && onIndexChange(null)}>
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 z-50 bg-ink/95 backdrop-blur-md data-[state=open]:animate-overlay-in" />
+        <Dialog.Overlay className="fixed inset-0 z-50 bg-ink data-[state=open]:animate-overlay-in" />
         {item && index !== null && (
           <Dialog.Content
             aria-describedby={undefined}
+            // Radix odağı Dialog.Trigger'a döndürür; burada tetikleyici ızgaradaki görsel olduğu için elle yönetilir
             onCloseAutoFocus={(e) => {
               e.preventDefault();
               onClosed(item.slug);
@@ -43,15 +79,12 @@ const Lightbox = ({ items, index, onIndexChange, onClosed }: LightboxProps) => {
             }}
             className="fixed inset-0 z-50 flex flex-col focus:outline-none"
           >
-            <div className="flex items-center justify-between gap-4 border-b border-rule bg-ink/90 px-4 py-3 sm:px-8 backdrop-blur-sm">
-              <div className="flex items-center gap-3">
-                <span className="h-1.5 w-1.5 bg-signal" aria-hidden="true" />
-                <p className="font-mono text-xs uppercase tracking-label text-steel">
-                  {pad(index + 1)} / {pad(items.length)} · {categoryLabel(item.category)}
-                </p>
-              </div>
-              <Dialog.Close className="btn btn-dark btn-sm h-10 w-10 px-0 hover:border-signal" aria-label="Kapat">
-                <X className="h-4 w-4" />
+            <div className="flex items-center justify-between gap-4 border-b border-rule px-4 py-3 sm:px-8">
+              <p className="font-mono text-xs text-steel">
+                {pad(index + 1)} / {pad(items.length)} · {recordCode(item.slug)} · {categoryLabel(item.category)}
+              </p>
+              <Dialog.Close className="btn btn-dark btn-sm h-10 w-10 px-0" aria-label="Kapat">
+                <X />
               </Dialog.Close>
             </div>
 
@@ -62,29 +95,27 @@ const Lightbox = ({ items, index, onIndexChange, onClosed }: LightboxProps) => {
                 alt={item.alt}
                 sizes="100vw"
                 priority
-                className="h-full max-h-full w-auto max-w-full object-contain shadow-2xl border border-rule-strong/40"
+                className="h-full max-h-full w-auto max-w-full object-contain"
               />
             </div>
 
-            <div className="border-t border-rule bg-ink/90 px-4 py-5 sm:px-8 backdrop-blur-sm">
-              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <div className="max-w-2xl">
-                  <Dialog.Title className="font-display text-2xl font-bold uppercase tracking-tight text-bone sm:text-3xl">
-                    {item.title}
-                  </Dialog.Title>
-                  <Dialog.Description id="lightbox-detail" className="mt-1 font-sans text-sm text-steel">
+            <div className="border-t border-rule px-4 py-5 sm:px-8">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+                <div className="max-w-3xl">
+                  <Dialog.Title className="text-2xl sm:text-3xl">{item.title}</Dialog.Title>
+                  <Dialog.Description id="lightbox-detail" className="mt-1.5 text-steel">
                     {item.detail}
                     {item.route ? ` · ${item.route}` : ""}
                   </Dialog.Description>
                 </div>
                 <div className="flex items-center gap-2">
                   <button type="button" onClick={() => go(-1)} className="btn btn-outline btn-sm" aria-label="Önceki fotoğraf">
-                    <ChevronLeft className="h-4 w-4" />
+                    <ChevronLeft />
                     Önceki
                   </button>
                   <button type="button" onClick={() => go(1)} className="btn btn-outline btn-sm" aria-label="Sonraki fotoğraf">
                     Sonraki
-                    <ChevronRight className="h-4 w-4" />
+                    <ChevronRight />
                   </button>
                 </div>
               </div>
@@ -96,30 +127,83 @@ const Lightbox = ({ items, index, onIndexChange, onClosed }: LightboxProps) => {
   );
 };
 
+interface EntryProps {
+  project: Project;
+  onOpen: () => void;
+  aspect: string;
+  sizes: string;
+  maxWidth?: number;
+  className?: string;
+}
+
+/** Arşiv görseli: kart çerçevesi yok; görsel butonu lightbox'ı açar */
+const EntryImage = ({ project, onOpen, aspect, sizes, maxWidth = 960, className }: EntryProps) => (
+  <button
+    type="button"
+    data-project={project.slug}
+    onClick={onOpen}
+    aria-label={`${project.title}: fotoğrafı büyüt`}
+    className={cn("reveal-clip relative block w-full overflow-hidden bg-graphite focus-visible:outline-offset-4", aspect, className)}
+  >
+    <Picture
+      slug={project.slug}
+      alt={project.alt}
+      sizes={sizes}
+      maxWidth={maxWidth}
+      className="photo-grade h-full w-full object-cover group-hover:scale-[1.025]"
+      style={{ objectPosition: project.focus ?? "50% 50%" }}
+    />
+  </button>
+);
+
+const Fragments = ({ detail, className }: { detail: string; className?: string }) => (
+  <ul className={cn("text-sm text-dim transition-colors duration-300 group-hover:text-steel", className)}>
+    {detail.split(" · ").map((part) => (
+      <li key={part} className="border-t border-rule py-2 first:border-t-0 first:pt-0">
+        {part}
+      </li>
+    ))}
+  </ul>
+);
+
+const Caption = ({ project, size = "md" }: { project: Project; size?: "md" | "lg" }) => (
+  <>
+    <p className="flex flex-wrap items-baseline gap-x-3 font-mono text-xs text-dim">
+      <span className="text-steel">{recordCode(project.slug)}</span>
+      <span>{categoryLabel(project.category)}</span>
+    </p>
+    <h3 className={cn("mt-2.5 text-balance", size === "lg" ? "text-display-md" : "text-xl leading-snug")}>{project.title}</h3>
+    {project.route && <p className="mt-1.5 font-mono text-sm text-bone">{project.route}</p>}
+  </>
+);
+
 const ProjectArchive = () => {
   const [filter, setFilter] = useState<Filter>("all");
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const revealRef = useReveal<HTMLDivElement>();
 
   const visible = useMemo(() => (filter === "all" ? PROJECTS : PROJECTS.filter((p) => p.category === filter)), [filter]);
+  // Lightbox sırası ekrandaki sırayla aynı olsun diye düzenlenmiş sıra kullanılır
+  const { rows, order } = useMemo(() => arrange(visible), [visible]);
+  const open = (project: Project) => setOpenIndex(order.indexOf(project));
   const filters: { id: Filter; label: string; count: number }[] = [
     { id: "all", label: "Tümü", count: PROJECTS.length },
     ...PROJECT_CATEGORIES.map((c) => ({ ...c, count: PROJECTS.filter((p) => p.category === c.id).length })),
   ];
 
   return (
-    <section id="projeler" aria-labelledby="projeler-title" className="border-b border-rule bg-ink py-20 lg:py-28">
-      <div className="container">
+    <section id="projeler" aria-labelledby="projeler-title" className="border-t border-rule bg-ink py-24 lg:py-32">
+      <div ref={revealRef} className="container">
         <SectionHeader
           index="04"
           kicker="Saha kayıtları"
           titleId="projeler-title"
           title="Proje Arşivi"
-          lead="Operasyonlarımızdan doğrulanmış saha fotoğrafları. Makine marka ve modelleri fotoğrafta okunabildiği şekilde arşivlenmiştir."
+          lead="Operasyonlarımızdan saha fotoğrafları. Makine marka ve modelleri fotoğrafta okunabildiği şekilde kayda geçirilmiştir; güzergah yalnızca bilindiğinde yazılır."
           layout="split"
         />
 
-        {/* Filtre sekmesi: kutu pill'ler yerine rafine mimari filtre çubuğu */}
-        <div className="mt-10 flex flex-wrap items-center gap-2 border-b border-rule pb-6" role="group" aria-label="Kategoriye göre filtrele">
+        <div className="mt-14 flex flex-wrap gap-x-8 border-b border-rule" role="group" aria-label="Kategoriye göre filtrele">
           {filters.map((f) => (
             <button
               key={f.id}
@@ -127,16 +211,12 @@ const ProjectArchive = () => {
               aria-pressed={filter === f.id}
               onClick={() => setFilter(f.id)}
               className={cn(
-                "btn btn-sm gap-2.5 transition-all duration-150",
-                filter === f.id
-                  ? "border-signal bg-signal text-ink shadow-[0_0_12px_rgba(253,184,19,0.25)]"
-                  : "btn-outline text-steel hover:text-bone hover:border-steel",
+                "-mb-px flex items-baseline gap-2 border-b py-4 text-[0.9375rem] transition-colors",
+                filter === f.id ? "border-signal text-bone" : "border-transparent text-steel hover:text-bone",
               )}
             >
-              <span>{f.label}</span>
-              <span className="tabular font-mono text-xs tracking-normal opacity-75">
-                {pad(f.count)}
-              </span>
+              {f.label}
+              <span className="tabular font-mono text-xs text-dim">{pad(f.count)}</span>
             </button>
           ))}
         </div>
@@ -145,88 +225,89 @@ const ProjectArchive = () => {
           {visible.length} proje gösteriliyor
         </p>
 
-        {/* Editoryal fotoğraf ızgarası: ilk kare öne çıkar, tüm kareler nefes alır */}
-        <ul className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {visible.map((project, i) => {
-            const isFeatured = i === 0;
+        <ul className="mt-12 grid gap-16 lg:mt-16 lg:gap-24">
+          {rows.map((row) => {
+            if (row.type === "lead") {
+              const [p] = row.items;
+              return (
+                <li key={p.slug} className="group grid gap-6 lg:grid-cols-12 lg:gap-10">
+                  <EntryImage
+                    project={p}
+                    onOpen={() => open(p)}
+                    aspect="aspect-[4/3] lg:aspect-[3/2]"
+                    sizes="(min-width: 1360px) 860px, (min-width: 1024px) 64vw, 100vw"
+                    maxWidth={1600}
+                    className="lg:col-span-8"
+                  />
+                  <div className="flex flex-col lg:col-span-4 lg:justify-end">
+                    <Caption project={p} size="lg" />
+                    <Fragments detail={p.detail} className="mt-6 border-t border-rule pt-3" />
+                  </div>
+                </li>
+              );
+            }
+
+            if (row.type === "single") {
+              const [p] = row.items;
+              return (
+                <li key={p.slug} className="group grid gap-6 sm:grid-cols-12 sm:gap-8 lg:gap-10">
+                  <EntryImage
+                    project={p}
+                    onOpen={() => open(p)}
+                    aspect={ratio(p) > 1.5 ? "aspect-[16/9]" : "aspect-[4/3]"}
+                    sizes="(min-width: 1360px) 740px, (min-width: 640px) 56vw, 100vw"
+                    className="sm:col-span-7"
+                  />
+                  <div className="flex flex-col sm:col-span-5 sm:justify-end">
+                    <Caption project={p} />
+                    <Fragments detail={p.detail} className="mt-5 border-t border-rule pt-3" />
+                  </div>
+                </li>
+              );
+            }
+
+            if (row.type === "wide") {
+              const [p] = row.items;
+              return (
+                <li key={p.slug} className="group">
+                  <EntryImage
+                    project={p}
+                    onOpen={() => open(p)}
+                    aspect="aspect-[4/3] sm:aspect-[16/7]"
+                    sizes="(min-width: 1360px) 1280px, 100vw"
+                    maxWidth={1600}
+                  />
+                  <div className="mt-5 grid gap-3 lg:grid-cols-12 lg:gap-10">
+                    <div className="lg:col-span-5">
+                      <Caption project={p} />
+                    </div>
+                    <p className="text-pretty text-sm text-dim transition-colors duration-300 group-hover:text-steel lg:col-span-7 lg:pt-7">
+                      {p.detail}
+                    </p>
+                  </div>
+                </li>
+              );
+            }
+
             return (
-              <li
-                key={project.slug}
-                className={cn(
-                  "group flex flex-col border border-rule bg-asphalt/60 transition-all duration-200 hover:border-rule-strong hover:bg-asphalt",
-                  isFeatured && "sm:col-span-2 lg:col-span-2",
-                )}
-              >
-                <figure className="flex h-full flex-col">
-                  <button
-                    type="button"
-                    data-project={project.slug}
-                    onClick={() => setOpenIndex(i)}
-                    aria-label={`${project.title}: fotoğrafı büyüt`}
-                    className={cn(
-                      "relative block w-full overflow-hidden bg-ink focus-visible:-outline-offset-4",
-                      isFeatured ? "aspect-[16/10]" : "aspect-[4/3]",
-                    )}
-                  >
-                    <Picture
-                      slug={project.slug}
-                      alt={project.alt}
-                      sizes={
-                        isFeatured
-                          ? "(min-width: 1320px) 860px, (min-width: 1024px) 66vw, 100vw"
-                          : "(min-width: 1320px) 410px, (min-width: 1024px) 31vw, (min-width: 640px) 48vw, 100vw"
-                      }
-                      maxWidth={isFeatured ? 1600 : 960}
-                      className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-                      style={{ objectPosition: project.focus ?? "50% 50%" }}
-                    />
-
-                    {/* Fotoğraf üstü teknik indeks ve büyüteç etiketi */}
-                    <div className="absolute inset-x-0 top-0 flex items-center justify-between p-3 pointer-events-none">
-                      <span className="font-mono text-2xs font-semibold uppercase tracking-label text-bone bg-ink/80 backdrop-blur-sm px-2 py-1 border border-rule">
-                        #{pad(PROJECTS.indexOf(project) + 1)}
-                      </span>
-                      {isFeatured && (
-                        <span className="font-mono text-2xs font-medium uppercase tracking-label text-signal bg-ink/90 backdrop-blur-sm px-2.5 py-1 border border-signal/40">
-                          Öne Çıkan Saha Kaydı
-                        </span>
-                      )}
-                    </div>
-
-                    <span
-                      aria-hidden="true"
-                      className="absolute bottom-3 right-3 flex h-9 w-9 items-center justify-center border border-rule bg-ink/90 text-bone opacity-0 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100"
-                    >
-                      <Maximize2 className="h-4 w-4" />
-                    </span>
-                  </button>
-
-                  <figcaption className="flex flex-1 flex-col justify-between border-t border-rule p-5 sm:p-6">
-                    <div>
-                      <p className="font-mono text-2xs uppercase tracking-label text-signal">
-                        {categoryLabel(project.category)}
-                      </p>
-                      <h3
-                        className={cn(
-                          "mt-2 font-display font-bold uppercase tracking-tight text-bone",
-                          isFeatured ? "text-2xl sm:text-3xl" : "text-xl sm:text-2xl",
-                        )}
-                      >
-                        {project.title}
-                      </h3>
-                      <p className="mt-2 text-pretty font-sans text-sm leading-relaxed text-steel">
-                        {project.detail}
-                      </p>
-                    </div>
-
-                    {project.route && (
-                      <div className="mt-4 flex items-center gap-2 border-t border-rule/60 pt-3 text-xs font-mono text-bone/90">
-                        <span className="text-signal">Güzergah:</span>
-                        <span>{project.route}</span>
+              <li key={row.items.map((p) => p.slug).join()} className="grid gap-14 sm:grid-cols-12 sm:gap-8 lg:gap-10">
+                {row.items.map((p, j) => {
+                  const large = row.mirrored ? j === 1 : j === 0;
+                  return (
+                    <div key={p.slug} className={cn("group", large ? "sm:col-span-7" : "sm:col-span-5", !large && "sm:pt-16")}>
+                      <EntryImage
+                        project={p}
+                        onOpen={() => open(p)}
+                        aspect={large ? "aspect-[4/3]" : "aspect-[4/3] sm:aspect-[4/5]"}
+                        sizes={large ? "(min-width: 1360px) 740px, (min-width: 640px) 56vw, 100vw" : "(min-width: 1360px) 520px, (min-width: 640px) 40vw, 100vw"}
+                      />
+                      <div className="mt-5">
+                        <Caption project={p} />
+                        <p className="mt-2 text-pretty text-sm text-dim transition-colors duration-300 group-hover:text-steel">{p.detail}</p>
                       </div>
-                    )}
-                  </figcaption>
-                </figure>
+                    </div>
+                  );
+                })}
               </li>
             );
           })}
@@ -234,7 +315,7 @@ const ProjectArchive = () => {
       </div>
 
       <Lightbox
-        items={visible}
+        items={order}
         index={openIndex}
         onIndexChange={setOpenIndex}
         onClosed={(slug) => document.querySelector<HTMLButtonElement>(`[data-project="${slug}"]`)?.focus()}

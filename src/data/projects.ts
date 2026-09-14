@@ -139,3 +139,9 @@ export const PROJECTS: readonly Project[] = [
     focus: "50% 30%",
   },
 ];
+
+/** Arşiv kayıt kodu (BG = Bumerang): arşivdeki sıra numarasıdır, ayrı bir iş numarası değildir */
+export const recordCode = (slug: PhotoSlug): string => {
+  const index = PROJECTS.findIndex((p) => p.slug === slug);
+  return `BG-${String(index + 1).padStart(2, "0")}`;
+};

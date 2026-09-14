@@ -1,155 +1,168 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Phone } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Picture from "@/components/Picture";
 import { PRIMARY_DISPATCHER, telHref } from "@/data/company";
+import { recordCode } from "@/data/projects";
+import { cn } from "@/lib/utils";
+
+const HERO_SLUG = "sany-sy385h-ekskavator" as const;
 
 /**
- * Fotoğraf üzerindeki teknik açıklamalar. Koordinatlar kaynak görselin
- * (1600×1200) piksel sistemindedir; çerçeve 4:3 kilitli olduğu için yüzdeler kaymaz.
+ * Teknik çizim "balon" açıklamaları. Koordinatlar kaynak görselin (1600×1200)
+ * piksel sistemindedir; SVG `xMidYMid slice` ile görselin `object-cover` kırpımına
+ * birebir oturur. Yalnızca fotoğrafta görülen/okunan bilgi yazılır.
  */
 const CALLOUTS = [
-  { point: [760, 610], label: [520, 300], text: "Sany SY385H · 38 t sınıfı" },
-  { point: [1290, 700], label: [1180, 430], text: "MAN TGX çekici" },
-  { point: [480, 862], label: [300, 1045], text: "3 dingil lowbed · hidrolik rampa" },
+  { n: 1, point: [760, 600], balloon: [760, 395], key: "Yük", value: "Sany SY385H paletli ekskavatör", note: "38 t sınıfı" },
+  { n: 2, point: [480, 858], balloon: [340, 1010], key: "Dorse", value: "3 dingil lowbed", note: "Hidrolik rampa" },
+  { n: 3, point: [1295, 690], balloon: [1295, 470], key: "Çekici", value: "MAN TGX", note: "4×2 çekici" },
 ] as const;
 
-const pct = (v: number, of: number) => `${(v / of) * 100}%`;
-
-const AnnotatedPhoto = () => (
-  <figure className="relative">
-    <div className="corner-ticks relative aspect-[4/3] border border-rule-strong bg-graphite shadow-2xl">
-      <Picture
-        slug="sany-sy385h-ekskavator"
-        alt="MAN TGX çekici ve kırmızı 3 dingilli hidrolik rampalı lowbed dorse üzerinde sarı Sany SY385H paletli ekskavatör, açık arazide stabilize yolda"
-        sizes="(min-width: 1320px) 740px, (min-width: 1024px) 56vw, 100vw"
-        priority
-        className="absolute inset-0 h-full w-full object-cover"
-      />
-      <div aria-hidden="true" className="absolute inset-0 hidden md:block pointer-events-none">
-        <svg viewBox="0 0 1600 1200" preserveAspectRatio="none" className="absolute inset-0 h-full w-full">
-          {CALLOUTS.map(({ point, label }) => (
-            <g key={label.join()}>
-              <line
-                x1={point[0]}
-                y1={point[1]}
-                x2={label[0]}
-                y2={label[1]}
-                stroke="#FDB813"
-                strokeWidth={1.2}
-                strokeDasharray="4 3"
-                vectorEffect="non-scaling-stroke"
-                opacity={0.85}
-              />
-            </g>
-          ))}
-        </svg>
-        {CALLOUTS.map(({ point, label, text }) => (
-          <div key={text}>
-            <span
-              className="absolute h-2 w-2 -translate-x-1/2 -translate-y-1/2 border border-ink bg-signal shadow-[0_0_8px_rgba(253,184,19,0.6)]"
-              style={{ left: pct(point[0], 1600), top: pct(point[1], 1200) }}
-            />
-            <span
-              className="absolute -translate-x-1/2 -translate-y-1/2 whitespace-nowrap border border-rule-strong bg-ink/95 px-2.5 py-1 font-mono text-2xs font-medium uppercase tracking-label text-bone backdrop-blur-sm"
-              style={{ left: pct(label[0], 1600), top: pct(label[1], 1200) }}
-            >
-              {text}
-            </span>
-          </div>
-        ))}
-      </div>
-    </div>
-    <figcaption className="mt-3.5 flex flex-wrap items-center justify-between gap-x-6 gap-y-1 text-xs">
-      <span className="label flex items-center gap-2 text-steel">
-        <span className="inline-block h-1 w-1 bg-signal" aria-hidden="true" />
-        Saha kaydı · paletli ekskavatör transferi
-      </span>
-      <span className="font-mono text-2xs uppercase tracking-label text-dim">
-        Arşiv No: 2026-F01 · Doğrulanmış saha görseli
-      </span>
-    </figcaption>
-  </figure>
+const Balloons = () => (
+  <svg
+    viewBox="0 0 1600 1200"
+    preserveAspectRatio="xMidYMid slice"
+    aria-hidden="true"
+    className="pointer-events-none absolute inset-0 hidden h-full w-full md:block"
+  >
+    {CALLOUTS.map(({ n, point, balloon }) => {
+      const dir = Math.sign(point[1] - balloon[1]);
+      return (
+        <g key={n}>
+          <line
+            x1={balloon[0]}
+            y1={balloon[1] + dir * 27}
+            x2={point[0]}
+            y2={point[1]}
+            stroke="#ECE8DF"
+            strokeWidth={1}
+            vectorEffect="non-scaling-stroke"
+          />
+          <circle cx={point[0]} cy={point[1]} r={6} fill="#FDB813" />
+          <circle cx={balloon[0]} cy={balloon[1]} r={27} fill="#0E0E0D" fillOpacity={0.78} stroke="#ECE8DF" strokeWidth={1} vectorEffect="non-scaling-stroke" />
+          <text
+            x={balloon[0]}
+            y={balloon[1] + 9}
+            textAnchor="middle"
+            fontFamily="'IBM Plex Mono', ui-monospace, monospace"
+            fontSize={26}
+            fill="#ECE8DF"
+          >
+            {n}
+          </text>
+        </g>
+      );
+    })}
+  </svg>
 );
 
-const CAPABILITIES = [
-  { index: "01", label: "Lowbed seçenekleri", value: "4–8 dingil", note: "Standart, havuzlu ve teleskopik dorse" },
-  { index: "02", label: "Maks. faydalı yük", value: "80 ton", note: "Çok dingilli havuzlu dorseyle" },
-  { index: "03", label: "Gabari dışı", value: "Ağır sanayi", note: "Genişlik > 2,55 m · yükseklik > 4,00 m" },
-  { index: "04", label: "Türkiye geneli", value: "Güzergah & izin", note: "KGM özel izin · eskort koordinasyonu" },
+/** 2 sütun (mobil) → 4 sütun (sm+) geçişinde hücre çizgileri */
+const CELL_BORDERS = ["", "border-l", "border-t sm:border-l sm:border-t-0"] as const;
+
+/** Çizim antet bloğu gibi: balon numaralarının karşılığı ve arşiv kaydı */
+const TitleBlock = () => (
+  <figcaption className="grid grid-cols-2 border-t border-rule bg-ink sm:grid-cols-[1.25fr_1fr_1fr_0.8fr]">
+    {CALLOUTS.map((c, i) => (
+      <div key={c.n} className={cn("px-5 py-3.5 lg:px-6 lg:py-4", CELL_BORDERS[i])}>
+        <p className="label">
+          <span className="hidden text-steel md:inline">{c.n} · </span>
+          {c.key}
+        </p>
+        <p className="mt-1.5 text-sm text-bone">{c.value}</p>
+        <p className="text-sm text-dim">{c.note}</p>
+      </div>
+    ))}
+    <div className="border-l border-t px-5 py-3.5 sm:border-t-0 lg:px-6 lg:py-4">
+      <p className="label">Kayıt</p>
+      <Link to="/#projeler" className="-mb-1.5 block w-fit py-1.5 font-mono text-sm text-bone">
+        <span className="link-u">{recordCode(HERO_SLUG)}</span>
+      </Link>
+      <p className="text-sm text-dim">Proje arşivi</p>
+    </div>
+  </figcaption>
+);
+
+const SPECS = [
+  { label: "Azami faydalı yük", figure: "80", unit: "t", note: "Çok dingilli havuzlu dorseyle; standart lowbed ≈ 40–50 t" },
+  { label: "Dorse seçenekleri", figure: "4–8", unit: "dingil", note: "Standart, havuzlu ve teleskopik lowbed" },
+  { label: "Gabari dışı genişlik", figure: "2,55", unit: "m üzeri", note: "KGM özel izni ve eskort koordinasyonuyla" },
+  { label: "Operasyon hattı", figure: "7/24", unit: "", note: "Diyarbakır üssünden Türkiye geneli sevk" },
 ] as const;
 
-const CapabilityStrip = () => (
-  <div className="border-t border-rule bg-ink/70">
-    <div className="container">
-      <dl className="grid grid-cols-2 divide-y divide-rule sm:divide-y-0 sm:divide-x divide-rule lg:grid-cols-4">
-        {CAPABILITIES.map((c) => (
-          <div key={c.label} className="group py-6 pr-4 sm:px-6 lg:py-8 transition-colors hover:bg-graphite/40">
-            <dt className="label flex items-center justify-between text-dim">
-              <span>{c.label}</span>
-              <span className="font-mono text-2xs opacity-40 group-hover:text-signal group-hover:opacity-100 transition-colors">
-                {c.index}
-              </span>
-            </dt>
-            <dd className="mt-2.5 font-display text-2xl font-bold uppercase tracking-tight text-bone sm:text-3xl lg:text-[2rem]">
-              {c.value}
-            </dd>
-            <dd className="mt-1.5 font-sans text-xs leading-relaxed text-steel/90">{c.note}</dd>
-          </div>
-        ))}
-      </dl>
-    </div>
+/** Teknik şartname satırı: büyük değer, küçük birim, kısa açıklama; eşit olmayan sütunlar */
+const SpecLine = () => (
+  <div className="border-t border-rule">
+    <dl className="container grid grid-cols-2 lg:grid-cols-[1.45fr_1fr_1fr_0.85fr]">
+      {SPECS.map((s, i) => (
+        <div
+          key={s.label}
+          className={cn(
+            "py-7 lg:py-10",
+            i % 2 === 1 && "border-l pl-5",
+            i > 0 && "lg:border-l lg:pl-8",
+            i >= 2 && "border-t lg:border-t-0",
+          )}
+        >
+          <dt className="label">{s.label}</dt>
+          <dd className="mt-4 flex items-baseline gap-2">
+            <span className={cn("font-medium text-bone", i === 0 ? "text-figure-lg" : "text-[clamp(2.25rem,1.6rem+1.6vw,3.25rem)] leading-none tracking-[-0.035em]")}>
+              {s.figure}
+            </span>
+            {s.unit && <span className="font-mono text-sm text-steel">{s.unit}</span>}
+          </dd>
+          <dd className="mt-3 max-w-[24ch] text-pretty text-sm leading-snug text-steel">{s.note}</dd>
+        </div>
+      ))}
+    </dl>
   </div>
 );
 
 const Hero = () => (
-  <section aria-labelledby="hero-title" className="border-b border-rule bg-gradient-to-b from-ink/60 to-asphalt">
-    <div className="container py-12 sm:py-16 lg:py-24">
-      <div className="grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-14">
-        <div className="lg:col-span-6">
-          <p className="label flex items-center gap-2.5 text-signal font-mono text-xs">
-            <span aria-hidden="true" className="h-1.5 w-1.5 bg-signal" />
-            <span>Diyarbakır ve Güneydoğu merkezli · 37.91° N, 40.23° E</span>
-          </p>
+  <section aria-labelledby="hero-title" className="overflow-hidden">
+    <div className="container grid lg:min-h-[min(720px,calc(100svh-4rem))] lg:grid-cols-12">
+      <div className="flex flex-col justify-center pb-10 pt-10 sm:pt-14 lg:col-span-5 lg:py-20 lg:pr-12">
+        <p className="section-mark">
+          <span className="text-steel">Diyarbakır · Güneydoğu Anadolu</span>
+          <span className="hidden sm:inline">37,91° K · 40,23° D</span>
+        </p>
 
-          <h1
-            id="hero-title"
-            className="mt-6 text-balance font-display text-[2.75rem] font-bold uppercase tracking-[-0.03em] leading-[0.95] text-bone sm:text-6xl xl:text-[4.25rem]"
-          >
-            Gabari Dışı Ağır Taşımacılık &amp; Lowbed Operasyonları
-          </h1>
+        <h1 id="hero-title" className="mt-7 text-display-xl">
+          <span className="block text-bone">Gabari Dışı Ağır Taşımacılık</span>{" "}
+          <span className="block text-steel">&amp; Lowbed Operasyonları</span>
+        </h1>
 
-          <p className="mt-6 max-w-xl text-pretty font-sans text-base leading-relaxed text-steel lg:text-lg">
-            Ekskavatör, dozer, vinç, kule vinç ve ağır sanayi ekipmanları için özel izinli, eskort destekli şehirlerarası
-            lowbed transfer çözümleri.
-          </p>
+        <p className="mt-7 max-w-[34rem] text-pretty text-lg leading-relaxed text-steel">
+          Ekskavatör, dozer, vinç, kule vinç ve ağır sanayi ekipmanları için özel izinli, eskort destekli şehirlerarası
+          lowbed transfer çözümleri.
+        </p>
 
-          <div className="mt-9 flex flex-col gap-3.5 sm:flex-row sm:items-center">
-            <Link to="/#fiyat-talebi" className="btn btn-primary group">
-              <span>Yük bildir · Fiyat al</span>
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </Link>
-            <a href={telHref(PRIMARY_DISPATCHER.phone)} className="btn btn-outline group">
-              <Phone className="h-4 w-4 text-signal transition-transform group-hover:scale-110" />
-              <span className="tabular font-mono tracking-tight">{PRIMARY_DISPATCHER.display}</span>
-            </a>
-          </div>
-
-          <div className="mt-8 flex items-center gap-6 border-t border-rule/80 pt-5 text-xs text-dim font-mono">
-            <span className="flex items-center gap-1.5">
-              <span className="h-1.5 w-1.5 bg-signal" />
-              7/24 Kesintisiz Sevk Hattı
-            </span>
-            <span>·</span>
-            <span>KGM İzin &amp; Güzergah Etüdü</span>
-          </div>
-        </div>
-
-        <div className="lg:col-span-6">
-          <AnnotatedPhoto />
+        <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-5">
+          <Link to="/#fiyat-talebi" className="btn btn-primary">
+            Yük bildir, teklif al
+            <ArrowRight />
+          </Link>
+          <a href={telHref(PRIMARY_DISPATCHER.phone)} className="-my-2 inline-flex items-baseline gap-3 py-2">
+            <span className="text-sm text-dim">veya arayın</span>
+            <span className="tabular font-mono text-lg text-bone link-u">{PRIMARY_DISPATCHER.display}</span>
+          </a>
         </div>
       </div>
+
+      <figure className="-mx-5 flex flex-col sm:-mx-6 lg:col-span-7 lg:mx-0 lg:bleed-right">
+        <div className="relative h-[clamp(300px,64vw,560px)] overflow-hidden bg-graphite lg:h-auto lg:min-h-[520px] lg:flex-1">
+          <Picture
+            slug={HERO_SLUG}
+            alt="MAN TGX çekici ve kırmızı 3 dingilli hidrolik rampalı lowbed dorse üzerinde sarı Sany SY385H paletli ekskavatör, açık arazide stabilize yolda"
+            sizes="(min-width: 1360px) 60vw, (min-width: 1024px) 62vw, 100vw"
+            priority
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <Balloons />
+        </div>
+        <TitleBlock />
+      </figure>
     </div>
-    <CapabilityStrip />
+    <SpecLine />
   </section>
 );
 

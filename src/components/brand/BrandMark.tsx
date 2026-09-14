@@ -18,8 +18,8 @@ export const Wordmark = ({ className }: { className?: string }) => (
   <span className={cn("flex items-center gap-3", className)}>
     <BrandMark className="h-9 w-9 outline outline-1 outline-rule-strong" />
     <span className="flex flex-col leading-none">
-      <span className="font-display text-[1.375rem] font-bold uppercase tracking-[0.06em] text-bone">Bumerang</span>
-      <span className="mt-1 font-mono text-[0.625rem] font-medium uppercase tracking-[0.14em] text-steel">
+      <span className="font-brand text-[1.375rem] font-bold uppercase tracking-[0.06em] text-bone">Bumerang</span>
+      <span className="mt-1 whitespace-nowrap font-mono text-[0.625rem] font-medium uppercase tracking-[0.08em] text-steel max-[359px]:hidden">
         Ağır Nakliyat · Lowbed
       </span>
     </span>

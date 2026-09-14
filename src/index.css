@@ -15,7 +15,7 @@
 
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: calc(var(--header-h) + 16px);
+    scroll-padding-top: calc(var(--header-h) + 20px);
     -webkit-text-size-adjust: 100%;
   }
 
@@ -31,11 +31,11 @@
   }
 
   h1, h2, h3, h4 {
-    @apply font-display font-semibold text-bone;
-    letter-spacing: -0.025em;
+    @apply font-display font-medium text-bone;
+    letter-spacing: -0.02em;
   }
 
-  /* Belirgin, dokunsal odak halkası: klavye ve şantiyede eldivenle kullanım için */
+  /* Belirgin odak halkası: klavye ve şantiyede eldivenle kullanım için */
   :focus-visible {
     outline: 2px solid theme("colors.signal.DEFAULT");
     outline-offset: 3px;
@@ -58,18 +58,15 @@
 }
 
 @layer components {
-  /* ---- Butonlar: mimari, net hatlar, abartısız ve güven veren etkileşim ---- */
+  /* ---- Butonlar: sade, kare köşe; sarı yalnızca ana eylemde ---- */
   .btn {
-    @apply inline-flex min-h-12 select-none items-center justify-center gap-2.5 whitespace-nowrap border px-5 font-condensed text-[1.0625rem] font-semibold uppercase leading-none tracking-[0.06em] transition-all duration-150;
-  }
-  .btn:active {
-    transform: translateY(1px);
+    @apply inline-flex min-h-12 select-none items-center justify-center gap-2.5 whitespace-nowrap border px-5 font-sans text-[0.9375rem] font-medium leading-none tracking-[0.005em] transition-[background-color,border-color,color] duration-200;
   }
   .btn svg {
-    @apply h-[1.15em] w-[1.15em] shrink-0 transition-transform duration-150;
+    @apply h-4 w-4 shrink-0 transition-transform duration-300 ease-out-quart;
   }
   .btn:hover svg:last-child:not(:first-child) {
-    transform: translateX(2px);
+    transform: translateX(3px);
   }
   .btn-primary {
     @apply border-signal bg-signal text-ink hover:border-signal-hover hover:bg-signal-hover active:bg-signal-press;
@@ -78,18 +75,51 @@
     outline-color: theme("colors.bone");
   }
   .btn-outline {
-    @apply border-rule-strong bg-transparent text-bone hover:border-bone hover:bg-graphite;
+    @apply border-rule-strong bg-transparent text-bone hover:border-steel;
   }
   .btn-dark {
-    @apply border-rule bg-ink text-bone hover:border-steel hover:bg-graphite;
+    @apply border-rule bg-ink text-bone hover:border-steel;
   }
   .btn-sm {
-    @apply min-h-10 px-3.5 text-[0.9375rem];
+    @apply min-h-10 px-4 text-sm;
   }
 
-  /* ---- Mono etiket (spec plakası tipografisi) ---- */
+  /* ---- Metin bağlantısı: alt çizgi soldan genişler ---- */
+  .link-u {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    background-size: 0% 1px;
+    padding-bottom: 2px;
+    transition: background-size 350ms theme("transitionTimingFunction.out-quart"), color 200ms;
+  }
+  .link-u:hover,
+  .link-u:focus-visible,
+  a:hover > .link-u,
+  a:focus-visible > .link-u {
+    background-size: 100% 1px;
+  }
+  .link-rule {
+    @apply link-u;
+    background-size: 100% 1px;
+    background-image: linear-gradient(theme("colors.rule.strong"), theme("colors.rule.strong"));
+  }
+  .link-rule:hover,
+  a:hover > .link-rule {
+    background-image: linear-gradient(currentColor, currentColor);
+  }
+
+  /* ---- Teknik etiket (mono, küçük harfli değil: yalnızca metadata için) ---- */
   .label {
-    @apply font-mono text-2xs font-medium uppercase tracking-label text-steel;
+    @apply font-mono text-2xs font-medium uppercase tracking-label text-dim;
+  }
+  /* Bölüm işareti: belge içindeki bölüm numarası gibi, tek sarı çentik */
+  .section-mark {
+    @apply flex items-center gap-3 font-mono text-xs text-dim;
+  }
+  .section-mark::before {
+    content: "";
+    @apply h-px w-6 shrink-0 bg-signal;
   }
 
   /* ---- Form alanları ---- */
@@ -105,35 +135,27 @@
   }
   select.field {
     @apply cursor-pointer appearance-none pr-10;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath stroke='%23A7AFB8' stroke-width='1.6' d='M1 1.5l5 5 5-5'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath stroke='%23A9A59C' stroke-width='1.4' d='M1 1.5l5 5 5-5'/%3E%3C/svg%3E");
     background-position: right 0.95rem center;
     background-repeat: no-repeat;
   }
 
-  /* ---- Teknik yüzeyler ---- */
+  /* ---- Teknik yüzey: milimetrik çizim ızgarası ---- */
   .bg-blueprint {
     background-image:
-      linear-gradient(to right, rgb(236 237 239 / 0.035) 1px, transparent 1px),
-      linear-gradient(to bottom, rgb(236 237 239 / 0.035) 1px, transparent 1px);
+      linear-gradient(to right, rgb(236 232 223 / 0.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(236 232 223 / 0.03) 1px, transparent 1px);
     background-size: 24px 24px;
   }
-  .hazard-band {
-    background: repeating-linear-gradient(-45deg, theme("colors.signal.DEFAULT") 0 10px, theme("colors.ink") 10px 20px);
+
+  /* ---- Fotoğraf: editoryal ton (hafif doygunluk düşüşü), üzerine gelince doğal renk ---- */
+  .photo-grade {
+    filter: saturate(0.86) contrast(1.03);
+    transition: filter 600ms ease, transform 900ms theme("transitionTimingFunction.out-quart");
   }
-  /* Teknik çizim köşe işaretleri */
-  .corner-ticks {
-    @apply relative;
-  }
-  .corner-ticks::before,
-  .corner-ticks::after {
-    content: "";
-    @apply pointer-events-none absolute h-2.5 w-2.5 border-signal;
-  }
-  .corner-ticks::before {
-    @apply -left-px -top-px border-l border-t;
-  }
-  .corner-ticks::after {
-    @apply -bottom-px -right-px border-b border-r;
+  .group:hover .photo-grade,
+  .group:focus-within .photo-grade {
+    filter: saturate(1) contrast(1);
   }
 }
 
@@ -149,5 +171,46 @@
   }
   .pb-dock {
     padding-bottom: calc(var(--dock-h) + env(safe-area-inset-bottom));
+  }
+  /* Kapsayıcı içindeki öğeyi ekranın sağ kenarına taşır (lg: kapsayıcı dolgusu 2.5rem).
+     Kullanım: lg:bleed-right — fotoğraf kart değil, sayfa kompozisyonunun parçası olur */
+  .bleed-right {
+    margin-right: calc((100vw - min(100vw, 1360px)) / -2 - 2.5rem);
+  }
+
+  /* ---- Bölüm girişi: JS yoksa ya da hareket azaltılmışsa içerik hep görünür ---- */
+  [data-reveal="pending"] {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  [data-reveal="in"] {
+    opacity: 1;
+    transform: none;
+    transition: opacity 700ms ease, transform 900ms theme("transitionTimingFunction.out-quart");
+  }
+  [data-reveal="pending"] .reveal-clip {
+    clip-path: inset(0 0 8% 0);
+  }
+  [data-reveal="in"] .reveal-clip {
+    clip-path: inset(0 0 0 0);
+    transition: clip-path 1100ms theme("transitionTimingFunction.out-quart");
+  }
+  @media print {
+    [data-reveal] {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+    [data-reveal] .reveal-clip {
+      clip-path: none !important;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-reveal="pending"] {
+      opacity: 1;
+      transform: none;
+    }
+    [data-reveal="pending"] .reveal-clip {
+      clip-path: none;
+    }
   }
 }
