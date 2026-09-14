@@ -1,5 +1,5 @@
 import { AlertTriangle, CheckSquare, Info } from "lucide-react";
-import { LEGAL_LIMITS, TRAILER_LABEL, type CheckLevel, type LoadAssessment } from "@/lib/load-check";
+import { ASSUMPTIONS, LEGAL_LIMITS, type CheckLevel, type LoadAssessment } from "@/lib/load-check";
 import { cn } from "@/lib/utils";
 
 const LEVEL: Record<CheckLevel, { icon: typeof Info; tag: string; className: string }> = {
@@ -14,7 +14,28 @@ const PERMIT_TEXT = {
   belirsiz: "Ağırlık girilince netleşir",
 } as const;
 
-const fmt = (n: number) => n.toLocaleString("tr-TR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const fmt = (n: number, digits = 2) => n.toLocaleString("tr-TR", { minimumFractionDigits: digits, maximumFractionDigits: digits });
+
+/** Varsayımla hesaplanan toplam: değer değişince yeniden oturur (key) */
+const Total = ({ label, value, unit, limit, assumption }: { label: string; value?: number; unit: string; limit: number; assumption: string }) => (
+  <div className="px-5 py-5 sm:px-6">
+    <dt className="label">{label}</dt>
+    <dd className="mt-2 flex items-baseline gap-1.5">
+      {value === undefined ? (
+        <span className="text-lg text-dim">—</span>
+      ) : (
+        <span key={value} className="flex animate-spec-in items-baseline gap-1.5">
+          <span className="font-mono text-sm text-dim">≈</span>
+          <span className={cn("text-2xl font-medium tracking-[-0.02em]", value > limit ? "text-hazard-text" : "text-bone")}>
+            {fmt(value, unit === "t" ? 0 : 2)}
+          </span>
+          <span className="font-mono text-sm text-signal">{unit}</span>
+        </span>
+      )}
+    </dd>
+    <dd className="mt-1 text-xs text-dim">{assumption}</dd>
+  </div>
+);
 
 /** Ön değerlendirme raporu: kutulu kart yerine teknik rapor sayfası düzeni */
 const LoadCheckPanel = ({ assessment }: { assessment: LoadAssessment | null }) => (
@@ -30,16 +51,28 @@ const LoadCheckPanel = ({ assessment }: { assessment: LoadAssessment | null }) =
 
     {assessment ? (
       <div>
-        <dl className="grid border-t border-rule sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+        <dl className="border-t border-rule">
           <div className="px-5 py-5 sm:px-6">
-            <dt className="label">Önerilen dorse</dt>
-            <dd className="mt-2 text-lg leading-snug text-bone">{TRAILER_LABEL[assessment.trailer]}</dd>
-          </div>
-          <div className="border-t border-rule px-5 py-5 sm:border-l sm:border-t-0 sm:px-6 lg:border-l-0 lg:border-t xl:border-l xl:border-t-0">
             <dt className="label">KGM özel izni</dt>
             <dd aria-live="polite" className={cn("mt-2 text-lg leading-snug", assessment.permit === "gerekli" ? "text-hazard-text" : "text-bone")}>
               {PERMIT_TEXT[assessment.permit]}
             </dd>
+          </div>
+          <div className="grid grid-cols-2 border-t border-rule [&>div+div]:border-l [&>div+div]:border-rule">
+            <Total
+              label="Toplam yükseklik"
+              value={assessment.totals.height}
+              unit="m"
+              limit={LEGAL_LIMITS.height}
+              assumption={`Platform ≈ ${fmt(ASSUMPTIONS.deckHeight, 1)} m varsayımıyla`}
+            />
+            <Total
+              label="Toplam ağırlık"
+              value={assessment.totals.weight}
+              unit="t"
+              limit={LEGAL_LIMITS.grossWeight}
+              assumption={`Dara ≈ ${ASSUMPTIONS.tare} t varsayımıyla`}
+            />
           </div>
         </dl>
         <ul className="border-t border-rule">
@@ -81,7 +114,8 @@ const LoadCheckPanel = ({ assessment }: { assessment: LoadAssessment | null }) =
     )}
 
     <p className="border-t border-rule px-5 py-4 text-xs leading-relaxed text-dim sm:px-6">
-      Ön değerlendirmedir. Kesin karar güzergah etüdü ve KGM izin sürecinde verilir.
+      Ön değerlendirmedir; platform yüksekliği ve dara varsayımdır. Dorseye uygunluğu operasyon masası, kesin kararı
+      güzergah etüdü ve KGM izin süreci verir.
     </p>
   </aside>
 );

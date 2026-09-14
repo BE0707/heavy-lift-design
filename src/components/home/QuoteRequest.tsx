@@ -1,18 +1,11 @@
-import { useEffect, useMemo, useRef, useState, type ChangeEvent, type FormEvent, type ReactNode } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useMemo, useState, type ChangeEvent, type FormEvent, type ReactNode } from "react";
 import SectionHeader from "@/components/SectionHeader";
 import LoadCheckPanel from "@/components/home/LoadCheckPanel";
 import WhatsAppIcon from "@/components/icons/WhatsAppIcon";
 import { DISPATCHERS, PRIMARY_DISPATCHER, telHref, whatsappHref } from "@/data/company";
-import { FLEET } from "@/data/fleet";
 import { assessLoad } from "@/lib/load-check";
-import { LOAD_TYPES, buildQuoteMessage, parseDecimal, validateQuote, type QuoteErrors, type QuoteForm } from "@/lib/quote";
+import { LOADING_OPTIONS, LOAD_TYPES, buildQuoteMessage, parseDecimal, validateQuote, type QuoteErrors, type QuoteForm } from "@/lib/quote";
 import { useReveal } from "@/hooks/use-reveal";
-
-const trailerOption = (id: string | null) => {
-  const item = FLEET.find((f) => f.id === id);
-  return item ? `${item.tab} (${item.tabMeta})` : "";
-};
 
 const EMPTY: QuoteForm = {
   loadType: "",
@@ -24,7 +17,7 @@ const EMPTY: QuoteForm = {
   origin: "",
   destination: "",
   date: "",
-  trailer: "",
+  loading: "",
   contact: "",
   note: "",
   dispatcherId: PRIMARY_DISPATCHER.id,
@@ -56,21 +49,10 @@ const Group = ({ title, children }: { title: string; children: ReactNode }) => (
 );
 
 const QuoteRequest = () => {
-  const [params] = useSearchParams();
-  const preset = params.get("dorse");
-  const [form, setForm] = useState<QuoteForm>(() => ({ ...EMPTY, trailer: trailerOption(preset) }));
+  const [form, setForm] = useState<QuoteForm>(EMPTY);
   const [errors, setErrors] = useState<QuoteErrors>({});
   const [sentUrl, setSentUrl] = useState<string | null>(null);
-  const detailsRef = useRef<HTMLDetailsElement>(null);
   const revealRef = useReveal<HTMLDivElement>();
-
-  // Filo bölümündeki "Bu dorse için teklif iste" bağlantısı ?dorse=<id> ile gelir
-  useEffect(() => {
-    const option = trailerOption(preset);
-    if (!option) return;
-    setForm((f) => ({ ...f, trailer: option }));
-    if (detailsRef.current) detailsRef.current.open = true;
-  }, [preset]);
 
   const assessment = useMemo(
     () =>
@@ -214,19 +196,19 @@ const QuoteRequest = () => {
               <Field id="q-date" label="Planlanan yükleme">
                 <input className="field tabular font-mono" type="date" value={form.date} onChange={update("date")} {...a11y("date")} />
               </Field>
-              <Field id="q-trailer" label="Dorse / hizmet tercihi">
-                <select className="field" value={form.trailer} onChange={update("trailer")} {...a11y("trailer")}>
-                  <option value="">Operasyon masası önersin</option>
-                  {FLEET.map((f) => (
-                    <option key={f.id} value={trailerOption(f.id)}>
-                      {trailerOption(f.id)}
+              <Field id="q-loading" label="Yükleme şekli">
+                <select className="field" value={form.loading} onChange={update("loading")} {...a11y("loading")}>
+                  <option value="">Seçin…</option>
+                  {LOADING_OPTIONS.map((o) => (
+                    <option key={o} value={o}>
+                      {o}
                     </option>
                   ))}
                 </select>
               </Field>
             </Group>
 
-            <details ref={detailsRef} className="group border-t border-rule">
+            <details className="group border-t border-rule">
               <summary className="flex min-h-16 cursor-pointer list-none items-center justify-between text-sm text-steel transition-colors hover:text-bone [&::-webkit-details-marker]:hidden">
                 Ek bilgiler: marka/model, iletişim, not
                 <span aria-hidden="true" className="font-mono text-base text-dim transition-transform duration-300 group-open:rotate-45">

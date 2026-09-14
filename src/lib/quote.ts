@@ -9,13 +9,15 @@ export const LOAD_TYPES = [
   "Kazıcı yükleyici (beko loder)",
   "Lastikli yükleyici (loder)",
   "Mobil kırıcı / eleme tesisi",
-  "Vinç / kule vinç elemanı",
   "Sondaj / fore kazık makinesi",
   "Tarım makinesi",
-  "Trafo / ağır sanayi ekipmanı",
-  "Kiriş / boru / uzun malzeme",
+  "Kamyon / şantiye ekipmanı",
+  "Boru / çelik malzeme",
   "Diğer",
 ] as const;
+
+/** Hidrolik rampalı lowbed'de yükleme şekli fiyatı ve planlamayı doğrudan etkiler */
+export const LOADING_OPTIONS = ["Kendi yürüyüşüyle rampadan çıkar", "Vinçle yüklenmesi gerekir", "Emin değilim"] as const;
 
 export interface QuoteForm {
   loadType: string;
@@ -27,8 +29,8 @@ export interface QuoteForm {
   origin: string;
   destination: string;
   date: string;
-  /** Dorse / hizmet tercihi (boş: operasyon masası önersin) */
-  trailer: string;
+  /** Yükleme şekli (boş: belirtilmedi) */
+  loading: string;
   contact: string;
   note: string;
   dispatcherId: string;
@@ -90,7 +92,7 @@ export function buildQuoteMessage(form: QuoteForm): string {
     `Çıkış: ${form.origin.trim()}`,
     `Varış: ${form.destination.trim()}`,
     form.date ? `Planlanan yükleme: ${formatDate(form.date)}` : null,
-    optional(form.trailer, "Dorse / hizmet tercihi"),
+    optional(form.loading, "Yükleme şekli"),
     optional(form.contact, "İletişim"),
     optional(form.note, "Not"),
   ];

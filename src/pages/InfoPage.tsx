@@ -3,15 +3,15 @@ import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import SEO from "@/components/SEO";
 import PageShell from "@/components/layout/PageShell";
-import CapacityTable from "@/components/CapacityTable";
 import GaugeProfile from "@/components/GaugeProfile";
 import Picture from "@/components/Picture";
 import TrailerDrawing from "@/components/home/TrailerDrawing";
 import { COMPANY, DISPATCHERS, telHref } from "@/data/company";
-import { TRAILERS } from "@/data/fleet";
+import { LOAD_EXAMPLES, LOWBED, exampleCategory } from "@/data/fleet";
+import { PROJECT_CATEGORIES } from "@/data/projects";
 import { PAGES } from "@/data/seo";
 import { useReveal } from "@/hooks/use-reveal";
-import { DECK_HEIGHT, LEGAL_LIMITS, PAYLOAD_WITHOUT_PERMIT } from "@/lib/load-check";
+import { ASSUMPTIONS, LEGAL_LIMITS } from "@/lib/load-check";
 import type { PhotoSlug } from "@/lib/photos";
 import { cn } from "@/lib/utils";
 
@@ -20,7 +20,6 @@ const fmt = (n: number, digits = 2) => n.toLocaleString("tr-TR", { minimumFracti
 const TOC = [
   { id: "lowbed-nedir", title: "Lowbed nedir?" },
   { id: "yukler", title: "Hangi yükler için kullanılır?" },
-  { id: "dorse-tipleri", title: "Dorse tipleri" },
   { id: "ozel-izin", title: "Ne zaman özel izin gerekir?" },
   { id: "fiyat", title: "Fiyatı neler belirler?" },
   { id: "hakkimizda", title: "Hakkımızda" },
@@ -28,7 +27,7 @@ const TOC = [
 
 const PRICE_FACTORS = [
   { title: "Mesafe ve güzergah", text: "Çıkış–varış arası kilometre, dağ yolu veya şehir içi geçişler, köprü ve üst geçit kısıtları." },
-  { title: "Yük ağırlığı ve ölçüleri", text: "Dorse tipini ve dingil sayısını belirler; havuzlu veya çok dingilli dorse maliyeti artırır." },
+  { title: "Yük ağırlığı ve ölçüleri", text: "Özel izin ve eskort ihtiyacını, dingil yükü dağılımını ve dorse üzerindeki yükleme düzenini belirler." },
   { title: "Özel izin ve eskort", text: "Gabari dışı genişlik, yükseklik veya ağırlıkta KGM izni ve refakat aracı ihtiyacı." },
   { title: "Yükleme ve indirme", text: "Makinenin kendi yürüyüşüyle rampadan çıkması ya da vinç gerektirmesi, sökülecek ataşmanlar." },
   { title: "Şantiye erişimi", text: "Dar giriş, rampalı veya stabilize yol, zemin durumu ve bekleme süresi." },
@@ -39,7 +38,7 @@ const LOAD_PHOTOS: readonly { slug: PhotoSlug; alt: string; caption: string }[] 
   {
     slug: "sany-sy385h-ekskavator",
     alt: "3 dingilli lowbed üzerinde sarı Sany SY385H paletli ekskavatör",
-    caption: "Paletli ekskavatör, standart lowbed üzerinde",
+    caption: "Paletli ekskavatör, 3 dingilli lowbed üzerinde",
   },
   {
     slug: "paletli-dozer-dag-yolu",
@@ -97,7 +96,7 @@ const InfoPage = () => (
             Gabari dışı ve ağır yük taşımacılığını planlamak için pratik bir rehber.
           </p>
           <p className="mt-4 max-w-[36rem] text-pretty text-lg leading-relaxed text-steel">
-            Dorse tipleri, yasal gabari sınırları, özel izin ve eskort süreci: yükünüzü bildirmeden önce bilmeniz gereken
+            Lowbed dorse, yasal gabari sınırları, özel izin ve eskort süreci: yükünüzü bildirmeden önce bilmeniz gereken
             teknik ayrıntılar.
           </p>
         </div>
@@ -134,18 +133,23 @@ const InfoPage = () => (
               zincir ve gerdirmelerle dorsenin bağlama noktalarına sabitlenir; ağırlık dingillere dengeli dağıtılacak
               şekilde konumlandırılır.
             </p>
+            <p>
+              Taşımalarımız 3 dingilli, hidrolik rampalı lowbed dorseyle yapılır; aşağıdaki çizim bu dorsenin şematik yan
+              görünüşüdür.
+            </p>
           </div>
         </div>
         <figure className="mt-16">
           <div className="bg-blueprint overflow-x-auto border-y border-rule">
             <div className="container">
               <div className="mx-auto min-w-[640px] max-w-[1100px] py-6">
-                <TrailerDrawing type="standart" />
+                <TrailerDrawing />
               </div>
             </div>
           </div>
           <figcaption className="container mt-3 text-sm text-dim">
-            Standart lowbed, yan görünüş: platform ≈ 0,9–1,0 m; 4,00 m yükseklik sınırına göre yük zarfı ≈ 3,0 m.
+            3 dingilli, hidrolik rampalı lowbed, yan görünüş. Yük zarfı, 4,00 m yasal yükseklikten platform yüksekliği (h)
+            düşülerek bulunur; ön kontrolde h ≈ 1 m varsayılır.
           </figcaption>
         </figure>
       </RevealSection>
@@ -158,8 +162,8 @@ const InfoPage = () => (
               Hangi yükler için kullanılır?
             </GuideHeading>
             <p className="max-w-[36rem] text-pretty text-lg leading-relaxed text-steel lg:col-span-5 lg:col-start-8 lg:self-end">
-              Paletli ve lastikli iş makineleri, mobil kırıcı ve eleme tesisleri, sondaj ekipmanı, tarım makineleri ve
-              uzun metrajlı yapı elemanları. Dorse, yükün ağırlığına, yüksekliğine ve boyuna göre seçilir.
+              Paletli ve lastikli iş makineleri, mobil kırıcı ve eleme tesisleri, fore kazık ve sondaj makineleri, tarım
+              makineleri ve şantiye ekipmanı. Aşağıdaki örneklerin tamamı 3 dingilli lowbed dorsemizle taşındı.
             </p>
           </div>
 
@@ -180,45 +184,24 @@ const InfoPage = () => (
             ))}
           </div>
 
+          {/* Arşivden örnekler, proje arşivi kategorilerine göre */}
           <dl className="mt-16 grid border-t border-rule lg:grid-cols-3">
-            {TRAILERS.map((t, i) => (
-              <div key={t.id} className={cn("border-b border-rule py-7 lg:border-b-0", i > 0 && "lg:border-l lg:pl-8", i < 2 && "lg:pr-8")}>
-                <dt>
-                  <span className="block font-mono text-xs text-dim">{t.code}</span>
-                  <span className="mt-1.5 block text-xl">{t.tab}</span>
-                </dt>
-                <dd className="mt-3 text-pretty leading-relaxed text-steel">{t.tags.join(" · ")}</dd>
+            {PROJECT_CATEGORIES.map((c, i) => (
+              <div key={c.id} className={cn("border-b border-rule py-7 lg:border-b-0", i > 0 && "lg:border-l lg:pl-8", i < 2 && "lg:pr-8")}>
+                <dt className="text-xl">{c.label}</dt>
+                <dd className="mt-3 text-pretty leading-relaxed text-steel">
+                  {LOAD_EXAMPLES.filter((l) => exampleCategory(l.slug) === c.id)
+                    .map((l) => (l.weightClass ? `${l.load} (${l.weightClass} t sınıfı)` : l.load))
+                    .join(" · ")}
+                </dd>
               </div>
             ))}
           </dl>
         </div>
       </RevealSection>
 
-      {/* 03 · teknik tablo */}
-      <RevealSection id="dorse-tipleri">
-        <div className="container grid gap-12 lg:grid-cols-12">
-          <div className="lg:col-span-4">
-            <GuideHeading index="03" kicker="Katalog" id="dorse-tipleri">
-              Dorse tipleri
-            </GuideHeading>
-            <p className="mt-6 max-w-[34ch] text-pretty text-lg leading-relaxed text-steel">
-              Standart lowbed çoğu iş makinesi için yeterlidir. Yük ağırlaştıkça dingil sayısı artar; yük yükseldikçe
-              havuzlu dorseye, uzadıkça teleskopik dorseye geçilir.
-            </p>
-            <Link to="/#filo" className="group mt-8 inline-flex items-center gap-2.5 text-bone">
-              <span className="link-rule">Spec sayfalarını incele</span>
-              <ArrowRight aria-hidden="true" className="h-4 w-4 text-signal transition-transform duration-300 group-hover:translate-x-1" />
-            </Link>
-          </div>
-          <div className="min-w-0 lg:col-span-8 lg:pt-3">
-            <CapacityTable bare />
-            <p className="mt-4 text-sm text-dim">Tipik değerlerdir; kesin kapasite yük ölçüleri ve güzergah etüdüyle teyit edilir.</p>
-          </div>
-        </div>
-      </RevealSection>
-
-      {/* 04 · çizim ağırlıklı */}
-      <RevealSection id="ozel-izin" className="bg-ink">
+      {/* 03 · çizim ağırlıklı */}
+      <RevealSection id="ozel-izin">
         <div className="container grid gap-12 lg:grid-cols-12">
           <figure className="min-w-0 lg:order-2 lg:col-span-7 lg:col-start-6">
             <div className="bg-blueprint overflow-x-auto border-y border-rule">
@@ -227,7 +210,7 @@ const InfoPage = () => (
             <figcaption className="mt-3 text-sm text-dim">Arka görünüş: yasal zarf ve genişliği aşan örnek yük (taralı).</figcaption>
           </figure>
           <div className="lg:order-1 lg:col-span-4">
-            <GuideHeading index="04" kicker="Mevzuat" id="ozel-izin">
+            <GuideHeading index="03" kicker="Mevzuat" id="ozel-izin">
               Ne zaman özel izin gerekir?
             </GuideHeading>
             <p className="mt-6 text-pretty text-lg leading-relaxed text-steel">
@@ -252,12 +235,13 @@ const InfoPage = () => (
             </dl>
             <ul className="mt-8 grid gap-4 text-pretty text-[0.9375rem] leading-relaxed text-steel">
               <li className="border-l border-rule-strong pl-4">
-                Çekici ve boş lowbed yaklaşık {PAYLOAD_WITHOUT_PERMIT} t gelir; bu nedenle {PAYLOAD_WITHOUT_PERMIT} t
-                üzerindeki makinelerde toplam ağırlık {LEGAL_LIMITS.grossWeight} t sınırını aşar ve izin gerekir.
+                Ön kontrolde çekici ve boş lowbed darası ≈ {ASSUMPTIONS.tare} t varsayılır; bu nedenle yaklaşık{" "}
+                {ASSUMPTIONS.tare} t üzerindeki makinelerde toplam ağırlık {LEGAL_LIMITS.grossWeight} t sınırını aşar ve
+                izin gerekir.
               </li>
               <li className="border-l border-rule-strong pl-4">
-                Toplam yükseklik yol yüzeyinden ölçülür: yük yüksekliğine platform yüksekliği (standart lowbedde ≈{" "}
-                {DECK_HEIGHT.standart.toLocaleString("tr-TR", { minimumFractionDigits: 1 })} m) eklenir.
+                Toplam yükseklik yol yüzeyinden ölçülür: yük yüksekliğine platform yüksekliği eklenir (ön kontrolde ≈{" "}
+                {ASSUMPTIONS.deckHeight.toLocaleString("tr-TR", { minimumFractionDigits: 1 })} m varsayılır).
               </li>
               <li className="border-l border-rule-strong pl-4">
                 Genişliği sınırı aşan yüklerde ön ve arka eskort aracı ve gerektiğinde trafik ekipleriyle geçiş planı yapılır.
@@ -267,10 +251,10 @@ const InfoPage = () => (
         </div>
       </RevealSection>
 
-      {/* 05 · metin ağırlıklı */}
-      <RevealSection id="fiyat">
+      {/* 04 · metin ağırlıklı */}
+      <RevealSection id="fiyat" className="bg-ink">
         <div className="container">
-          <GuideHeading index="05" kicker="Fiyatlandırma" id="fiyat">
+          <GuideHeading index="04" kicker="Fiyatlandırma" id="fiyat">
             Fiyatı neler belirler?
           </GuideHeading>
           {/* Sırasız etkenler: numaralı kart ızgarası yerine basılı kılavuz gibi sütunlara akan metin */}
@@ -290,29 +274,29 @@ const InfoPage = () => (
         </div>
       </RevealSection>
 
-      {/* 06 · fotoğraf + metin */}
-      <RevealSection id="hakkimizda" className="bg-ink">
+      {/* 05 · fotoğraf + metin */}
+      <RevealSection id="hakkimizda">
         <div className="container grid gap-12 lg:grid-cols-12 lg:items-end">
           <figure className="group lg:col-span-5">
             <div className="aspect-[4/3] overflow-hidden bg-graphite">
               <Picture
-                slug="man-tgx-3-dingil-lowbed"
-                alt="Su kıyısındaki açık alanda park halinde beyaz MAN TGX çekici ve rampaları kaldırılmış kırmızı 3 dingilli lowbed dorse"
+                slug={LOWBED.photo.slug}
+                alt={LOWBED.photo.alt}
                 sizes="(min-width: 1360px) 540px, (min-width: 1024px) 40vw, 100vw"
                 className="photo-grade h-full w-full object-cover group-hover:scale-[1.025]"
               />
             </div>
-            <figcaption className="mt-2.5 text-sm text-dim">Filodan: MAN TGX 18.440 çekici ve 3 dingil hidrolik rampalı lowbed</figcaption>
+            <figcaption className="mt-2.5 text-sm text-dim">{LOWBED.photo.caption}</figcaption>
           </figure>
           <div className="lg:col-span-6 lg:col-start-7">
-            <GuideHeading index="06" kicker="Firma" id="hakkimizda">
+            <GuideHeading index="05" kicker="Firma" id="hakkimizda">
               Hakkımızda
             </GuideHeading>
             <div className="mt-6 grid gap-5 text-pretty text-lg leading-relaxed text-steel">
               <p>
-                {COMPANY.name}, {COMPANY.base} merkezli bir ağır nakliyat firmasıdır. Lowbed dorselerle paletli ve lastikli
-                iş makineleri, mobil kırıcı ve eleme tesisleri, sondaj ekipmanları, tarım makineleri ve şantiye ekipmanları
-                taşır.
+                {COMPANY.name}, {COMPANY.base} merkezli bir ağır nakliyat firmasıdır. 3 dingilli, hidrolik rampalı lowbed
+                dorselerle paletli ve lastikli iş makineleri, mobil kırıcı ve eleme tesisleri, sondaj ekipmanları, tarım
+                makineleri ve şantiye ekipmanları taşır.
               </p>
               <p>
                 Operasyonlar {DISPATCHERS.map((d) => d.name).join(" ve ")} tarafından yürütülür. Güneydoğu ve Doğu Anadolu

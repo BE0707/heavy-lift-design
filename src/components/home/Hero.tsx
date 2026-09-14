@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import Picture from "@/components/Picture";
 import { PRIMARY_DISPATCHER, telHref } from "@/data/company";
+import { EXCAVATOR_CLASS_RANGE } from "@/data/fleet";
 import { recordCode } from "@/data/projects";
 import { cn } from "@/lib/utils";
 
@@ -82,9 +83,10 @@ const TitleBlock = () => (
   </figcaption>
 );
 
+/** Yalnızca kesin bilgiler: dorse fotoğraflarda görülür, sınıf aralığı proje arşivinden gelir */
 const SPECS = [
-  { label: "Azami faydalı yük", figure: "80", unit: "t", note: "Çok dingilli havuzlu dorseyle; standart lowbed ≈ 40–50 t" },
-  { label: "Dorse seçenekleri", figure: "4–8", unit: "dingil", note: "Standart, havuzlu ve teleskopik lowbed" },
+  { label: "Dorse", figure: "3", unit: "dingil", note: "Hidrolik rampalı lowbed; makine kendi yürüyüşüyle yüklenir" },
+  { label: "Arşivdeki ekskavatörler", figure: EXCAVATOR_CLASS_RANGE, unit: "t sınıfı", note: "Hyundai HX210'dan Sany SY385H'ye" },
   { label: "Gabari dışı genişlik", figure: "2,55", unit: "m üzeri", note: "KGM özel izni ve eskort koordinasyonuyla" },
   { label: "Operasyon hattı", figure: "7/24", unit: "", note: "Diyarbakır üssünden Türkiye geneli sevk" },
 ] as const;
@@ -132,8 +134,8 @@ const Hero = () => (
         </h1>
 
         <p className="mt-7 max-w-[34rem] text-pretty text-lg leading-relaxed text-steel">
-          Ekskavatör, dozer, vinç, kule vinç ve ağır sanayi ekipmanları için özel izinli, eskort destekli şehirlerarası
-          lowbed transfer çözümleri.
+          Ekskavatör, dozer, mobil kırıcı, sondaj ve tarım makineleri için hidrolik rampalı lowbed ile şehirlerarası
+          transfer; gabari dışı yüklerde KGM özel izni ve eskort koordinasyonu.
         </p>
 
         <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-5">

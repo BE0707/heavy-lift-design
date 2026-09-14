@@ -10,8 +10,8 @@ const STEPS = [
     text: "Yük tipi, marka/model, tahmini ağırlık ve ölçüler (boy × en × yükseklik); çıkış ve varış noktası.",
   },
   {
-    title: "Dorse & dingil hesabı",
-    text: "Ağırlık dağılımına göre dorse tipi ve dingil sayısı seçilir; yasal dingil yükleri kontrol edilir.",
+    title: "Yükleme & dingil hesabı",
+    text: "Yükün 3 dingilli lowbed üzerindeki yeri planlanır; ağırlık dağılımı ve yasal dingil yükleri kontrol edilir.",
   },
   {
     title: "Güzergah etüdü",
@@ -23,7 +23,7 @@ const STEPS = [
   },
   {
     title: "Eskort & sevkiyat",
-    text: "Yük boyutuna göre ön ve arka eskort aracı tahsis edilir; yük zincir ve gerdirmelerle sabitlenir, izinli saatlerde yola çıkılır.",
+    text: "Yük boyutuna göre ön ve arka eskort planlanır; yük zincir ve gerdirmelerle sabitlenir, izinli saatlerde yola çıkılır.",
   },
   {
     title: "Teslim",
@@ -98,7 +98,7 @@ const OperationsProtocol = () => {
           kicker="Operasyon protokolü"
           titleId="protokol-title"
           title="İzin, Güzergah & Eskort Protokolü"
-          lead="Gabari dışı her sevkiyat aynı sırayla ilerler: ölçü, dorse, güzergah, izin, eskort, teslim. Eskort araç tahsisi ve geçiş izinleri KTK mevzuatına uygun yürütülür."
+          lead="Gabari dışı her sevkiyat aynı sırayla ilerler: ölçü, yükleme planı, güzergah, izin, eskort, teslim. Eskort ve geçiş izinleri KTK mevzuatına uygun yürütülür."
           layout="split"
         />
 

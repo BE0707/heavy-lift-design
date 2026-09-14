@@ -1,17 +1,18 @@
-import { DECK_HEIGHT, LEGAL_LIMITS } from "@/lib/load-check";
+import { INK, MONO } from "@/lib/drawing";
+import { ASSUMPTIONS, LEGAL_LIMITS } from "@/lib/load-check";
 
 /**
  * Gabari profili (arka görünüş, şematik): yasal genişlik × yükseklik zarfı,
  * lowbed arka kesiti ve zarfı genişlikte aşan örnek bir yük. Ölçüler
- * LEGAL_LIMITS / DECK_HEIGHT sabitlerinden gelir; yük genişliği örnektir.
+ * LEGAL_LIMITS sabitlerinden gelir; platform yüksekliği varsayımdır ve öyle
+ * etiketlenir, yük genişliği örnektir.
  */
 const S = 80; // 1 m = 80 birim
 const GROUND = 400;
 const CX = 300;
 const EXAMPLE_LOAD_WIDTH = 3.2;
 
-const C = { line: "#ECE8DF", muted: "#8B877F", dim: "#FDB813", limit: "#FF7A1A", body: "#1B1B19" } as const;
-const MONO = "'IBM Plex Mono', ui-monospace, monospace";
+const C = INK;
 const fmt = (n: number) => n.toLocaleString("tr-TR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
 const Label = ({ x, y, children, anchor = "start", fill = C.line, size = 12 }: { x: number; y: number; children: string; anchor?: "start" | "middle" | "end"; fill?: string; size?: number }) => (
@@ -25,7 +26,7 @@ const GaugeProfile = ({ className }: { className?: string }) => {
   const left = CX - half;
   const right = CX + half;
   const top = GROUND - LEGAL_LIMITS.height * S;
-  const deck = GROUND - DECK_HEIGHT.standart * S;
+  const deck = GROUND - ASSUMPTIONS.deckHeight * S;
   const loadHalf = (EXAMPLE_LOAD_WIDTH / 2) * S;
   const loadLeft = CX - loadHalf;
   const loadRight = CX + loadHalf;
@@ -39,7 +40,7 @@ const GaugeProfile = ({ className }: { className?: string }) => {
       className={className}
     >
       <title id={`${id}-title`}>
-        {`Gabari profili, arka görünüş: yasal zarf ${fmt(LEGAL_LIMITS.width)} m genişlik ve ${fmt(LEGAL_LIMITS.height)} m yükseklik; platform yüksekliği yaklaşık ${fmt(DECK_HEIGHT.standart)} m; zarfı genişlikte aşan ${fmt(EXAMPLE_LOAD_WIDTH)} m örnek yük özel izin gerektirir.`}
+        {`Gabari profili, arka görünüş: yasal zarf ${fmt(LEGAL_LIMITS.width)} m genişlik ve ${fmt(LEGAL_LIMITS.height)} m yükseklik; platform yüksekliği yaklaşık ${fmt(ASSUMPTIONS.deckHeight)} m varsayılmıştır; zarfı genişlikte aşan ${fmt(EXAMPLE_LOAD_WIDTH)} m örnek yük özel izin gerektirir.`}
       </title>
       <defs>
         <marker id={`${id}-arrow`} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
@@ -99,7 +100,8 @@ const GaugeProfile = ({ className }: { className?: string }) => {
 
       <line x1={left - 56} y1={deck} x2={left - 6} y2={deck} stroke={C.muted} />
       <line x1={left - 46} y1={deck + 1} x2={left - 46} y2={GROUND - 1} stroke={C.dim} strokeWidth={1.2} markerStart={`url(#${id}-arrow)`} markerEnd={`url(#${id}-arrow)`} />
-      <Label x={left - 56} y={(deck + GROUND) / 2 + 4} anchor="end">{`≈ ${DECK_HEIGHT.standart.toLocaleString("tr-TR", { minimumFractionDigits: 1 })} m`}</Label>
+      <Label x={left - 56} y={(deck + GROUND) / 2 - 3} anchor="end">{`≈ ${ASSUMPTIONS.deckHeight.toLocaleString("tr-TR", { minimumFractionDigits: 1 })} m`}</Label>
+      <Label x={left - 56} y={(deck + GROUND) / 2 + 13} anchor="end" fill={C.muted} size={10}>VARSAYIM</Label>
     </svg>
   );
 };

@@ -27,15 +27,17 @@ Metin ve teknik veriler bileşenlerin içinde değil, `src/data/` altındadır:
 | Dosya | İçerik |
 | --- | --- |
 | `company.ts` | Firma adı, sevk hatları (telefon/WhatsApp), hazır WhatsApp mesajı |
-| `fleet.ts` | Dorse spec sayfaları ve karşılaştırma tablosu |
+| `fleet.ts` | Filodaki tek dorse (3 dingilli, hidrolik rampalı lowbed) ve arşivden taşınan yük örnekleri |
 | `projects.ts` | Proje arşivi fotoğrafları, kategori ve açıklamalar |
 | `coverage.ts` | Operasyon bölgesi illeri (plaka, koordinat) |
 | `seo.ts` | Sayfa başlıkları, açıklamalar, site adresi |
 
-> **Yayından önce doğrulayın:** `fleet.ts` değerleri dorse tiplerinin tipik aralıklarıdır
-> (≈ ile). Firmanın gerçek dorse ruhsatı / tip onay belgesiyle karşılaştırılmalıdır.
-> Proje açıklamaları fotoğrafta okunabilen bilgilerden yazılmıştır; bilinen güzergahlar
-> `route` alanına eklenebilir.
+> **Yalnızca kesin bilgi:** Filoda tek dorse tipi var (3 dingilli, hidrolik rampalı lowbed).
+> Faydalı yük, platform yüksekliği ve boyu ruhsat / tip onay belgesiyle doğrulanmadan
+> yazılmaz. İzin ön kontrolündeki platform yüksekliği (≈ 1 m) ve dara (≈ 20 t)
+> `src/lib/load-check.ts` içinde `ASSUMPTIONS` olarak durur ve sitede varsayım diye
+> etiketlenir. Proje açıklamaları fotoğrafta okunabilen bilgilerden yazılmıştır; bilinen
+> güzergahlar `route` alanına eklenebilir.
 
 Yasal gabari sınırları ve izin ön kontrolü kuralları `src/lib/load-check.ts` içindedir.
 

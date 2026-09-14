@@ -10,13 +10,13 @@ export const PAGES = {
     path: "/",
     title: "Bumerang Ağır Nakliyat | Lowbed Taşımacılık & Gabari Dışı Nakliye - Diyarbakır",
     description:
-      "Diyarbakır ve Güneydoğu merkezli gabari dışı ağır taşımacılık, 4-8 dingil lowbed dorse kiralama, iş makinesi ve şantiye nakliye çözümleri.",
+      "Diyarbakır ve Güneydoğu merkezli gabari dışı ağır taşımacılık, hidrolik rampalı lowbed kiralama, iş makinesi ve şantiye nakliye çözümleri.",
   },
   bilgi: {
     path: "/bilgi",
-    title: "Lowbed Taşımacılık Rehberi: Dorse Tipleri, Özel İzin ve Fiyat | Bumerang Ağır Nakliyat",
+    title: "Lowbed Taşımacılık Rehberi: Dorse, Özel İzin ve Fiyat | Bumerang Ağır Nakliyat",
     description:
-      "Lowbed nedir, hangi dorse hangi yük için kullanılır, gabari dışı yükte ne zaman KGM özel izni ve eskort gerekir, fiyatı neler belirler? Diyarbakır merkezli Bumerang Ağır Nakliyat.",
+      "Lowbed nedir, hangi yükler taşınır, gabari dışı yükte ne zaman KGM özel izni ve eskort gerekir, fiyatı neler belirler? Diyarbakır merkezli Bumerang Ağır Nakliyat.",
   },
 } as const;
 
